@@ -1,19 +1,21 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 int	main(void)
 {
 	pid_t	pid;
+	int 	countdown;
 	
-	pid = fork();
-	while (1)
+	countdown = 600;
+	pid = fork(); // Create a child process from the current process.
+	while (countdown--)
 	{
 		if (pid == 0)
-			printf("Child Hello world\n");
+			printf("[PID: %i] Child Process\n", getpid());
 		else
-			printf("Parent Hello world\n");
+			printf("[PID: %i] Parent Process\n", getpid());
 		sleep(1);
 	}
 	return (0);
 }
-

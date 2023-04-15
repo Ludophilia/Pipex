@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:26:41 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/15 13:49:33 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/15 16:03:21 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,33 @@
 
 // Use the pipe, fork, dup, dup2 to redirect printf output to a buffer
 // <child_p> <-------> <parent_p>
+
+int gpt_redirect(void)
+{
+    int fd[2];
+    char buffer[1024];
+
+    pipe(fd);  // Create a pipe
+    if (fork() == 0) {
+        // Child process
+		// printf("Child process:\n");
+        close(fd[0]);  // Close the read end of the pipe
+        dup2(fd[1], STDOUT_FILENO);  // Redirect stdout to the write end of the pipe
+        fprintf(stdout, "Hello, world!\n");  // This will be written to the pipe
+        close(fd[1]);  // Close the write end of the pipe
+    } else {
+        // Parent process
+		// printf("Parent process:\n");
+		// wait(0);
+        close(fd[1]);  // Close the write end of the pipe
+        read(fd[0], buffer, 15);  // Read from the pipe
+        printf("[parent] '%s'\n", buffer);  // This will print "Hello, world!\n"
+        close(fd[0]);  // Close the read end of the pipe
+    }
+    return 0;
+}
+
+
 int	main(void)
 {
 	int		fds[2];
