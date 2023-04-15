@@ -6,7 +6,7 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 21:48:36 by jgermany          #+#    #+#              #
-#    Updated: 2023/04/15 16:39:03 by jgermany         ###   ########.fr        #
+#    Updated: 2023/04/15 18:02:06 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,6 @@ fclean: clean
 	rm -f $(RW_OUT) $(PF_OUT) $(FK_OUT) $(PI_OUT)
 
 re: fclean
-	make all
+	make
 
 .PHONY: pi pf fk rw clean fclean
