@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   read_write_ex.c                                    :+:      :+:    :+:   */
+/*   rw_ex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:17 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/15 00:29:02 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/15 14:13:24 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "read_write_ex.h"
+#include "rw_ex.h"
 
 int	main(void)
 {
 	int		fd;
 	char	*buffer;
 
-	fd = open("rw/regular_file", O_RDWR|O_CREAT, S_IRWXU|S_IRWXG|S_IRWXO);
+	fd = open("level0/rw/regular_file", O_RDWR|O_CREAT,
+		S_IRWXU|S_IRWXG|S_IRWXO);
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
 	if (fd == -1 || !buffer)
 		exit(EXIT_FAILURE);
