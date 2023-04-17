@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:26:41 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/15 18:17:33 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:25:44 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,12 @@ int gpt_redirect(void)
         printf("[child %i]\n", getpid());
 		// fflush(stdout);
         dup2(fd[1], STDOUT_FILENO);
-        printf("Hello, world!");
+        printf("Hello, gpt world!");
         close(fd[1]);
     } else {
 		// wait(0);
         close(fd[1]);
-        read(fd[0], buffer, 13);
+        read(fd[0], buffer, 16);
         printf("[parent %i] '%s'\n\n", getpid(), buffer);
         close(fd[0]);
     }
@@ -59,7 +59,7 @@ int	my_redirect(void)
         printf("[child %i]\n", getpid());
 		close(fds[0]); // The child inherits fds from its parents.
 		dup2(fds[1], STDOUT_FILENO);
-        printf("Hello, world!");
+        printf("Hello, inner world!");
 		close(fds[1]); // That's how piping becomes possible.
 		// exit(EXIT_SUCCESS);
 	}
@@ -70,7 +70,7 @@ int	my_redirect(void)
 		if (!buffer)
 			return (-1);
 		close(fds[1]);
-		read(fds[0], buffer, 13);
+		read(fds[0], buffer, 18);
         printf("[parent %i - buffer %p] '%s'\n", getpid(), buffer, buffer);
 		free(buffer); // made pipe crash somehow? Depends where buffer is allocd
 		close(fds[0]);

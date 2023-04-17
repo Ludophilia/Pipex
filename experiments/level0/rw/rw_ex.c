@@ -6,12 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:17 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/15 14:13:24 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:29:48 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rw_ex.h"
 
+// Restart exeperiments from there. Divide this into multiple functions. 
 int	main(void)
 {
 	int		fd;

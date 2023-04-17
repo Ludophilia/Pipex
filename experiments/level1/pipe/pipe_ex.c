@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/13 21:26:41 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/15 16:12:04 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/17 21:17:13 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	pipex_lvl1(void)
 	int		stdout_fd;
 	void	*buffer;
 
-	stdout_fd = dup(STDOUT_FILENO);
+	stdout_fd = dup(STDOUT_FILENO); // Same ex, but with a redirection of stdout
 	buffer = calloc(BUFFER_SIZE, sizeof(char));
 	if (!buffer || pipe(fds) == -1 || stdout_fd == -1)
 		return (-1);
