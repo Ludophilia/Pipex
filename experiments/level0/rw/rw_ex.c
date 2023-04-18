@@ -6,14 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:17 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/17 21:29:48 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/18 23:43:16 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rw_ex.h"
 
-// Restart exeperiments from there. Divide this into multiple functions. 
-int	main(void)
+int	rw_level0(void)
 {
 	int		fd;
 	char	*buffer;
@@ -22,25 +21,43 @@ int	main(void)
 		S_IRWXU|S_IRWXG|S_IRWXO);
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
 	if (fd == -1 || !buffer)
-		exit(EXIT_FAILURE);
-		
-	printf("\nPHASE ONE:\n");
+		return(-1);
+	if (write(fd, "Hello world\n", 4) == -1 || lseek(fd, -4, SEEK_CUR) == -1)
+		return(-1); // reset to 0 for next read syscall
+	printf("(bread: %li)\n", read(fd, buffer, 4));
+	dprintf(1, "Buffer: '%s'\n\n", buffer);
+	free(buffer);
+	return (fd);
+}
 
-	write(fd, "Hello world\n", 4); // read and write share the same head pos.
-
-	lseek(fd, -4, SEEK_CUR); // reset to 0 for next read syscall
-	printf("read status: %li\n", read(fd, buffer, 4));
-
-	dprintf(1, "Buffer: '%s'\n", buffer);
-
-	printf("\nPHASE TWO:\n");
-
-	lseek(fd, 0, SEEK_SET); // reset to 0 for next write syscall
-	write(fd, "Hello world\n", 11); 
-
-	lseek(fd, -10, SEEK_END); // Head to e
-	printf("read status: %li\n", read(fd, buffer, 11)); // buffer is rewritten
-
+int	rw_level1(int fd)
+{
+	char		*buffer;
+	ssize_t		bread;
+	
+	buffer = malloc(BUFFER_SIZE * sizeof(char));
+	if (!buffer || fd == -1)
+		return (-1);
+	if (lseek(fd, 0, SEEK_SET) == -1 || write(fd, "Hello world\n", 11) == -1)
+		return (-1);  // resetted to 0 for next write syscall
+	if (lseek(fd, -10, SEEK_END) == -1)
+		return (-1);
+	bread = read(fd, buffer, 11);  // buffer is rewritten
+	if (bread == -1)
+		return (-1);
+	printf("(bread: %li)\n", bread);
 	fprintf(stdout, "Buffer: '%s'\n", buffer);
 	close(fd);
+	return (0);
+}
+
+int	main(void)
+{
+	int	fd;
+
+	fd = rw_level0();
+	if (fd == -1)
+		exit(EXIT_FAILURE);
+	if (rw_level1(fd) == -1)
+		exit(EXIT_FAILURE);
 }

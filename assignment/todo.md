@@ -10,11 +10,11 @@
 
 - [ ] open/close
 - [ ] perror/strerror
-- [ ] exit
 
 #### level1
 
 - [ ] wait/waitpid
+- [ ] exit
 
 #### level2
 
