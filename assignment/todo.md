@@ -8,7 +8,8 @@
 
 #### level0
 
-- [ ] open/close
+- [x] open/close
+- [ ] unlink
 - [ ] perror/strerror
 
 #### level1
@@ -22,5 +23,4 @@
 
 ### ???
 
-- [ ] unlink
 - [ ] access

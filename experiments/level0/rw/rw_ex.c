@@ -6,58 +6,79 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:17 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/18 23:43:16 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/19 13:47:53 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rw_ex.h"
-
-int	rw_level0(void)
+#define FILENAME "level0/rw/regular_file"
+/* Phase 0: lets create and open a file, try to write to it and then read
+	from it... Let's learn the importance of lseek in the process... */
+int	rw_phase0(void)
 {
 	int		fd;
 	char	*buffer;
+	ssize_t	bread;
 
-	fd = open("level0/rw/regular_file", O_RDWR|O_CREAT,
-		S_IRWXU|S_IRWXG|S_IRWXO);
+	fd = open(FILENAME, O_RDWR | O_CREAT,
+			S_IRWXU | S_IRWXG | S_IRWXO);
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
 	if (fd == -1 || !buffer)
-		return(-1);
+		return (-1);
 	if (write(fd, "Hello world\n", 4) == -1 || lseek(fd, -4, SEEK_CUR) == -1)
-		return(-1); // reset to 0 for next read syscall
-	printf("(bread: %li)\n", read(fd, buffer, 4));
+		return (-1);
+	bread = read(fd, buffer, 4);
+	if (bread == -1)
+		return (-1);
+	printf("(bread: %li)\n", bread);
 	dprintf(1, "Buffer: '%s'\n\n", buffer);
 	free(buffer);
 	return (fd);
 }
 
-int	rw_level1(int fd)
+/* Phase 1: Does an open() call dies when a function has finished execution?
+Let's keep experimenting with read/write with more lseek() variants. */
+int	rw_phase1(int fd)
 {
 	char		*buffer;
 	ssize_t		bread;
-	
+
 	buffer = malloc(BUFFER_SIZE * sizeof(char));
 	if (!buffer || fd == -1)
 		return (-1);
 	if (lseek(fd, 0, SEEK_SET) == -1 || write(fd, "Hello world\n", 11) == -1)
-		return (-1);  // resetted to 0 for next write syscall
+		return (-1);
 	if (lseek(fd, -10, SEEK_END) == -1)
 		return (-1);
-	bread = read(fd, buffer, 11);  // buffer is rewritten
+	bread = read(fd, buffer, 11);
 	if (bread == -1)
 		return (-1);
 	printf("(bread: %li)\n", bread);
-	fprintf(stdout, "Buffer: '%s'\n", buffer);
+	fprintf(stdout, "Buffer: '%s'\n\n", buffer);
+	return (fd);
+}
+
+/* Phase 3: What does close do? How does it affect the subsequent
+read/write/lseek calls */
+int	rw_phase2(int fd)
+{
 	close(fd);
-	return (0);
+	if (write(fd, "How you're doing?\n", 18) == -1)
+		return (-1);
+	return (fd);
 }
 
 int	main(void)
 {
 	int	fd;
 
-	fd = rw_level0();
+	fd = rw_phase0();
 	if (fd == -1)
 		exit(EXIT_FAILURE);
-	if (rw_level1(fd) == -1)
+	if (rw_phase1(fd) == -1)
 		exit(EXIT_FAILURE);
+	if (rw_phase2(fd) == -1)
+		write(1, "The write call should normally fail.\n", 37);
+	unlink(FILENAME);
+	exit(EXIT_SUCCESS);
 }
