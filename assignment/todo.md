@@ -9,13 +9,14 @@
 #### level0
 
 - [x] open/close
-- [ ] unlink
+- [x] access
+- [x] unlink
 - [ ] perror/strerror
+- [ ] exit
 
 #### level1
 
-- [ ] wait/waitpid
-- [ ] exit
+- [ ] wait/waitpid (fork)
 
 #### level2
 
@@ -23,4 +24,3 @@
 
 ### ???
 
-- [ ] access

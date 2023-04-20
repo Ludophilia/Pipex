@@ -6,24 +6,30 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 21:48:36 by jgermany          #+#    #+#              #
-#    Updated: 2023/04/15 18:02:06 by jgermany         ###   ########.fr        #
+#    Updated: 2023/04/20 21:18:00 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RW_DIR := level0/rw
+FL_DIR := level0/fl
 FK_DIR := level1/fork
 PI_DIR := level1/pipe
 PF_DIR := level2/printf
 
 RW := $(RW_DIR)/rw_ex.c
+FL := $(FL_DIR)/fl_ex.c
 FK := $(FK_DIR)/fork_ex.c
 PI := $(PI_DIR)/pipe_ex.c 
 PF := $(PF_DIR)/printf_redirect_ex.c
 
 RW_OUT := $(RW:.c=.out)
 FK_OUT := $(FK:.c=.out)
+FL_OUT := $(FL:.c=.out)
 PF_OUT := $(PF:.c=.out)
 PI_OUT := $(PI:.c=.out)
+
+fl: $(FL_OUT)
+	./$<
 
 pf: $(PF_OUT)
 	./$<
@@ -47,7 +53,7 @@ clean:
 	rm -f $(RW_DIR)/regular_file
 
 fclean: clean
-	rm -f $(RW_OUT) $(PF_OUT) $(FK_OUT) $(PI_OUT)
+	rm -f $(RW_OUT) $(PF_OUT) $(FK_OUT) $(PI_OUT) $(FL_OUT)
 
 re: fclean
 	make

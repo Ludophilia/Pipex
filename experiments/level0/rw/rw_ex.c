@@ -6,12 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/14 21:45:17 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/19 13:47:53 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/19 15:45:30 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rw_ex.h"
 #define FILENAME "level0/rw/regular_file"
+
 /* Phase 0: lets create and open a file, try to write to it and then read
 	from it... Let's learn the importance of lseek in the process... */
 int	rw_phase0(void)
@@ -58,8 +59,8 @@ int	rw_phase1(int fd)
 	return (fd);
 }
 
-/* Phase 3: What does close do? How does it affect the subsequent
-read/write/lseek calls */
+/* Phase 2: What does close do? How does it affect the subsequent
+read/write/lseek calls...? */
 int	rw_phase2(int fd)
 {
 	close(fd);
@@ -79,6 +80,7 @@ int	main(void)
 		exit(EXIT_FAILURE);
 	if (rw_phase2(fd) == -1)
 		write(1, "The write call should normally fail.\n", 37);
-	unlink(FILENAME);
+	if (unlink(FILENAME) == -1)
+		exit(EXIT_FAILURE);
 	exit(EXIT_SUCCESS);
 }
