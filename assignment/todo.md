@@ -11,12 +11,12 @@
 - [x] open/close
 - [x] access
 - [x] unlink
-- [ ] perror/strerror
-- [ ] exit
+- [x] perror/strerror
 
 #### level1
 
 - [ ] wait/waitpid (fork)
+- [ ] exit
 
 #### level2
 

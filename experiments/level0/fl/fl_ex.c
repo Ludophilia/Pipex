@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:27:08 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/20 21:38:22 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/04/22 11:41:42 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ int		access_checker(const char *filename)
 		errord = 1;
 	}
 	if (access(FILENAME, R_OK) == 0)
-		printf("The process has read access.\n");
+		write(1, "The process has read access.\n", 29);
 	if (access(FILENAME, W_OK) == 0)
-		printf("The process has write access.\n");
+		write(1, "The process has write access.\n", 30);
 	if (access(FILENAME, X_OK) == 0)
-		printf("The process has execute access.\n");
+		write(1, "The process has execute access.\n", 32);
 	if (errord)
 		return (-1);
 	return (0);
@@ -59,7 +59,8 @@ int		fl_phase0(const int rights)
 	return (0);
 }
 
-/* Phase 1 - Open an unopenable file with 0_RDWR flag. Can I even use access */
+/* Phase 1 - Open an unopenable file with 0_RDWR flag. Can I even use access 
+while doing this? */
 int		fl_phase1(void)
 {
 	int	fd;
