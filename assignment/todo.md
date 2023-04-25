@@ -15,7 +15,7 @@
 
 #### level1
 
-- [ ] wait/waitpid (fork)
+- [x] wait/waitpid
 - [ ] exit
 
 #### level2

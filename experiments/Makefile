@@ -6,7 +6,7 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 21:48:36 by jgermany          #+#    #+#              #
-#    Updated: 2023/04/23 20:16:45 by jgermany         ###   ########.fr        #
+#    Updated: 2023/04/25 17:04:02 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,10 @@ PI_OUT := $(PI:.c=.out)
 ER_OUT := $(ER:.c=.out)
 WT_OUT := $(WT:.c=.out)
 
-er: $(ER_OUT)
+wt: $(WT_OUT)
 	./$<
 
-wt: $(WT_OUT)
+er: $(ER_OUT)
 	./$<
 
 fl: $(FL_OUT)
