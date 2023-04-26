@@ -6,25 +6,30 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 21:48:36 by jgermany          #+#    #+#              #
-#    Updated: 2023/04/25 17:04:02 by jgermany         ###   ########.fr        #
+#    Updated: 2023/04/26 18:33:37 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 RW_DIR := level0/rw
 FL_DIR := level0/fl
 ER_DIR := level0/er
+ENV_DIR := level0/env
+
 FK_DIR := level1/fork
 WT_DIR := level1/wait
 PI_DIR := level1/pipe
+EX_DIR := level1/exit
 PF_DIR := level2/printf
 
 RW := $(RW_DIR)/rw_ex.c
 FL := $(FL_DIR)/fl_ex.c
 FK := $(FK_DIR)/fork_ex.c
 ER := $(ER_DIR)/er_ex.c
+EX := $(EX_DIR)/exit_ex.c
 PI := $(PI_DIR)/pipe_ex.c 
 PF := $(PF_DIR)/printf_redirect_ex.c
 WT := $(WT_DIR)/wait_ex.c
+ENVC := $(ENV_DIR)/env_ex.c
 
 RW_OUT := $(RW:.c=.out)
 FK_OUT := $(FK:.c=.out)
@@ -32,7 +37,15 @@ FL_OUT := $(FL:.c=.out)
 PF_OUT := $(PF:.c=.out)
 PI_OUT := $(PI:.c=.out)
 ER_OUT := $(ER:.c=.out)
+EX_OUT := $(EX:.c=.out)
 WT_OUT := $(WT:.c=.out)
+ENV_OUT := $(ENVC:.c=.out)
+
+ex: $(EX_OUT)
+	./$<
+
+env: $(ENV_OUT)
+	./$<
 
 wt: $(WT_OUT)
 	./$<
@@ -65,7 +78,8 @@ clean:
 	rm -f $(RW_DIR)/regular_file
 
 fclean: clean
-	rm -f $(RW_OUT) $(PF_OUT) $(FK_OUT) $(PI_OUT) $(FL_OUT) $(ER_OUT) $(WT_OUT)
+	rm -f $(RW_OUT) $(PF_OUT) $(FK_OUT) $(PI_OUT) $(FL_OUT) $(ER_OUT) $(WT_OUT)\
+	$(EX_OUT) $(ENV_OUT)
 
 re: fclean
 	make

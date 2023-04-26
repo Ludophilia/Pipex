@@ -16,7 +16,7 @@
 #### level1
 
 - [x] wait/waitpid
-- [ ] exit
+- [x] exit
 
 #### level2
 
