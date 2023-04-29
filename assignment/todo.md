@@ -22,5 +22,19 @@
 
 - [x] execve (and related syscalls)
 
-### ???
+## Mandatory part
+
+### Initial setup
+
+- [x] Read the assignment again, don't forget any details
+- [x] Add libft and ft_printf to the project
+- [x] Build the first version of the project makefile
+
+### Project foundations
+
+### Initial test
+
+- [] Find a way to automate tests for this project
+
+## Bonus part
 
