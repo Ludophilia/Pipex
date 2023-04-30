@@ -44,7 +44,7 @@
 - [ ] Find a way to automate tests for this project
 - [ ] Mind memleaks
 - [ ] Mind unprotected syscalls
-- [ ] Think about what kind of errors can happen (invalid nb of args, swapped
+- [o] Think about what kind of errors can happen (invalid nb of args, swapped
 args...)
 
 ## Bonus part
