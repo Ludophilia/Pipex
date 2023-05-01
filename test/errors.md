@@ -27,21 +27,25 @@ Where `file1` and `file2` are files and `cmd1` and `cmd2` are executables.
 ### < file1 level
 
 - argv[1] does not exist:
-	- `bash: bruv: No such file or directory`
+	- `bash: <filename>: No such file or directory`
+- argv[1] is a directory:
+	- `<command>: read error: Is a directory`
 - argv[1] is not readable:
-	- `bash: infile: Permission denied`
+	- `bash: <filename>: Permission denied`
 
 ### cmd1 | cmd2 level
 
-- argv[2] or argv[3] is not executable:
-	- `bash: ./infile: Permission denied`
+- argv[2] or argv[3] is NOT executable:
+	- `bash: <cmd>: Permission denied`
 - argv[2] or argv[3] does not exist (not found in $PATH):
-	- `.infile: command not found`
+	- `<cmd>: command not found`
 - ~~argv[2] does not read from stdin, nor write to stdout~~
 
 ### > file2 level
 
 - argv[4] does not exist:
-	- `bash: bruv: No such file or directory`
+	- `bash: <filename>: No such file or directory`
 - argv[4] is not writable:
-	- `bash: infile: Permission denied`
+	- `bash: <filename>: Permission denied`
+- argv[4] is a directory:
+	- `zsh: is a directory: <directory>`
