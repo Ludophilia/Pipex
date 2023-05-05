@@ -67,6 +67,9 @@ Note that cmd2 and cmd1 are not aware of each other, they just execute
 concurrently with the data they are given to. Piping is managed by the shell,
 not the commands.
 
+If a pipeline is initiated with `&`, all processes are still executed 
+concurrently and the `&` applies to the whole pipeline.
+
 ### Usage
 
 `printf "Hello %s\n" $USER | fold -w 5`. The output of `printf` is formatted
