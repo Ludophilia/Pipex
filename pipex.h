@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/29 15:58:05 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/07 19:34:02 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 # include <unistd.h>
 # include <sys/wait.h>
+# include <stdio.h>
 
 # include "ft_printf/ft_printf.h"
 # include "libft/libft.h"

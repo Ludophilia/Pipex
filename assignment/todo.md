@@ -32,11 +32,10 @@
 
 ### Project foundations
 
-- [ ] How can be managed standard input redirection FROM a file (< file1 cmd1)?
+- [o] Manage standard input redirection of a cmd to a file (< file1 cmd1)?
 	- [x] Redirection FROM a file? Only from a file?
-		- Yes, using anything else returns : ```bash: <command>: No such file
-		or directory```
 	- [x] What commands accept input from stdin btw? (the filters programs??)
+
 - [ ] 
 
 ### Initial tests (& beyond)
