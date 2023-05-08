@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commons_bonus.h                                    :+:      :+:    :+:   */
+/*   commons.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 18:34:45 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/29 14:01:29 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:12:19 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMONS_BONUS_H
+#ifndef COMMONS_H
 
-# define COMMONS_BONUS_H
+# define COMMONS_H
 
 # include <stdarg.h>
 # include <stdlib.h>
@@ -20,8 +20,6 @@
 # include <errno.h>
 
 # include "../../libft/libft.h"
-
-# define BUFFER_SIZE 20
 
 # define B10 "0123456789"
 # define B16U "0123456789ABCDEF"
@@ -36,22 +34,15 @@ typedef struct s_nbr
 typedef struct s_flag
 {
 	unsigned char	conv_t: 7;
-	bool			space_f: 1;
-	bool			plus_f: 1;
-	bool			pound_f: 1;
-	bool			dash_f: 1;
-	bool			zero_f: 1;
-	bool			field_f: 1;
-	bool			prec_f: 1;
-	int				field_v;
-	int				prec_v;
 }	t_flag;
 
-void	putchar_cc(char c, int *count);
-void	putstr_cc(char *s, int *count);
+typedef struct s_meta
+{
+	int		fd;
+	int		count;
+}	t_meta;
 
-t_list	*init_node(char c);
-size_t	cont_len(t_list **head);
-size_t	print_list(t_list **head, int *count);
-
+void	putchar_cc(char c, t_meta *meta);
+void	putstr_cc(char *s, t_meta *meta);
+ 
 #endif

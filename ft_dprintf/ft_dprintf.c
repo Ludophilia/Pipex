@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_dprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 15:28:28 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/04 14:06:57 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:31:42 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "ft_dprintf.h"
 
-static int	process_format(const char *format, va_list *args, int *count)
+static int	process_format(const char *format, va_list *args, t_meta *meta)
 {
 	int		i;
 	int		offset;
@@ -22,32 +22,33 @@ static int	process_format(const char *format, va_list *args, int *count)
 	{
 		if (format[i] == '%')
 		{
-			offset = proc_specif((char *)format + i + 1, args, count);
+			offset = proc_specif((char *)format + i + 1, args, meta);
 			if (offset == -1)
 				return (-1);
 			else
 				i += offset;
 		}
 		else
-			print_char(format[i], count);
+			print_char(format[i], meta);
 	}
 	return (0);
 }
 
-int	ft_printf(const char *format, ...)
+int	ft_dprintf(int fd, const char *format, ...)
 {
-	int		count;
-	va_list	args;
+	t_meta		meta;
+	va_list		args;
 
 	if (!format)
 	{
 		errno = EINVAL;
 		return (-1);
 	}
-	count = 0;
+	meta.fd = fd;
+	meta.count = 0;
 	va_start(args, format);
-	if (process_format(format, &args, &count) == -1)
+	if (process_format(format, &args, &meta) == -1)
 		return (-1);
 	va_end(args);
-	return (count);
+	return (meta.count);
 }

@@ -6,36 +6,36 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 15:24:27 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/04 17:26:07 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:00:18 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "printer.h"
 
-void	print_char(char c, int *count)
+void	print_char(char c, t_meta *meta)
 {
-	putchar_cc(c, count);
+	putchar_cc(c, meta);
 }
 
-void	print_str(char *str, int *count)
+void	print_str(char *str, t_meta *meta)
 {
 	if (!str)
 		str = "(null)";
-	putstr_cc(str, count);
+	putstr_cc(str, meta);
 }
 
-void	print_nbr(t_nbr nb, char *base, t_flag *flags, int *count)
+void	print_nbr(t_nbr nb, char *base, t_flag *flags, t_meta *meta)
 {
 	unsigned long	radix;
 
 	if (nb.abs == 0 && flags->conv_t == 'p')
-		return (putstr_cc("(nil)", count));
+		return (putstr_cc("(nil)", meta));
 	radix = ft_strlen(base);
 	if (nb.abs >= radix)
-		print_nbr((t_nbr){nb.sign, nb.abs / radix}, base, flags, count);
+		print_nbr((t_nbr){nb.sign, nb.abs / radix}, base, flags, meta);
 	if (nb.abs < radix && nb.sign)
-		putchar_cc('-', count);
+		putchar_cc('-', meta);
 	else if (nb.abs < radix && flags->conv_t == 'p')
-		putstr_cc("0x", count);
-	putchar_cc(base[nb.abs % radix], count);
+		putstr_cc("0x", meta);
+	putchar_cc(base[nb.abs % radix], meta);
 }

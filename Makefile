@@ -6,7 +6,7 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2023/04/29 16:26:00 by jgermany         ###   ########.fr        #
+#    Updated: 2023/05/08 17:30:11 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ bonus:
 	suffixed _bonus.[ch]"
 
 $(LFTPF):
-	make -C ft_printf/ bonus
+	make -C ft_dprintf/
 
 $(NAME): $(MAN_OBJS) | $(LFTPF)
 	$(CC) $(CFLAGS) $< -o $@ -lftprintf -L.
@@ -35,11 +35,11 @@ $(NAME): $(MAN_OBJS) | $(LFTPF)
 pipex.o: pipex.h
 
 clean:
-	make -C ft_printf/ clean 
+	make -C ft_dprintf/ clean 
 	rm -f $(MAN_OBJS)
 
 fclean: clean
-	make -C ft_printf/ fclean 
+	make -C ft_dprintf/ fclean 
 	rm -f $(NAME)
 
 re:

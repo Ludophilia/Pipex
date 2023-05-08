@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   commons.c                                          :+:      :+:    :+:   */
+/*   printer.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/29 14:23:44 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/02 23:40:53 by jgermany         ###   ########.fr       */
+/*   Created: 2023/03/11 13:53:57 by jgermany          #+#    #+#             */
+/*   Updated: 2023/05/08 17:10:08 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "commons.h"
+#ifndef PRINTER_H
 
-void	putchar_cc(char c, int *count)
-{
-	ft_putchar_fd(c, 1);
-	*count += 1;
-}
+# define PRINTER_H
 
-void	putstr_cc(char *s, int *count)
-{
-	ft_putstr_fd(s, 1);
-	*count += ft_strlen(s);
-}
+# include "../commons/commons.h"
+
+void	print_char(char c, t_meta *meta);
+void	print_str(char *str, t_meta *meta);
+void	print_nbr(t_nbr nb, char *base, t_flag *flags, t_meta *meta);
+
+#endif

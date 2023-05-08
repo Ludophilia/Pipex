@@ -28,10 +28,10 @@ Where `file1` and `file2` are files and `cmd1` and `cmd2` are executables.
 
 - argv[1] does not exist:
 	- `bash: <filename>: No such file or directory`
-- argv[1] is a directory:
-	- `<command>: read error: Is a directory`
 - argv[1] is not readable:
 	- `bash: <filename>: Permission denied`
+- argv[1] is a directory:
+	- `<command>: read error: Is a directory`
 
 ### cmd1 | cmd2 level
 

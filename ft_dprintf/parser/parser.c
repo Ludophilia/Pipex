@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 21:12:12 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/15 18:24:54 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:09:31 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,18 @@ static bool	is_valid_type(char c)
 	return (0);
 }
 
-static void	proc_char_conv(char *spec, va_list *args, int *count)
+static void	proc_char_conv(char *spec, va_list *args, t_meta *meta)
 {
 	if (*spec == 'c')
-		print_char(va_arg(*args, int), count);
+		print_char(va_arg(*args, int), meta);
 	else if (*spec == '%')
-		print_char('%', count);
+		print_char('%', meta);
 	else if (*spec == 's')
-		print_str(va_arg(*args, char *), count);
+		print_str(va_arg(*args, char *), meta);
 }
 
-static void	proc_nbr_conv(char *spec, va_list *args, t_flag *flags, int *count)
+static void	proc_nbr_conv(char *spec, va_list *args, t_flag *flags,
+t_meta *meta)
 {
 	long			snbr;
 	unsigned long	unbr;
@@ -44,20 +45,20 @@ static void	proc_nbr_conv(char *spec, va_list *args, t_flag *flags, int *count)
 	else if (*spec == 'p')
 		unbr = va_arg(*args, uintptr_t);
 	if (snbr < 0 && (*spec == 'd' || *spec == 'i'))
-		print_nbr((t_nbr){1, -snbr}, B10, flags, count);
+		print_nbr((t_nbr){1, -snbr}, B10, flags, meta);
 	else if (snbr >= 0 && (*spec == 'd' || *spec == 'i'))
-		print_nbr((t_nbr){0, snbr}, B10, flags, count);
+		print_nbr((t_nbr){0, snbr}, B10, flags, meta);
 	else if (*spec == 'u')
-		print_nbr((t_nbr){0, unbr}, B10, flags, count);
+		print_nbr((t_nbr){0, unbr}, B10, flags, meta);
 	else if (*spec == 'x')
-		print_nbr((t_nbr){0, unbr}, B16L, flags, count);
+		print_nbr((t_nbr){0, unbr}, B16L, flags, meta);
 	else if (*spec == 'X')
-		print_nbr((t_nbr){0, unbr}, B16U, flags, count);
+		print_nbr((t_nbr){0, unbr}, B16U, flags, meta);
 	else if (*spec == 'p')
-		print_nbr((t_nbr){0, unbr}, B16L, flags, count);
+		print_nbr((t_nbr){0, unbr}, B16L, flags, meta);
 }
 
-int	proc_specif(char *spec, va_list *args, int *count)
+int	proc_specif(char *spec, va_list *args, t_meta *meta)
 {
 	t_flag	*flags;
 
@@ -71,9 +72,9 @@ int	proc_specif(char *spec, va_list *args, int *count)
 		return (-1);
 	flags->conv_t = *spec;
 	if (*spec == 'c' || *spec == '%' || *spec == 's')
-		proc_char_conv(spec, args, count);
+		proc_char_conv(spec, args, meta);
 	else
-		proc_nbr_conv(spec, args, flags, count);
+		proc_nbr_conv(spec, args, flags, meta);
 	free(flags);
 	return (1);
 }

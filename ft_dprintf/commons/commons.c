@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_checkers_bonus.c                            :+:      :+:    :+:   */
+/*   commons.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/31 23:04:11 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/02 21:46:03 by jgermany         ###   ########.fr       */
+/*   Created: 2023/03/29 14:23:44 by jgermany          #+#    #+#             */
+/*   Updated: 2023/05/08 17:01:47 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_bonus.h"
+#include "commons.h"
 
-bool	is_valid_flg(char c)
+void	putchar_cc(char c, t_meta *meta)
 {
-	if (c == ' ' || c == '+' || c == '#' || c == '-' || c == '0')
-		return (1);
-	return (0);
+	ft_putchar_fd(c, meta->fd);
+	meta->count += 1;
 }
 
-bool	is_valid_type(char c)
+void	putstr_cc(char *s, t_meta *meta)
 {
-	if (c == 'c' || c == '%' || c == 's' || c == 'd' || c == 'i'
-		|| c == 'u' || c == 'x' || c == 'X' || c == 'p')
-		return (1);
-	return (0);
+	ft_putstr_fd(s, meta->fd);
+	meta->count += ft_strlen(s);
 }

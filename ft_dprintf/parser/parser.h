@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/11 14:13:27 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/04 14:00:27 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/08 17:09:29 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,6 @@
 # include "../commons/commons.h"
 # include "../printer/printer.h"
 
-int		proc_specif(char *spec, va_list *args, int *count);
+int	proc_specif(char *spec, va_list *args, t_meta *meta);
 
 #endif
