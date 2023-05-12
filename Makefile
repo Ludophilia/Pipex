@@ -6,7 +6,7 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2023/05/08 17:30:11 by jgermany         ###   ########.fr        #
+#    Updated: 2023/05/11 22:31:45 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror
 
 MAN_SRCS := pipex.c
+MAN_SRCS += sanicheck.c
+
 MAN_OBJS := $(MAN_SRCS:.c=.o)
 
 LFTPF := libftprintf.a
@@ -30,9 +32,10 @@ $(LFTPF):
 	make -C ft_dprintf/
 
 $(NAME): $(MAN_OBJS) | $(LFTPF)
-	$(CC) $(CFLAGS) $< -o $@ -lftprintf -L.
+	$(CC) $(CFLAGS) $(MAN_OBJS) -o $@ -lftprintf -L.
 
 pipex.o: pipex.h
+sanicheck.o: sanicheck.h
 
 clean:
 	make -C ft_dprintf/ clean 

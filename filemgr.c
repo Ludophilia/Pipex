@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   filemgr.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/11 22:22:40 by jgermany         ###   ########.fr       */
+/*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
+/*   Updated: 2023/05/11 23:21:19 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
+#include "filemgr.h"
 
-# define PIPEX_H
+int		get_fd(char *path, int mode)
+{
+	int		fd;
 
-# include <unistd.h>
-# include <sys/wait.h>
-# include <fcntl.h>
-
-# include "ft_dprintf/ft_dprintf.h"
-# include "libft/libft.h"
-# include "sanicheck.h"
-
-#endif
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+		return (1);
+}

@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   sanicheck.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/11 22:22:40 by jgermany         ###   ########.fr       */
+/*   Created: 2023/05/11 21:47:30 by jgermany          #+#    #+#             */
+/*   Updated: 2023/05/11 22:34:24 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
+#ifndef SANITIZER_H
 
-# define PIPEX_H
+# define SANITIZER_H
 
-# include <unistd.h>
-# include <sys/wait.h>
-# include <fcntl.h>
+# include <errno.h>
+# include <stdio.h>
+# include <unistd.h> // duplicate ?
+# include "ft_dprintf/ft_dprintf.h" // duplicate ?
 
-# include "ft_dprintf/ft_dprintf.h"
-# include "libft/libft.h"
-# include "sanicheck.h"
+int		check_perm(char *filename, int mode);
+int		check_argc(int argc);
+int		check_args(int argc, char **argv);
 
 #endif
