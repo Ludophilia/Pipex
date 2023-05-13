@@ -46,8 +46,9 @@
 ### Initial tests (& beyond)
 
 - [ ] Find a way to automate tests for this project
-- [ ] Mind memleaks
-- [ ] Mind unprotected syscalls
+- [o] Mind memleaks
+- [o] Mind unprotected syscalls
+- [ ] Mind missing ENV variables (like PATH)
 - [o] Think about what kind of errors can happen (invalid nb of args, swapped
 args...)
 
