@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 13:03:05 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/13 17:21:54 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,7 @@
 // Project goal - create pipex, a program that simulates the behavior
 // of unix pipes...
 
-// Let's manage < file1 cmd1
-
+// Let's manage `< file1 cmd1` (dont forget the leak)
 int	main(int argc, char **argv)
 {
 	int	infile_fd;

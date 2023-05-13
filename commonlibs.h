@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.h                                            :+:      :+:    :+:   */
+/*   commonlibs.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 16:07:58 by jgermany         ###   ########.fr       */
+/*   Created: 2023/05/13 15:34:34 by jgermany          #+#    #+#             */
+/*   Updated: 2023/05/13 16:07:00 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
+#ifndef COMMONLIBS_H
 
-# define PIPEX_H
+# define COMMONLIBS_H
 
-# include "commonlibs.h"
+# include <unistd.h>
+# include <stdio.h>
 
-# include "sanicheck.h"
-# include "filemgr.h"
-# include "cmdmgr.h"
+# include "libft/libft.h"
+# include "ft_dprintf/ft_dprintf.h"
 
 #endif

@@ -37,6 +37,7 @@
 	- [x] What commands accept input from stdin btw? (the filters programs??)
 	- [x] Write a draft version of pipex which can manage < file1 cmd1
 	- [x] Improve that version : source file and functions architecture
+	- [x] There a memory leak in your code...
 	- [ ] Improve that version : use execve instead of execvp... Create the
 	function responsible to search PATH to find the right cmd...
 
