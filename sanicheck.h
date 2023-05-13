@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:47:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 11:33:02 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/13 13:08:25 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 
 # include "ft_dprintf/ft_dprintf.h" // duplicate ?
 
-int		check_perm(char *filename, int mode);
 int		check_argc(int argc);
+int		check_perm(char *filename, int mode);
 int		check_args(int argc, char **argv);
 
 #endif

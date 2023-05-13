@@ -36,7 +36,7 @@
 	- [x] Redirection FROM a file? Only from a file?
 	- [x] What commands accept input from stdin btw? (the filters programs??)
 	- [x] Write a draft version of pipex which can manage < file1 cmd1
-	- [ ] Improve that version : source file and functions architecture
+	- [x] Improve that version : source file and functions architecture
 	- [ ] Improve that version : use execve instead of execvp... Create the
 	function responsible to search PATH to find the right cmd...
 

@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 12:26:21 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/13 13:03:05 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 // of unix pipes...
 
 // Let's manage < file1 cmd1
+
 int	main(int argc, char **argv)
 {
 	int	infile_fd;
 
 	if (check_args(argc, argv) == -1)
 		return (1);
-	infile_fd = get_fd(argv[1], O_RDONLY); // Could be moved somewhere else
+	infile_fd = get_new_fd(argv[1], O_RDONLY); // Could be moved somewhere else
 	if (infile_fd == -1)
 		return (1);
 	if (exec_cmd(argv[2], infile_fd) == -1)
