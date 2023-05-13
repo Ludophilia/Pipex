@@ -6,15 +6,15 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/11 22:53:52 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/13 12:03:32 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sanicheck.h"
 
-int		check_perm(char *filename, int mode)
+int	check_perm(char *filename, int mode)
 {
-	if (access(filename, mode) == -1) 
+	if (access(filename, mode) == -1)
 	{
 		perror(filename);
 		return (-1);
@@ -22,7 +22,7 @@ int		check_perm(char *filename, int mode)
 	return (0);
 }
 
-int		check_argc(int argc)
+int	check_argc(int argc)
 {
 	if (argc != 3)
 	{
@@ -34,7 +34,7 @@ int		check_argc(int argc)
 	return (0);
 }
 
-int		check_args(int argc, char **argv)
+int	check_args(int argc, char **argv)
 {
 	if (check_argc(argc))
 		return (-1);
