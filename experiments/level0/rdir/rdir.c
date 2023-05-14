@@ -1,12 +1,13 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <dirent.h>
 
 int	main(int argc, char **argv)
 {
-	int		fd;
-	ssize_t	bytesread;
-	char	buffer[1024];
+	DIR				*dir;
+	struct dirent	*dirent;
+	char			buffer[1024];
 
 	if (argc != 2)
 	{
@@ -14,18 +15,18 @@ int	main(int argc, char **argv)
 			"usage: test <path>\n");
 		return (1);
 	}
-	fd = open(argv[1], O_RDONLY);
-	if (fd == -1)
+	dir = opendir(argv[1]);
+	if (dir == NULL)
 	{
 		perror(NULL);
 		return (1);
 	}
-	bytesread = read(fd, buffer, 10);
-	while (bytesread)
+	dirent = readdir(dir);
+	while (dirent)
 	{
-		printf("%s", buffer);
-		bytesread = read(fd, buffer, 10);
+		printf("%s\n", dirent->d_name);
+		dirent = readdir(dir);
 	}
-	close(fd);
+	closedir(dir);
 	return (0);
 }
