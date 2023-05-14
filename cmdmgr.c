@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 20:04:46 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/14 14:41:14 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,34 @@ void	free_args(char **cmd_args)
 	free(cmd_args);
 }
 
-// Now. How to use execve instead of execvp?
+// How to use execve instead of execvp? 
 
-// What's the problem. How to do that?
+// What's the problem.
 
-// - The problem lies in the first arg of execve and execvp. 
-// 		- For execve, it's const char *pathname, the path to the file
-//		to execute.
-//
-//		- For execvpe, it's const char *file. Execvpe search every directory 
-//		in the colon separated list specified in the PATH environment variable
-//		IF the specified filename DOES NOT contain a slash (/) character.
+// - The problem lies in the difference of first arg in execve and execvp.
+// 		- For `int execve(const char *pathname, char *const argv[],
+// 		char *const envp[])`, it's `pathname`, the path to the file to execute.
+//		- For `int execvpe(const char *file, char *const argv[],
+//		char *const envp[])`, it's `file`, a file that execvpe will search in
+//		every directory specified in the PATH environment variable,
+//		a the colon-separated list of directories, IF the specified filename
+//		DOES NOT contain a slash (/) character.
 
 // - So...? We have to write something that will search PATH for the specified
-// command if there is NO / is specified, starting with the current path maybe,
-// as execve does it?
+// command if :
+//		- There is NO `/` in pathname (including for cmds that are in the 
+//		current PATH which are invoked via their full path, either via `./cmd`
+//		or `$PWD/cmd` or `/root/project/Pipex/cmd` by ex...)
+//		- 
+// 
+//	and return the path to that command so that execve can execute it...
+
+// OK, and how to do it?
+
+//		- How to check if argv[2] contains `/` or not?
+//		- How do I get from PATH every dirs to search cmd into?
+//		- How to $?
+//		- How 
 
 int	exec_cmd(char *cmd, int fd)
 {
@@ -56,8 +69,8 @@ int	exec_cmd(char *cmd, int fd)
 	}
 	else if (pid == 0)
 	{
-		cmd_args = ft_split("beuarf", '\x20'); (void)cmd;// cmd missing
-		if (dup2(fd, STDIN_FILENO) == -1 || execve(cmd_args[0], cmd_args, NULL)
+		cmd_args = ft_split("./beuarf", '\x20'); (void)cmd;// cmd missing
+		if (dup2(fd, STDIN_FILENO) == -1 || execvp(cmd_args[0], cmd_args)
 			== -1)
 		{
 			free_args(cmd_args);
@@ -69,7 +82,7 @@ int	exec_cmd(char *cmd, int fd)
 	{
 		if (wait(&wstatus) == -1 || (wstatus >> 8 & 0xFF) == EXIT_FAILURE)
 		{
-			perror(NULL);	
+			perror(NULL);
 			return (-1);
 		}
 	}
