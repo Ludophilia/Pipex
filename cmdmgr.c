@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/14 14:41:14 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/14 17:30:01 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,12 @@ void	free_args(char **cmd_args)
 // OK, and how to do it?
 
 //		- How to check if argv[2] contains `/` or not?
-//		- How do I get from PATH every dirs to search cmd into?
-//		- How to $?
-//		- How 
+//		- How do I get from PATH every dirs from where I need to search cmd ?
+//		- How to search for the file in every dir?
+//			- 
+
+
+//		- How do I make the match?
 
 int	exec_cmd(char *cmd, int fd)
 {
