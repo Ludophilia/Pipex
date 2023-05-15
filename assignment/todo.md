@@ -40,6 +40,7 @@
 	- [x] There a memory leak in your code...
 	- [ ] Improve that version : use execve instead of execvp... Create the
 	function responsible to search PATH to find the right cmd...
+	- [ ] Moved 
 
 - [ ] 
 
@@ -48,7 +49,7 @@
 - [ ] Find a way to automate tests for this project
 - [o] Mind memleaks
 - [o] Mind unprotected syscalls
-- [ ] Mind missing ENV variables (like PATH)
+- [ ] Mind missing ENV variables (like PATH. What happens if there is no PATH)
 - [o] Think about what kind of errors can happen (invalid nb of args, swapped
 args...)
 

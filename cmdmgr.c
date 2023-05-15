@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/14 17:30:01 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/15 17:34:31 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,15 @@ void	free_args(char **cmd_args)
 //		- How to check if argv[2] contains `/` or not?
 //		- How do I get from PATH every dirs from where I need to search cmd ?
 //		- How to search for the file in every dir?
-//			- 
+//			- VERY SIMPLE ACTUALLY :
+//				- Take PATH from envp
+//				- Create a list of dirs from it with split it at ":"
+//				- Iterate on this list:
+//					- Combine the curr dir and the cmd to execute 
+//					- Test if the resulting path exist with access
+//						- return the resulting path if so
+//						- keep going if not
+//					- if not match, raise an error...
 
 
 //		- How do I make the match?
