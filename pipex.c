@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/15 14:36:17 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:37:29 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,13 @@
 // of unix pipes...
 
 // Let's manage `< file1 cmd1` (dont forget the leak)
-int	main(int argc, char **argv)
+// 20/05 - RESUME FROM CMDMGR.C
+int	main(int argc, char **argv, char **envp)
 {
-	int	infile_fd;
-
-	if (check_args(argc, argv) == -1)
+	if (check_argc(argc) == -1)
 		return (1);
-	infile_fd = get_new_fd(argv[1], O_RDONLY); // Could be moved somewhere else
-	if (infile_fd == -1)
+	// A pipe need to be open somewhere here, and connected to what's below
+	if (redir_and_exec(argv[1], argv[2], envp) == -1)
 		return (1);
-	if (exec_cmd(argv[2], infile_fd) == -1)
-		return (1);
-	close(infile_fd);
 	return (0);
 }

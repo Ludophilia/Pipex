@@ -6,17 +6,19 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 12:54:46 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:37:58 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filemgr.h"
 
-int	get_new_fd(char *path, int mode)
+int	check_and_open(char *path, int accessmode, int openmode)
 {
 	int	fd;
 
-	fd = open(path, mode);
+	if (check_perm(argv[1], accessmode) == -1)
+		return (-1);
+	fd = open(path, openmode);
 	if (fd == -1)
 		return (-1);
 	return (fd);

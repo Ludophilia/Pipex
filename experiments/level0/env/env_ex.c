@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:26:11 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/28 16:27:18 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/16 17:46:43 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	main(int argc, char **argv, char **envp)
 	
 	with_envp = envp;
 	with_environ = environ;
-	print_envvars(0, with_envp);
-	print_envvars(1, with_environ);
+	print_envvars(1, with_envp);
+	print_envvars(0, with_environ);
     return (0);
 }

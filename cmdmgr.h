@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:27 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 16:08:28 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/19 19:30:54 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@
 # include <sys/wait.h>
 
 # include "commonlibs.h"
+# include "sanicheck.h"
 
-int	exec_cmd(char *cmd, int fd);
+int	redir_and_exec(char **args, char **envp);
 
 #endif

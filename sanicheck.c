@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 12:44:20 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/19 20:05:10 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,15 @@ int	check_perm(char *filename, int mode)
 	return (0);
 }
 
-int	check_args(int argc, char **argv)
+void	free_args(char **args)
 {
-	if (check_argc(argc))
-		return (-1);
-	if (check_perm(argv[1], F_OK) == -1 || check_perm(argv[1], R_OK) == -1)
-		return (-1);
-	// Where is the part that tests if cmds is valid or not?
-	return (0);
+	char	**head;
+	
+	head = args;
+	while (*head)
+	{
+		free(*head);
+		head++;
+	}
+	free(args);
 }

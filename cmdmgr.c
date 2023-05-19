@@ -6,73 +6,51 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/15 17:34:31 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/19 21:36:54 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdmgr.h"
 
-void	free_args(char **cmd_args)
+// And what if there was no PATH?
+char	*search_executable(char *cmd, char **envp) // ex: `tee` or `ls`
 {
-	char	**head;
-	
-	head = cmd_args;
-	while (*head)
-	{
-		free(*head);
-		head++;
-	}
-	free(cmd_args);
+	(void)cmd; (void)envp;
+	// cmd = ;
+	return (NULL); // Should return
 }
 
-// How to use execve instead of execvp? 
-
-// What's the problem.
-
-// - The problem lies in the difference of first arg in execve and execvp.
-// 		- For `int execve(const char *pathname, char *const argv[],
-// 		char *const envp[])`, it's `pathname`, the path to the file to execute.
-//		- For `int execvpe(const char *file, char *const argv[],
-//		char *const envp[])`, it's `file`, a file that execvpe will search in
-//		every directory specified in the PATH environment variable,
-//		a the colon-separated list of directories, IF the specified filename
-//		DOES NOT contain a slash (/) character.
-
-// - So...? We have to write something that will search PATH for the specified
-// command if :
-//		- There is NO `/` in pathname (including for cmds that are in the 
-//		current PATH which are invoked via their full path, either via `./cmd`
-//		or `$PWD/cmd` or `/root/project/Pipex/cmd` by ex...)
-//		- 
-// 
-//	and return the path to that command so that execve can execute it...
-
-// OK, and how to do it?
-
-//		- How to check if argv[2] contains `/` or not?
-//		- How do I get from PATH every dirs from where I need to search cmd ?
-//		- How to search for the file in every dir?
-//			- VERY SIMPLE ACTUALLY :
-//				- Take PATH from envp
-//				- Create a list of dirs from it with split it at ":"
-//				- Iterate on this list:
-//					- Combine the curr dir and the cmd to execute 
-//					- Test if the resulting path exist with access
-//						- return the resulting path if so
-//						- keep going if not
-//					- if not match, raise an error...
-
-
-//		- How do I make the match?
-
-int	exec_cmd(char *cmd, int fd)
+void	exec_cmd(char *cmd, int fd, char **envp)
 {
-	int		pid;
-	int		wstatus;
 	char	**cmd_args;
 
+	cmd_args = ft_split(cmd, '\x20'); // ex -> ["ls", "-hltc"]
+	if (!ft_strchr(cmd_args[0], '/'))
+	{
+		cmd_args[0] = search_executable(cmd_args[0], envp);
+		// And what if the search_executable() return NULL ?
+	}
+	// Once the path to the executable is cleared (if needed), it's important 
+	// to test what if cmd_args[0] does not exist or is not executable?
+	if (check_perm(cmd_args[0], X_OK) == -1 || dup2(fd, STDIN_FILENO) == -1
+		|| execve(cmd_args[0], cmd_args, envp) == -1)
+	{
+		free_args(cmd_args);
+		perror("pipex");
+		exit(EXIT_FAILURE);
+	}
+}
+
+int		redir_and_exec(char *file, char *cmd, char **envp)
+{
+	int		fd;
+	int		pid;
+	int		wstatus;
+
+	fd = check_and_open(file, R_OK, O_RDONLY); // move R_OK, O_RDONLY in the args in a struct or something
+	if (fd == -1)
+		return (-1);
 	pid = fork();
-	cmd_args = NULL;
 	if (pid == -1)
 	{
 		perror(NULL);
@@ -80,22 +58,17 @@ int	exec_cmd(char *cmd, int fd)
 	}
 	else if (pid == 0)
 	{
-		cmd_args = ft_split("./beuarf", '\x20'); (void)cmd;// cmd missing
-		if (dup2(fd, STDIN_FILENO) == -1 || execvp(cmd_args[0], cmd_args)
-			== -1)
-		{
-			free_args(cmd_args);
-			perror(NULL);
-			exit(EXIT_FAILURE);
-		}
+		exec_cmd(cmd, fd, envp);
 	}
 	else
 	{
 		if (wait(&wstatus) == -1 || (wstatus >> 8 & 0xFF) == EXIT_FAILURE)
 		{
-			perror(NULL);
+			// perror(NULL);
+			// dprintf(2, "pipex: An error")
 			return (-1);
 		}
 	}
+	close(fd);
 	return (0);
 }
