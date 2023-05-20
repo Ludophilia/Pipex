@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:37 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/19 19:38:11 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/20 12:19:11 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@
 
 # include "sanicheck.h"
 
-int	check_and_open(char *path, int mode);
+int	check_and_open(char *path, int accessmode, int openmode);
 
 #endif

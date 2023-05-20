@@ -6,11 +6,12 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/26 18:26:11 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/16 17:46:43 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/20 13:05:43 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <unistd.h>
 
 extern char	**environ;
 
@@ -25,12 +26,11 @@ void	print_envvars(unsigned lets_go, char **envptr)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	**with_envp;
-	char	**with_environ;
+	char	buffer[1024];
 	
-	with_envp = envp;
-	with_environ = environ;
-	print_envvars(1, with_envp);
-	print_envvars(0, with_environ);
+	confstr(_CS_PATH, buffer, 1024);
+	printf("_CS_PATH='%s'\n", buffer);
+	print_envvars(0, envp);
+	print_envvars(0, environ);
     return (0);
 }

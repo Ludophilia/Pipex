@@ -6,18 +6,41 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/19 21:36:54 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/20 14:12:40 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdmgr.h"
 
-// And what if there was no PATH?
+char 	**get_paths(char **envp)
+{
+	while (*envp)
+	{
+		if (ft_strnstr(*envp, "PATH", 4))
+			return (ft_split(*envp + 5, ':'));
+		envp++;
+	}
+	return (ft_split(DEFAULT_PATH, ':'));
+}
+
+
 char	*search_executable(char *cmd, char **envp) // ex: `tee` or `ls`
 {
-	(void)cmd; (void)envp;
-	// cmd = ;
-	return (NULL); // Should return
+	char	**paths;
+	char	*candidate;
+	int		i;
+
+	paths = get_paths(envp);
+	i = -1;
+	while (paths[++i])
+	{
+		candidate = ft_strjoin(paths[i], cmd);
+		if (check_perm(candidate, X_OK) == 0)
+			return (candidate);
+		free(candidate);
+	}
+	free_strs(paths);
+	return (NULL); // And what if the search_executable() return NULL?
 }
 
 void	exec_cmd(char *cmd, int fd, char **envp)
@@ -28,14 +51,14 @@ void	exec_cmd(char *cmd, int fd, char **envp)
 	if (!ft_strchr(cmd_args[0], '/'))
 	{
 		cmd_args[0] = search_executable(cmd_args[0], envp);
-		// And what if the search_executable() return NULL ?
+		// And what if search_executable() return NULL ?
 	}
 	// Once the path to the executable is cleared (if needed), it's important 
 	// to test what if cmd_args[0] does not exist or is not executable?
 	if (check_perm(cmd_args[0], X_OK) == -1 || dup2(fd, STDIN_FILENO) == -1
 		|| execve(cmd_args[0], cmd_args, envp) == -1)
 	{
-		free_args(cmd_args);
+		free_strs(cmd_args);
 		perror("pipex");
 		exit(EXIT_FAILURE);
 	}
