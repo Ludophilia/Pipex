@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:47:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/20 13:51:58 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/20 18:27:20 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,6 @@
 
 int		check_argc(int argc);
 int		check_perm(char *filename, int mode);
-void	free_strs(char **strs);
+void	free_strs(char **strs, int offset);
 
 #endif

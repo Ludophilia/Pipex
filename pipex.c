@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/19 21:37:29 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/20 19:02:34 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 // of unix pipes...
 
 // Let's manage `< file1 cmd1` (dont forget the leak)
-// 20/05 - RESUME FROM CMDMGR.C
+// Let's manage `| cm2`
+// And then `> file2`
 int	main(int argc, char **argv, char **envp)
 {
 	if (check_argc(argc) == -1)
