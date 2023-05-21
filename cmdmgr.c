@@ -6,24 +6,24 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/21 14:25:50 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:12:55 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdmgr.h"
 
-void	exec_cmd(char *cmd, int infd, int outfd, char **envp)
+void	exec_with(t_cmd cmdenv, char **envp)
 {
 	char	**cmd_args;
 
-	cmd_args = ft_split(cmd, '\x20');
+	cmd_args = ft_split(cmdenv.cmd, '\x20');
 	if (ft_strchr(cmd_args[0], '/') == NULL)
 	{
 		cmd_args[0] = search_executable(cmd_args[0], envp);
 		if (cmd_args[0] == NULL)
 		{
 			errno = ENOENT;
-			ft_dprintf(2, "pipex: command not found: '%s'\n", cmd);
+			ft_dprintf(2, "pipex: command not found: '%s'\n", cmdenv.cmd);
 			free_strs(cmd_args, 1);
 			exit(EXIT_FAILURE);
 		}
@@ -33,7 +33,7 @@ void	exec_cmd(char *cmd, int infd, int outfd, char **envp)
 		free_strs(cmd_args, 0);
 		exit(EXIT_FAILURE);
 	}
-	if (dup2(infd, 0) == -1 || dup2(outfd, 1) == -1 
+	if (dup2(cmdenv.infd, 0) == -1 || dup2(cmdenv.outfd, 1) == -1 
 		|| execve(cmd_args[0], cmd_args, envp) == -1)
 	{
 		perror("pipex");
@@ -57,49 +57,43 @@ void	exec_cmd(char *cmd, int infd, int outfd, char **envp)
 // Where do I need to open those files or pipes?
 //	-- Here ?
 //		-- We just fork and exec, 
-	
-int	fork_and_exec(char *cmd, int infd, int outfd, char **envp)
+
+// Structure s_cmd / t_cmd
+
+int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
 {
 	int		pid_l;
 	int		pid_r;
-	int		wstatus_l;
-	int		wstatus_r;
+	int		ws_l;
+	int		ws_r;
 
+	// Don't you see a pattern...?
 	pid_l = fork();
 	if (pid_l == -1)
-	{
-		perror(NULL);
-		return (-1);
-	}
+		return (ft_perror(NULL));
 	else if (pid_l > 0)
 	{
 		pid_r = fork();
 		if (pid_r == -1)
-		{
-			perror(NULL);
-			return (-1);
-		}
+			return (ft_perror(NULL));
 	}
+
+	// Don't you see a pattern...?
 	if (pid_l == 0)
-	{
-		exec_cmd(cmd, infd, outfd, envp); 
-	}
+		exec_with(cmdenv1, envp); 
 	else if (pid_r == 0)
-	{
-		exec_cmd(cmd, infd, outfd, envp);
-	}
+		exec_with(cmdenv2, envp);
+
+
+	// Don't you see a pattern...?
 	if (pid_l > 0 && pid_r > 0)
 	{
-		close(infd); // HERE??? 
-		close(outfd); // REALLY???
-		if (waitpid(pid_l, &wstatus_l, 0) == -1 
-			|| waitpid(pid_r, &wstatus_r, 0) == -1 
-			|| (wstatus_r >> 8 & 0xFF) == EXIT_FAILURE
-			|| (wstatus_l >> 8 & 0xFF) == EXIT_FAILURE)
-		{
-			perror(NULL);
-			return (-1);
-		}
+		// close(infd);
+		// close(outfd);
+		if (waitpid(pid_l, &ws_l, 0) == -1  || waitpid(pid_r, &ws_r, 0) == -1 
+			|| (ws_r >> 8 & 0xFF) == EXIT_FAILURE
+			|| (ws_l >> 8 & 0xFF) == EXIT_FAILURE)
+			return (ft_perror(NULL));
 	}
 	return (0);
 }

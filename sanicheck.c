@@ -6,15 +6,21 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/21 13:10:53 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/21 17:12:45 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sanicheck.h"
 
+int	ft_perror(char *message)
+{
+	perror(message);
+	return (-1);
+}
+
 int	check_argc(int argc)
 {
-	if (argc != 4)
+	if (argc != 5)
 	{
 		errno = EINVAL;
 		perror("pipex");
@@ -27,10 +33,7 @@ int	check_argc(int argc)
 int	check_perm(char *filename, int mode)
 {
 	if (access(filename, mode) == -1)
-	{
-		perror(filename);
-		return (-1);
-	}
+		return (ft_perror(filename));
 	return (0);
 }
 
