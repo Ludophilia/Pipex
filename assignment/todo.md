@@ -44,6 +44,8 @@
 - [ ] Manage piping from one command to another (cmd1 | cmd2)
 	- [ ]
 
+- [ ] Does < and > create files if they do not exist ?
+
 ### Initial tests (& beyond)
 
 - [ ] Find a way to automate tests for this project
