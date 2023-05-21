@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/21 12:45:43 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/21 14:25:50 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,22 +60,42 @@ void	exec_cmd(char *cmd, int infd, int outfd, char **envp)
 	
 int	fork_and_exec(char *cmd, int infd, int outfd, char **envp)
 {
-	int		pid;
-	int		wstatus;
+	int		pid_l;
+	int		pid_r;
+	int		wstatus_l;
+	int		wstatus_r;
 
-	pid = fork();
-	if (pid == -1)
+	pid_l = fork();
+	if (pid_l == -1)
 	{
 		perror(NULL);
 		return (-1);
 	}
-	else if (pid == 0)
-		exec_cmd(cmd, infd, outfd, envp); 
-	else
+	else if (pid_l > 0)
 	{
-		close(infd); // HERE??? REALLY???
-		close(outfd);
-		if (wait(&wstatus) == -1 || (wstatus >> 8 & 0xFF) == EXIT_FAILURE)
+		pid_r = fork();
+		if (pid_r == -1)
+		{
+			perror(NULL);
+			return (-1);
+		}
+	}
+	if (pid_l == 0)
+	{
+		exec_cmd(cmd, infd, outfd, envp); 
+	}
+	else if (pid_r == 0)
+	{
+		exec_cmd(cmd, infd, outfd, envp);
+	}
+	if (pid_l > 0 && pid_r > 0)
+	{
+		close(infd); // HERE??? 
+		close(outfd); // REALLY???
+		if (waitpid(pid_l, &wstatus_l, 0) == -1 
+			|| waitpid(pid_r, &wstatus_r, 0) == -1 
+			|| (wstatus_r >> 8 & 0xFF) == EXIT_FAILURE
+			|| (wstatus_l >> 8 & 0xFF) == EXIT_FAILURE)
 		{
 			perror(NULL);
 			return (-1);

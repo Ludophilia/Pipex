@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/20 18:55:38 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/21 13:10:53 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_argc(int argc)
 {
-	if (argc != 3)
+	if (argc != 4)
 	{
 		errno = EINVAL;
 		perror("pipex");
