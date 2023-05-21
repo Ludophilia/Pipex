@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:27 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/20 13:05:07 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/21 12:43:37 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 
 # define DEFAULT_PATH "/bin:/usr/bin"
 
-int	redir_and_exec(char *file, char *cmd, char **envp);
+int	fork_and_exec(char *cmd, int infd, int outfd, char **envp);
 
 #endif

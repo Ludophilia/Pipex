@@ -41,7 +41,8 @@
 	- [x] Improve that version : use execve instead of execvp... Create the
 	function responsible to search PATH to find the right cmd...
 
-- [ ] Manage piping from one command to another
+- [ ] Manage piping from one command to another (cmd1 | cmd2)
+	- [ ]
 
 ### Initial tests (& beyond)
 

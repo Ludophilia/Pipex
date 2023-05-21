@@ -6,13 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/20 18:52:55 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/21 12:45:43 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdmgr.h"
 
-void	exec_cmd(char *cmd, int fd, char **envp)
+void	exec_cmd(char *cmd, int infd, int outfd, char **envp)
 {
 	char	**cmd_args;
 
@@ -23,7 +23,7 @@ void	exec_cmd(char *cmd, int fd, char **envp)
 		if (cmd_args[0] == NULL)
 		{
 			errno = ENOENT;
-			dprintf(2, "pipex: command not found: '%s'\n", cmd);
+			ft_dprintf(2, "pipex: command not found: '%s'\n", cmd);
 			free_strs(cmd_args, 1);
 			exit(EXIT_FAILURE);
 		}
@@ -33,7 +33,8 @@ void	exec_cmd(char *cmd, int fd, char **envp)
 		free_strs(cmd_args, 0);
 		exit(EXIT_FAILURE);
 	}
-	if (dup2(fd, 0) == -1 || execve(cmd_args[0], cmd_args, envp) == -1)
+	if (dup2(infd, 0) == -1 || dup2(outfd, 1) == -1 
+		|| execve(cmd_args[0], cmd_args, envp) == -1)
 	{
 		perror("pipex");
 		free_strs(cmd_args, 0);
@@ -42,15 +43,26 @@ void	exec_cmd(char *cmd, int fd, char **envp)
 }
 
 // move R_OK, O_RDONLY in the args in a struct or something
-int	redir_and_exec(char *file, char *cmd, char **envp)
+
+// A command:
+//	- READS from an INFILE or a PIPE
+// 	- WRITE to an OUTFILE or a PIPE
+
+// A command always has context, symbolized by its fds...
+// So the problem is how to create that context
+
+// To get fds you need to:
+//	-- open files (with modes) 
+//	-- open pipes
+// Where do I need to open those files or pipes?
+//	-- Here ?
+//		-- We just fork and exec, 
+	
+int	fork_and_exec(char *cmd, int infd, int outfd, char **envp)
 {
-	int		fd;
 	int		pid;
 	int		wstatus;
 
-	fd = check_and_open(file, R_OK, O_RDONLY);
-	if (fd == -1)
-		return (-1);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -58,15 +70,16 @@ int	redir_and_exec(char *file, char *cmd, char **envp)
 		return (-1);
 	}
 	else if (pid == 0)
-		exec_cmd(cmd, fd, envp);
+		exec_cmd(cmd, infd, outfd, envp); 
 	else
 	{
+		close(infd); // HERE??? REALLY???
+		close(outfd);
 		if (wait(&wstatus) == -1 || (wstatus >> 8 & 0xFF) == EXIT_FAILURE)
 		{
 			perror(NULL);
 			return (-1);
 		}
 	}
-	close(fd);
 	return (0);
 }
