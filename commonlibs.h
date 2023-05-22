@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:34:34 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/21 16:55:36 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/22 13:20:28 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,9 @@
 typedef struct s_cmd
 {
 	char 	*cmd;
-	int		infd;
-	int		outfd;
+	char	*inf;
+	char	*outf;
+	int		*pipe;
 }	t_cmd;
 
 #endif
