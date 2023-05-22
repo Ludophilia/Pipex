@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/22 19:49:50 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/22 20:02:42 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 
 //  23/05 - CLOSE THE FDS AT EVERY LEVEL!!!!!!!!!
 // IT USES RESSOURCES AND I DON'T GET THE PROMPT BACKKK/
+// MAYBE BECAUSE THE opened file is left open?
 int	main(int argc, char **argv, char **envp)
 {	
 	if (check_argc(argc) == -1)
