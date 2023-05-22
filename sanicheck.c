@@ -6,13 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/22 11:26:20 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/22 19:27:00 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sanicheck.h"
 
-int	ft_perror(char *message, int statuscode)
+int	ft_perror(int statuscode, char *message)
 {
 	perror(message);
 	return (statuscode);
@@ -33,7 +33,7 @@ int	check_argc(int argc)
 int	check_perm(char *filename, int mode)
 {
 	if (access(filename, mode) == -1)
-		return (ft_perror(filename, -1));
+		return (ft_perror(-1, filename));
 	return (0);
 }
 
