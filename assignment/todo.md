@@ -32,7 +32,7 @@
 
 ### Project foundations
 
-- [ ] Manage standard input redirection of a cmd to a file (< file1 cmd1)?
+- [x] Manage standard input redirection of a cmd to a file (< file1 cmd1)?
 	- [x] Redirection FROM a file? Only from a file?
 	- [x] What commands accept input from stdin btw? (the filters programs??)
 	- [x] Write a draft version of pipex which can manage `< file1 cmd1`
@@ -41,10 +41,19 @@
 	- [x] Improve that version : use execve instead of execvp... Create the
 	function responsible to search PATH to find the right cmd...
 
-- [ ] Manage piping from one command to another (cmd1 | cmd2)
-	- [ ]
+- [ ] Manage (cmd1 | cmd2) and (cmd < outfile)
+	- [x] Manage piping from one command to another (cmd1 | cmd2)
+	- [x] Manage outputting to at outfile.
+		- [ ] Does < and > create files if they do not exist ?
+		Because IT should.
+	- [ ] Refactor your code. It a mess that won't pass the norm....
 
-- [ ] Does < and > create files if they do not exist ?
+## Bonus part
+
+- [ ] Start very early to think about how to manage multiple pipes
+(cmd | cmd | cmd)
+- [ ] How to manage an here doc (<< here_doc)
+- [ ] How to manage a file append instead of a redirect (>> file)
 
 ### Initial tests (& beyond)
 
@@ -54,10 +63,3 @@
 - [x] Mind missing ENV variables (like PATH. What happens if there is no PATH)
 - [o] Think about what kind of errors can happen (invalid nb of args, swapped
 args...)
-
-## Bonus part
-
-- [ ] Start very early to think about how to manage multiple pipes
-(cmd | cmd | cmd)
-- [ ] How to manage an here doc (<< here_doc)
-- [ ] How to manage a file append instead of a redirect (>> file)

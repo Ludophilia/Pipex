@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:34:34 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/23 14:38:03 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/23 19:09:04 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@
 # include "ft_dprintf/ft_dprintf.h"
 
 // The first read is ALWAYS from a file. The last write is ALWAYS to a file.
-// Try to use void * could be a char * ("/dev/stdin") or int * [3, 5] 
 typedef struct s_cmd
 {
 	char 	*cmd;
