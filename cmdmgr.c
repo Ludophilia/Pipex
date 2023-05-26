@@ -6,27 +6,28 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/23 19:04:05 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/26 19:50:27 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdmgr.h"
 
-void	exec_cmd_with(t_cmd cmdenv, char **envp)
+char	**split_cmd(char *cmd, char **envp)
 {
 	char	**cmd_args;
-	int		infd;
-	int		outfd;
+	char	*orig_cmd;
 
-	// Command part. I will certainly move this somewhere else...	
-	cmd_args = ft_split(cmdenv.cmd, '\x20');
+	cmd_args = ft_split(cmd, '\x20');
 	if (ft_strchr(cmd_args[0], '/') == NULL)
 	{
+		orig_cmd = ft_strdup(cmd_args[0]);
 		cmd_args[0] = search_executable(cmd_args[0], envp);
 		if (cmd_args[0] == NULL)
 		{
 			errno = ENOENT;
-			ft_dprintf(2, "pipex: command not found: '%s'\n", cmdenv.cmd);
+			ft_dprintf(2, "pipex: %s: command not found\n", orig_cmd);
+			free(orig_cmd);
+			cmd_args = NULL;
 			free_strs(cmd_args, 1);
 			exit(EXIT_FAILURE);
 		}
@@ -34,31 +35,39 @@ void	exec_cmd_with(t_cmd cmdenv, char **envp)
 	else if (check_perm(cmd_args[0], X_OK) == -1)
 	{
 		free_strs(cmd_args, 0);
+		cmd_args = NULL;
 		exit(EXIT_FAILURE);
 	}
+	return (cmd_args);
+}
 
-	// Pipe part. I will certainly move this somewhere else...
-	// Smells like a function that takes pointers to fds as arguments...
-	infd = 0;
-	outfd = 0;
+void	set_fds(t_cmd cmdenv, int *infd, int *outfd)
+{
 	if (cmdenv.mode == 0x0)
 	{
-		infd = cmdenv.files[0];
-		outfd = cmdenv.pipes[1];
-
+		*infd = cmdenv.files[0];
+		*outfd = cmdenv.pipes[1];
 		close(cmdenv.files[1]);
 		close(cmdenv.pipes[0]);
 	}
 	else if (cmdenv.mode == 0x2)
 	{
-		infd = cmdenv.pipes[0];
-		outfd = cmdenv.files[1];
-
+		*infd = cmdenv.pipes[0];
+		*outfd = cmdenv.files[1];
 		close(cmdenv.pipes[1]);
 		close(cmdenv.files[0]);
 	}
+}
 
-	if (dup2(infd, 0) == -1 || dup2(outfd, 1) == -1 
+void	exec_cmd(t_cmd cmdenv, char **envp)
+{
+	char	**cmd_args;
+	int		infd;
+	int		outfd;
+
+	cmd_args = split_cmd(cmdenv.cmd, envp);
+	set_fds(cmdenv, &infd, &outfd);
+	if (dup2(infd, 0) == -1 || dup2(outfd, 1) == -1
 		|| execve(cmd_args[0], cmd_args, envp) == -1)
 	{
 		perror("pipex");
@@ -69,6 +78,8 @@ void	exec_cmd_with(t_cmd cmdenv, char **envp)
 	}
 }
 
+// How can you iteratively create context for the commands to run?
+// --- Arrs of pids?
 int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
 {
 	// Don't you see a pattern...?
@@ -76,6 +87,13 @@ int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
 	int		pid_r;
 	int		ws_l;
 	int		ws_r;
+
+	pid_t	*pids;
+
+	pids = ft_calloc(1024, sizeof(pid_t)); // metset at -1 for avoiding confusion.
+	imax = 0;
+	// [753, 754, 755, 0...] (Master Process POV)
+	// [753, 0, 755...] (Child Process POV) (IS THAT TRUE THOUGH?)
 
 	// Don't you see a pattern...?
 	pid_l = fork();
@@ -90,9 +108,9 @@ int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
 
 	// Don't you see a pattern...?
 	if (pid_l == 0)
-		exec_cmd_with(cmdenv1, envp); 
+		exec_cmd(cmdenv1, envp); 
 	else if (pid_r == 0)
-		exec_cmd_with(cmdenv2, envp);
+		exec_cmd(cmdenv2, envp);
 
 	// Don't you see a pattern...?
 	if (pid_l > 0 && pid_r > 0)
