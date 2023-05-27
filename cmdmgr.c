@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/26 19:50:27 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/27 14:09:47 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,13 @@ int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
 	int		ws_l;
 	int		ws_r;
 
-	pid_t	*pids;
+	int		len;
+	pid_t	pids[1024];
 
-	pids = ft_calloc(1024, sizeof(pid_t)); // metset at -1 for avoiding confusion.
-	imax = 0;
-	// [753, 754, 755, 0...] (Master Process POV)
-	// [753, 0, 755...] (Child Process POV) (IS THAT TRUE THOUGH?)
+	len = 0;
+
+	// [259976, 259977, 259978...] (Master Process POV)
+	// [259976, 0, -2...] (Child Process POV) 
 
 	// Don't you see a pattern...?
 	pid_l = fork();
