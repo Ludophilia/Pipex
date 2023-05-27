@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/27 11:31:52 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/27 14:07:25 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/27 15:52:25 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ int	is_parent(pid_t *pids, int len)
 // processes. WHAT'S REALLY INTERESTING however is that the 0 symbolizing a
 // a child process from the child process point of view only appear once per
 // pid array, making some operations possible.
+//		[259976, 259977, 259978...] (Master Process POV)
+//		[259976, 0, -2...] (Child Process POV)
 int	main(int argc, char **argv)
 {
 	pid_t	pids[BUFFER_SIZE];

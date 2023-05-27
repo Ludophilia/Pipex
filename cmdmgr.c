@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/27 14:09:47 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/27 18:58:07 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ char	**split_cmd(char *cmd, char **envp)
 			errno = ENOENT;
 			ft_dprintf(2, "pipex: %s: command not found\n", orig_cmd);
 			free(orig_cmd);
-			cmd_args = NULL;
 			free_strs(cmd_args, 1);
+			cmd_args = NULL;
 			exit(EXIT_FAILURE);
 		}
 	}
@@ -57,6 +57,7 @@ void	set_fds(t_cmd cmdenv, int *infd, int *outfd)
 		close(cmdenv.pipes[1]);
 		close(cmdenv.files[0]);
 	}
+	// cmdenv.mode == 0x1 mode is lacking...
 }
 
 void	exec_cmd(t_cmd cmdenv, char **envp)
@@ -82,46 +83,49 @@ void	exec_cmd(t_cmd cmdenv, char **envp)
 // --- Arrs of pids?
 int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
 {
-	// Don't you see a pattern...?
 	int		pid_l;
 	int		pid_r;
 	int		ws_l;
 	int		ws_r;
 
-	int		len;
-	pid_t	pids[1024];
+	// pid_t	pids[1024];
+	// int		len;
 
-	len = 0;
-
-	// [259976, 259977, 259978...] (Master Process POV)
-	// [259976, 0, -2...] (Child Process POV) 
+	// len = 0;
 
 	// Don't you see a pattern...?
 	pid_l = fork();
 	if (pid_l == -1)
 		return (ft_perror(-1, NULL));
-	else if (pid_l > 0)
+	if (pid_l == 0)
+		exec_cmd(cmdenv1, envp); 
+	if (pid_l > 0)
 	{
-		pid_r = fork();
-		if (pid_r == -1)
+		// close behavior depends on mode.
+		close(cmdenv1.files[0]);
+		close(cmdenv1.pipes[1]);
+		if (waitpid(pid_l, &ws_l, 0) == -1 
+			|| (ws_l >> 8 & 0xFF) == EXIT_FAILURE)
 			return (ft_perror(-1, NULL));
 	}
 
 	// Don't you see a pattern...?
-	if (pid_l == 0)
-		exec_cmd(cmdenv1, envp); 
-	else if (pid_r == 0)
-		exec_cmd(cmdenv2, envp);
-
-	// Don't you see a pattern...?
-	if (pid_l > 0 && pid_r > 0)
+	if (pid_l > 0)
 	{
-		close(cmdenv1.pipes[1]);
-		close(cmdenv1.pipes[0]); 
-		if (waitpid(pid_l, &ws_l, 0) == -1  || waitpid(pid_r, &ws_r, 0) == -1 
-			|| (ws_r >> 8 & 0xFF) == EXIT_FAILURE
-			|| (ws_l >> 8 & 0xFF) == EXIT_FAILURE)
+		pid_r = fork();
+		if (pid_r == -1)
 			return (ft_perror(-1, NULL));
+		else if (pid_r == 0)
+			exec_cmd(cmdenv2, envp);
+		if (pid_r > 0)
+		{
+			// close behavior depends on mode.
+			close(cmdenv2.files[1]);
+			close(cmdenv2.pipes[0]);
+			if (waitpid(pid_r, &ws_r, 0) == -1
+				|| (ws_r >> 8 & 0xFF) == EXIT_FAILURE)
+				return (ft_perror(-1, NULL));
+		}
 	}
 	return (0);
 }
