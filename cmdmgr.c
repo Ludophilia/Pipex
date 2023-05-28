@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/27 18:58:07 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/28 15:53:39 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,17 @@ void	set_fds(t_cmd cmdenv, int *infd, int *outfd)
 {
 	if (cmdenv.mode == 0x0)
 	{
-		*infd = cmdenv.files[0];
-		*outfd = cmdenv.pipes[1];
-		close(cmdenv.files[1]);
-		close(cmdenv.pipes[0]);
+		*infd = cmdenv.in[0];
+		*outfd = cmdenv.out[1];
+		close(cmdenv.in[1]);
+		close(cmdenv.out[0]);
 	}
 	else if (cmdenv.mode == 0x2)
 	{
-		*infd = cmdenv.pipes[0];
-		*outfd = cmdenv.files[1];
-		close(cmdenv.pipes[1]);
-		close(cmdenv.files[0]);
+		*infd = cmdenv.out[0];
+		*outfd = cmdenv.in[1];
+		close(cmdenv.out[1]);
+		close(cmdenv.in[0]);
 	}
 	// cmdenv.mode == 0x1 mode is lacking...
 }
@@ -102,15 +102,15 @@ int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
 	if (pid_l > 0)
 	{
 		// close behavior depends on mode.
-		close(cmdenv1.files[0]);
-		close(cmdenv1.pipes[1]);
+		close(cmdenv1.in[0]);
+		close(cmdenv1.out[1]);
 		if (waitpid(pid_l, &ws_l, 0) == -1 
 			|| (ws_l >> 8 & 0xFF) == EXIT_FAILURE)
 			return (ft_perror(-1, NULL));
 	}
 
 	// Don't you see a pattern...?
-	if (pid_l > 0)
+	if (pid_l > 0) // Means there a need to be aware of the parent process...e
 	{
 		pid_r = fork();
 		if (pid_r == -1)
@@ -120,8 +120,8 @@ int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
 		if (pid_r > 0)
 		{
 			// close behavior depends on mode.
-			close(cmdenv2.files[1]);
-			close(cmdenv2.pipes[0]);
+			close(cmdenv2.in[1]);
+			close(cmdenv2.out[0]);
 			if (waitpid(pid_r, &ws_r, 0) == -1
 				|| (ws_r >> 8 & 0xFF) == EXIT_FAILURE)
 				return (ft_perror(-1, NULL));
