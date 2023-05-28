@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/28 15:53:39 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/28 19:48:22 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	exec_cmd(t_cmd cmdenv, char **envp)
 
 // How can you iteratively create context for the commands to run?
 // --- Arrs of pids?
-int	fork_and_exec(t_cmd cmdenv1, t_cmd cmdenv2, char **envp)
+int	fork_and_exec(t_cmd *cmdenvs, char **envp)
 {
 	int		pid_l;
 	int		pid_r;
