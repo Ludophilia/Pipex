@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:27:08 by jgermany          #+#    #+#             */
-/*   Updated: 2023/04/22 11:41:42 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/29 12:57:42 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		fl_phase1(void)
 	fd = open(FORBIDDEN, 0x202, 0);
 	if (fd == -1)
 	{
-		write(1, "Couldn't open file, process don't have rights.\n", 48);
+		write(1, "Couldn't open file, process doesn't have rights.\n", 48);
 		close(fd);
 	}
 	if (access_checker(FORBIDDEN) == -1)

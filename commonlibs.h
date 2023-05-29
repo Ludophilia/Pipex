@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:34:34 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/28 19:06:09 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/29 14:42:04 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef struct s_cmd
 	char 	*cmd;
 	int		in[2];
 	int		out[2];
-	//int		mode; // 0 (in > pipe) 1 (pipe > pipe) 2 (pipe > out)
+	// int		mode; // 0 (in > pipe) 1 (pipe > pipe) 2 (pipe > out)
 }	t_cmd;
 
 #endif
