@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/29 15:20:35 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/29 22:09:49 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,36 +65,45 @@ void	exec_cmd(t_cmd cmdenv, char **envp)
 	}
 }
 
+int	wait_cmds(t_cmd *cmdenvs, int head)
+{
+	int		ws;
+
+	ws = -1;
+	while (--head >= 0)
+	{
+		if (waitpid(cmdenvs[head].pid, &ws, 0) == -1
+			|| (ws >> 8 & 0xFF) == EXIT_FAILURE)
+			return (ft_perror(-1, NULL));
+	}
+	return (0);
+}
+
 int	fork_and_exec(t_cmd *cmdenvs, char **envp)
 {
 	pid_t	lastpid;
 	int		head;
-	int		ws;
 
 	head = -1;
 	lastpid = -1;
-	ws = -1;
 	while (cmdenvs[++head].cmd)
 	{
 		if (head == 0 || lastpid > 0)
 		{
 			lastpid = fork();
 			if (lastpid == -1)
-				return (ft_perror(-1, NULL)); // Is it enough?
+				return (ft_perror(-1, NULL));
 			else if (lastpid == 0)
 				exec_cmd(cmdenvs[head], envp);
-			
-			// NOW: fork, wait, fork, wait, ..., fork, wait
-			// TARGET: fork, fork, fork, ..., wait, wait, wait.
 			else if (lastpid > 0)
 			{
-				close(cmdenvs[head].in[0]); // ?
-				close(cmdenvs[head].out[1]);				
-				if (waitpid(lastpid, &ws, 0) == -1 ||
-					(ws >> 8 & 0xFF) == EXIT_FAILURE)
-					return (ft_perror(-1, NULL));
+				close(cmdenvs[head].in[0]);
+				close(cmdenvs[head].out[1]);
+				cmdenvs[head].pid = lastpid;
 			}
 		}
 	}
+	if (lastpid > 0 && wait_cmds(cmdenvs, head) == -1)
+		return (ft_perror(-1, NULL));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:34:34 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/29 15:50:20 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/29 22:19:58 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,12 @@
 # include "libft/libft.h"
 # include "ft_dprintf/ft_dprintf.h"
 
-// The first read is ALWAYS from a file. The last write is ALWAYS to a file.
 typedef struct s_cmd
 {
 	char 	*cmd;
 	int		in[2];
 	int		out[2];
-	// pid_t	pid;
+	pid_t	pid;
 }	t_cmd;
 
 #endif
