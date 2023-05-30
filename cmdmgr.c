@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/29 22:09:49 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/30 18:12:37 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ char	**split_cmd(char *cmd, char **envp)
 	return (cmd_args);
 }
 
+void	close_fds(t_cmd cmdenv)
+{
+	close(cmdenv.in[0]);
+	close(cmdenv.out[1]);
+	if (cmdenv.in[1] != -1)
+		close(cmdenv.in[1]);
+	if (cmdenv.out[0] != -1)
+		close(cmdenv.out[0]);
+}
+
 void	exec_cmd(t_cmd cmdenv, char **envp)
 {
 	char	**cmd_args;
@@ -50,17 +60,18 @@ void	exec_cmd(t_cmd cmdenv, char **envp)
 	cmd_args = split_cmd(cmdenv.cmd, envp);
 	infd = cmdenv.in[0];
 	outfd = cmdenv.out[1];
-	if (cmdenv.in[1] == -1)
-		close(cmdenv.in[1]);
-	if (cmdenv.out[0] == -1)
-		close(cmdenv.out[0]);
-	if (dup2(infd, 0) == -1 || dup2(outfd, 1) == -1
-		|| execve(cmd_args[0], cmd_args, envp) == -1)
+	if (dup2(infd, 0) == -1 || dup2(outfd, 1) == -1)
 	{
 		perror("pipex");
 		free_strs(cmd_args, 0);
-		close(infd);
-		close(outfd);
+		close_fds(cmdenv);
+		exit(EXIT_FAILURE);
+	}
+	close_fds(cmdenv);
+	if (execve(cmd_args[0], cmd_args, envp) == -1)
+	{
+		perror("pipex");
+		free_strs(cmd_args, 0);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -91,16 +102,16 @@ int	fork_and_exec(t_cmd *cmdenvs, char **envp)
 		if (head == 0 || lastpid > 0)
 		{
 			lastpid = fork();
-			if (lastpid == -1)
-				return (ft_perror(-1, NULL));
-			else if (lastpid == 0)
-				exec_cmd(cmdenvs[head], envp);
-			else if (lastpid > 0)
+			if (lastpid > 0)
 			{
 				close(cmdenvs[head].in[0]);
 				close(cmdenvs[head].out[1]);
 				cmdenvs[head].pid = lastpid;
 			}
+			else if (lastpid == -1)
+				return (ft_perror(-1, NULL));
+			else if (lastpid == 0)
+				exec_cmd(cmdenvs[head], envp);
 		}
 	}
 	if (lastpid > 0 && wait_cmds(cmdenvs, head) == -1)
