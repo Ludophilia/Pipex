@@ -15,6 +15,9 @@
 	- last 10 seconds, use time to check
 	- `$SHELL` displays the prompt
 
+- [x] `time (< /dev/zero sleepina 5 | sleep 10 > /dev/null)`
+	`time ./pipex /dev/zero "sleepina 5" "sleep 10" /dev/null`
+
 ## Independent commands tests
 
 - [x] `< /dev/stdin cat | ls /dev/stdout > /dev/stdout`
@@ -26,15 +29,34 @@
 	- `$SHELL` displays the prompt (which is not the case with 
 	`< /dev/stdin cat` where `cat` just expects more...)
 
-- [x] `< /dev/random yes YAAAAAAAS | yes YESYESYES > /dev/stdout`
+- [ ] `< /dev/random yes YAAAAAAAS | yes YESYESYES > /dev/stdout`
 	`./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" /dev/stdout`
 	- writes indefinitely `YESYESYES` on `/dev/stdout`
-	- `$SHELL` does not give back the prompt 
+	- `$SHELL` does not give back the prompt
+	- [ ] The leaks are not correctly managed when SIGINT is sent to stop the
+	loop. Could be a good idea to move cmdenvs to the stack...
 
-- [x] `< /dev/random yes YAAAAAAAS | yes YESYESYES | yes 42 > /dev/stdout`
+- [ ] `< /dev/random yes YAAAAAAAS | yess YESYESYES > /dev/stdout`
+	`./pipex /dev/random "yes YAAAAAAAS" "yess YESYESYES" /dev/stdout`
+	- returns `bash: yess: command not found` nothing more.
+	- [ ] The leaks are not correctly managed on the one of the childs
+	- [ ] the error propagates (multiple error messages), which is not good
+	either... 
+
+- [ ] `< /dev/random yass YAAAAAAAS | yess YESYESYES > /dev/stdout`
+	`./pipex /dev/random "yass YAAAAAAAS" "yess YESYESYES" /dev/stdout`
+	- returns `bash: yess: command not found` nothing more.
+	- [ ] The leaks are not correctly managed on the one of the childs
+	- [ ] the error propagates (multiple error messages), which is not good
+	either... 
+	- [ ] the error messages are intertwinded....
+
+- [ ] `< /dev/random yes YAAAAAAAS | yes YESYESYES | yes 42 > /dev/stdout`
 	`./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" "yes 42" /dev/stdout`
 	- writes indefinitely `42` on `/dev/stdout`
 	- `$SHELL` does not display the prompt
+	- [ ] The leaks are not correctly managed when SIGINT is sent to stop the
+	loop. Could be a good idea to move cmdenvs to the stack...
 
 ## Dependent blocking commands tests
 
@@ -55,7 +77,7 @@
 
 ## Dependent nonblocking commands tests
 
-- [x] `< /dev/stdin cat | tee /dev/null > /dev/stdout`
+- [ ] `< /dev/stdin cat | tee /dev/null > /dev/stdout`
 	`./pipex /dev/stdin cat "tee /dev/null" /dev/stdout`
 	- wait for the user's input via `/dev/stdout` to start processing `cat`
 	- `cat` reads `/dev/stdin` and displays nothing on `stdout` as the result
@@ -63,29 +85,37 @@
 	- `tee` reads `stdin` (the read end of the pipe) so the process will be 
 	blocked until `cat` sends anything...
 	- `$SHELL` does not give back the prompt (send `EOF` via `ctrl+d`)
+	- [ ] The leaks are not correctly managed when SIGINT is sent to stop the
+	loop. Could be a good idea to move cmdenvs to the stack...
 
-- [x] `< /dev/urandom strings | nl > /dev/stdout`
+- [ ] `< /dev/urandom strings | nl > /dev/stdout`
 	`./pipex /dev/urandom strings nl /dev/stdout`
 	- prints and count INDEFINITELY printable character sequences from 
 	/dev/urandom that are at least 4 bytes long
 	- `$SHELL` does not give back the prompt
+	- [ ] The leaks are not correctly managed when SIGINT is sent to stop the
+	loop. Could be a good idea to move cmdenvs to the stack...
 
-- [x] `< /dev/null yes LOSER | nl > /dev/stdout`
+- [ ] `< /dev/null yes LOSER | nl > /dev/stdout`
 	`./pipex /dev/null "yes LOSER" nl /dev/stdout`
 	- prints `LOSER` indefinitely with the line number
 	- `$SHELL` does not give back the prompt
+	- [ ] The leaks are not correctly managed when SIGINT is sent to stop the
+	loop. Could be a good idea to move cmdenvs to the stack...
 
 - [x] `< test/infile strings | nl | tee > /dev/stdout`
 	`./pipex test/infile strings nl tee /dev/stdout`
 	- prints the 2 lines that have 4 or more charaters
 	- `$SHELL` displays the prompt (`strings` has NOTHING ELSE to READ)
 
-- [x] `< /dev/urandom strings | nl | tee > /dev/stdout`
+- [ ] `< /dev/urandom strings | nl | tee > /dev/stdout`
 	`./pipex /dev/urandom strings nl tee /dev/stdout`
 	- prints and count INDEFINITELY printable character sequences from 
 	/dev/random that are at least 4 bytes long
 	- `$SHELL` does not give back the prompt (`strings` has always something
 	to read)
+	- [ ] The leaks are not correctly managed when SIGINT is sent to stop the
+	loop. Could be a good idea to move cmdenvs to the stack...
 
 ## Mixed dependence commands tests
 
@@ -94,8 +124,7 @@
 	- displays 10 `YESYESYES` on stdout
 	- `$SHELL` displays the prompt
 
-	- FAILURE : Shell not given back. Cause (hypothesis) the `|` between 
-	`yes YAAAAAAAS | yes YESYESYES` is still open, as 
-	` yes YESYESYES` does not read from it and do NOT close it...
-	`yes YAAAAAAAS` is wrinting indefinitely on the pipe and `pipex` is waiting
-	`it`...
+- [x] `< /dev/random yes YAAAAAAAS | yes YESYESYES | strings | tee | head > /dev/stdout`
+	`./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" strings tee head /dev/stdout`
+	- displays 10 `YESYESYES` on stdout
+	- `$SHELL` displays the prompt
