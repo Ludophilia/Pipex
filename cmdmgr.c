@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/30 18:12:37 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/31 20:39:46 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,33 +41,39 @@ char	**split_cmd(char *cmd, char **envp)
 	return (cmd_args);
 }
 
-void	close_fds(t_cmd cmdenv)
+void	close_fds(t_cmd *cmdenvs)
 {
-	close(cmdenv.in[0]);
-	close(cmdenv.out[1]);
-	if (cmdenv.in[1] != -1)
-		close(cmdenv.in[1]);
-	if (cmdenv.out[0] != -1)
-		close(cmdenv.out[0]);
+	int	head;
+
+	head = -1;
+	while (cmdenvs[++head].cmd)
+	{
+		close(cmdenvs[head].in[0]);
+		close(cmdenvs[head].out[1]);
+		if (cmdenvs[head].in[1] != -1)
+			close(cmdenvs[head].in[1]);
+		if (cmdenvs[head].out[0] != -1)
+			close(cmdenvs[head].out[0]);
+	}
 }
 
-void	exec_cmd(t_cmd cmdenv, char **envp)
+void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
 {
 	char	**cmd_args;
 	int		infd;
 	int		outfd;
 
-	cmd_args = split_cmd(cmdenv.cmd, envp);
-	infd = cmdenv.in[0];
-	outfd = cmdenv.out[1];
+	cmd_args = split_cmd(cmdenvs[head].cmd, envp);
+	infd = cmdenvs[head].in[0];
+	outfd = cmdenvs[head].out[1];
 	if (dup2(infd, 0) == -1 || dup2(outfd, 1) == -1)
 	{
 		perror("pipex");
 		free_strs(cmd_args, 0);
-		close_fds(cmdenv);
+		close_fds(cmdenvs);
 		exit(EXIT_FAILURE);
 	}
-	close_fds(cmdenv);
+	close_fds(cmdenvs);
 	if (execve(cmd_args[0], cmd_args, envp) == -1)
 	{
 		perror("pipex");
@@ -86,6 +92,7 @@ int	wait_cmds(t_cmd *cmdenvs, int head)
 		if (waitpid(cmdenvs[head].pid, &ws, 0) == -1
 			|| (ws >> 8 & 0xFF) == EXIT_FAILURE)
 			return (ft_perror(-1, NULL));
+		printf("[DEBUG] ws == %i from pid == %i\n", ws, cmdenvs[head].pid); // REMOVE
 	}
 	return (0);
 }
@@ -111,7 +118,7 @@ int	fork_and_exec(t_cmd *cmdenvs, char **envp)
 			else if (lastpid == -1)
 				return (ft_perror(-1, NULL));
 			else if (lastpid == 0)
-				exec_cmd(cmdenvs[head], envp);
+				exec_cmd(cmdenvs, head, envp);
 		}
 	}
 	if (lastpid > 0 && wait_cmds(cmdenvs, head) == -1)
