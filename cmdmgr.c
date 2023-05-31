@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/31 21:19:55 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/05/31 22:24:09 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ char	**split_cmd(char *cmd, char **envp)
 	return (cmd_args);
 }
 
-void	close_fds(t_cmd *cmdenvs)
+void	close_fds(t_cmd *cmdenvs, int head)
 {
-	int	head;
-
-	head = -1;
+	head -= 1;
 	while (cmdenvs[++head].cmd)
 	{
 		close(cmdenvs[head].in[0]);
@@ -70,10 +68,10 @@ void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
 	{
 		perror("pipex");
 		free_strs(cmd_args, 0);
-		close_fds(cmdenvs);
+		close_fds(cmdenvs, head);
 		exit(EXIT_FAILURE);
 	}
-	close_fds(cmdenvs);
+	close_fds(cmdenvs, head);
 	if (execve(cmd_args[0], cmd_args, envp) == -1)
 	{
 		perror("pipex");
