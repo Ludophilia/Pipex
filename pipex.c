@@ -19,10 +19,7 @@ int	set_cmdenv_in(t_cmd *cmdenvs, int head, char **argv)
 		cmdenvs[head].in[0] = check_and_open(argv[1], R_OK, O_RDONLY);
 		cmdenvs[head].in[1] = -1;
 		if (cmdenvs[head].in[0] == -1)
-		{
-			free(cmdenvs);
 			return (-1);
-		}
 	}
 	else
 	{
@@ -39,60 +36,42 @@ int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 		cmdenvs[head].out[0] = -1;
 		cmdenvs[head].out[1] = check_and_open(argv[argc - 1], W_OK, O_WRONLY);
 		if (cmdenvs[head].out[1] == -1)
-		{
-			free(cmdenvs);
 			return (-1);
-		}
 	}
 	else
 	{
 		if (pipe(cmdenvs[head].out) == -1)
-		{
-			free(cmdenvs);
 			return (-1);
-		}
 	}
 	return (0);
 }
 
-t_cmd	*build_cmdenvs(int argc, char **argv)
+int	build_cmdenvs(t_cmd *cmdenvs, int argc, char **argv)
 {
-	t_cmd	*cmdenvs;
 	int		head;
 
-	cmdenvs = ft_calloc((argc - 3) + 1, sizeof(t_cmd));
-	if (cmdenvs == NULL)
-		return (NULL); // Better error management please?
 	head = -1;
 	while (++head < (argc - 3))
 	{
 		cmdenvs[head].cmd = argv[head + 2];
 		if (set_cmdenv_in(cmdenvs, head, argv) == -1)
-			return (NULL);
+			return (-1);
 		if (set_cmdenv_out(cmdenvs, head, argc, argv) == -1)
-			return (NULL);
+			return (-1);
 	}
 	cmdenvs[head].cmd = NULL;
-	return (cmdenvs);
+	return (0);
 }
 
-// 27/05 - What do you want to do?
-// -- Refactor what has already been done 
-// -- Implement the code to manage multiple pipes
 int	main(int argc, char **argv, char **envp)
 {	
-	t_cmd	*cmdenvs;
+	t_cmd	cmdenvs[1024];
 
 	if (check_argc(argc) == -1) // Should check argc == 5 or higher...
 		return (1);
-	cmdenvs = build_cmdenvs(argc, argv);
-	if (cmdenvs == NULL)
+	if (build_cmdenvs(cmdenvs, argc, argv) == -1)
 		return (1);
 	if (fork_and_exec(cmdenvs, envp) == -1)
-	{
-		free(cmdenvs);
 		return (1);
-	}
-	free(cmdenvs);
 	return (0);
 }
