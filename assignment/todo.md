@@ -41,16 +41,20 @@
 	- [x] Improve that version : use execve instead of execvp... Create the
 	function responsible to search PATH to find the right cmd...
 
-- [ ] Manage (cmd1 | cmd2) and (cmd < outfile)
+- [ ] Manage (cmd1 | cmd2) and (cmd > outfile)
 	- [x] Manage piping from one command to another (cmd1 | cmd2)
 	- [x] Manage outputting to at outfile.
-		- [ ] Does < and > create files if they do not exist ?
-		Because IT should.
+		- [ ] Does > create files if they do not exist ?
 	- [ ] Refactor your code. It a mess that won't pass the norm....
+
+- [ ] Manage the error cases better
+	- [ ] Any way to make them write turn by turn instead that simulateneously ?
+	(use error codes and the parent??)
+	- [ ] Test EVERYONE OF THEM for leaks
 
 ## Bonus part
 
-- [ ] Start very early to think about how to manage multiple pipes
+- [x] Start very early to think about how to manage multiple pipes
 (cmd | cmd | cmd)
 - [ ] How to manage an here doc (<< here_doc)
 - [ ] How to manage a file append instead of a redirect (>> file)

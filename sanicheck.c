@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/29 14:58:17 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/03 20:21:21 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ int	check_argc(int argc)
 int	check_perm(char *filename, int mode)
 {
 	if (access(filename, mode) == -1)
-		return (ft_perror(-1, filename));
+	{
+		ft_dprintf(2, "pipex: %s: %s\n", filename, strerror(errno));
+		return (-1);
+	}
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/31 22:24:09 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/03 20:33:26 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ int	wait_cmds(t_cmd *cmdenvs, int head)
 	{
 		if (waitpid(cmdenvs[head].pid, &ws, 0) == -1
 			|| (ws >> 8 & 0xFF) == EXIT_FAILURE)
-			return (ft_perror(-1, "c'est ça - error propagation")); // IMPROVE ERR MANAGEMENT
-		printf("[DEBUG] ws == %i from pid == %i\n", ws, cmdenvs[head].pid); // REMOVE
+			return (-1);
 	}
 	return (0);
 }
@@ -120,6 +119,6 @@ int	fork_and_exec(t_cmd *cmdenvs, char **envp)
 		}
 	}
 	if (lastpid > 0 && wait_cmds(cmdenvs, head) == -1)
-		return (ft_perror(-1, "C'est ça aussi - error propagation")); // IMPROVE ERR MANAGEMENT
+		return (-1);
 	return (0);
 }

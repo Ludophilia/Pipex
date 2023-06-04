@@ -1,6 +1,69 @@
 # Test battery for pipex
 
-## Parallelism tests
+## Program description
+
+Pipex is a program that simulates the shell script command below:
+
+``` < file1 cmd1 [args] | cmd2 [args] > file2 ```
+
+Where `file1` and `file2` are files and `cmd1` and `cmd2` are executables.
+
+## Usage
+
+```./pipex file1 cmd1 cmd2 file2```
+```./pipex file1 "cmd1 args" "cmd2 args" file2```
+
+## Examples
+
+``` ./pipex /dev/null tee cat /dev/stdout ```
+``` ./pipex infile tee "wc -w" /dev/stdout ```
+
+## What commands prints data
+
+- **yes**
+- **echo**
+- **pritnf**
+
+## What commands accept data from stdin?
+
+- **tee** - read from standard input and write to standard output and files.
+Copy standard input to each FILE, and also to standard output.
+- **cat** - concatenate files and print on the standard output. With no FILE, 
+or when FILE is -, read standard input.
+
+- **tail** - Print the last 10 lines of each FILE to standard output. 
+With more than one FILE, precede each with a header giving the file name.
+With no FILE, or when FILE is -, read standard input.
+- **head** - 
+
+- **grep** - grep searches for PATTERNS in each FILE. PATTERNS is one or more
+patterns separated by newline characters, and grep prints each line 
+that matches a pattern. A FILE of “-” stands for standard input. If no FILE 
+is given, recursive searches examine the working directory, and nonrecursive
+searches read standard input.
+
+- **sort** - sort lines of text files. Write sorted concatenation of all
+FILE(s) to standard output. With no FILE, or when FILE is -, read standard
+input.
+- **uniq** - filter adjacent matching lines from INPUT (or standard input), 
+writing to OUTPUT (or standard output).
+
+- **tr** - Translate, squeeze, and/or delete characters from standard input, 
+writing to standard output.
+- **cut** - ...
+
+- **strings**
+- **fold**
+
+- **wc** - Print newline, word, and byte counts for each FILE, and a total
+line if more than one FILE is specified. A word is a non-zero-length sequence 
+of characters delimited by white space. With no FILE, or when FILE is -, read
+standard input.
+- **nl** -
+
+## Test suite 
+
+### Parallelism tests
 
 - [x] `time (< /dev/stdin sleep 5 | sleep 5 | sleep 5 > /dev/stdout)`
 	`time ./pipex /dev/stdin "sleep 5" "sleep 5" "sleep 5" /dev/stdout`
@@ -18,7 +81,7 @@
 - [x] `time (< /dev/zero sleepina 5 | sleep 10 > /dev/null)`
 	`time ./pipex /dev/zero "sleepina 5" "sleep 10" /dev/null`
 
-## Independent commands tests
+### Independent commands tests
 
 - [x] `< /dev/stdin cat | ls /dev/stdout > /dev/stdout`
 	`./pipex /dev/stdin cat "ls /dev/stdout" /dev/stdout`
@@ -58,7 +121,7 @@
 	- [x] The leaks are not correctly managed when SIGINT is sent to stop the
 	loop. Could be a good idea to move cmdenvs to the stack...
 
-## Dependent blocking commands tests
+### Dependent blocking commands tests
 
 - [x] `< /dev/random cat | head -c 80 > /dev/stdout`
 	`./pipex /dev/random cat "head -c 80" /dev/stdout`
@@ -75,7 +138,7 @@
 	- displays 10 `y`
 	- `$SHELL` displays the prompt
 
-## Dependent nonblocking commands tests
+### Dependent nonblocking commands tests
 
 - [x] `< /dev/stdin cat | tee /dev/null > /dev/stdout`
 	`./pipex /dev/stdin cat "tee /dev/null" /dev/stdout`
@@ -117,7 +180,7 @@
 	- [x] The leaks are not correctly managed when SIGINT is sent to stop the
 	loop. Could be a good idea to move cmdenvs to the stack...
 
-## Mixed dependence commands tests
+### Mixed dependence commands tests
 
 - [x] `< /dev/random yes YAAAAAAAS | yes YESYESYES | head > /dev/stdout`
 	`./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" head /dev/stdout`
@@ -128,3 +191,106 @@
 	`./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" strings tee head /dev/stdout`
 	- displays 10 `YESYESYES` on stdout
 	- `$SHELL` displays the prompt
+
+## What could possibly go wrong?
+
+### ./pipex level
+
+- The number of arguments passed to the program is different from 4 (argc != 5)
+
+### < file1 level
+
+#### infile (argv[1]) does not exist:
+	- [ ] Expected error message
+		- `bash: <filename>: No such file or directory`
+		- `pipex: <filename>: No such file or directory`
+		- Examples:
+			- `< /dev/gf tee | fold -w 1 > /dev/stdout`
+			- `< /dev/gf tee | fold -w 1 | nl > /dev/stdout`
+			- `./pipex /dev/gf tee "fold -w 1" /dev/stdout`
+			- `./pipex /dev/gf tee cat "fold -w 1" nl /dev/stdout`
+
+#### infile (argv[1]) exists but its folder is not readable
+
+#### infile (argv[1]) is not readable:
+	- [ ] Expected error message
+		- `bash: <filename>: Permission denied`
+		- `pipex: <filename>: Permission denied`
+		- Examples:
+			- `< test/infile_rwf tee | cat > /dev/stdout`
+			- `< test/infile_rwf tee | cat | fold -w 1 | nl > /dev/stdout`
+			- `./pipex test/finfile tee cat /dev/stdout`
+			- `./pipex test/finfile tee cat "fold -w 1" nl /dev/stdout`
+
+#### infile (argv[1]) is a directory:
+	- [ ] Expected error message
+		- `<command>: read error: Is a directory` (depend on the command)
+		- Examples:
+			- `< . tee | cat > /dev/stdout`
+			- `< . tee | yes | head -3 > /dev/stdout`
+			- `./pipex . tee cat /dev/stdout`
+			- `./pipex . tee yes "head -3" /dev/stdout`
+
+### cmd1 | cmd2 level
+
+#### cdm1 (argv[2]) or cmd2 (argv[3]) is NOT executable:
+	- [ ] Expected error message
+		- `bash: <cmd>: Permission denied`
+		- `pipex: <cmd>: Permission denied`
+		- Examples:
+			- `< /dev/random test/fcmd | nl > /dev/stdout`
+			- `< /dev/random tee | test/fcmd > /dev/stdout`
+			- `./pipex /dev/random test/fcmd nl /dev/stdout`
+			- `./pipex /dev/random tee test/fcmd /dev/stdout`
+
+#### cdm1 (argv[2]) or cmd2 (argv[3]) does not exist (not found in $PATH):
+	- [ ] Expected error message
+		- `bash: <cmd>: command not found`
+		- `pipex: <cmd>: command not found`
+		- Example:
+			- `< /dev/random tee | fcmd > /dev/stdout`
+			- `< /dev/random fcmd | fcmd > /dev/stdout`
+			- `< /dev/random test/cmd1 | test/cmd2 | fcmd > /dev/stdout`
+			- `./pipex /dev/random tee fcmd /dev/stdout`
+			- `./pipex /dev/random fcmd fcmd /dev/stdout`
+			- `./pipex /dev/random test/cmd1 test/cmd2 fcmd /dev/stdout`
+
+
+
+
+### > file2 level
+	
+#### outfile (argv[4]) does not exist:
+	- [ ] Expected error message
+		- [No error message]
+		- `outfile` is CREATED and then written upon (if the folder is writable)
+		- Example:
+			- `< /dev/random strings | head > test/outfile`
+			- `./pipex /dev/random strings head test/outfile`
+
+#### outfile (argv[4]) does not exist and the parent folder is not writable:
+	- [ ] Expected error message
+		- `bash: <filename>: Permission denied`
+		- `pipex: <filename>: Permission denied`
+		- Example:
+			- `< /dev/random strings | head > ftest/outfile`
+			- `./pipex /dev/random strings head ftest/outfile`
+
+#### outfile (argv[4]) does not exist and the parent folder is not writable:
+	- [ ] Expected error message
+		- `bash: <filename>: Operation not permitted``
+		- `pipex: <filename>: Permission denied`
+		- Example:
+			- < /dev/random strings | head > /dev/stdex
+			- ./pipex /dev/random strings head /dev/stdex
+
+#### outfile (argv[4]) exists but is not writable:
+	- [ ] Expected error message
+		- `bash: <filename>: Permission denied`
+		- `pipex: <filename>: Permission denied`
+		- Example:
+			- `< /dev/random strings | head > test/foutfile`
+			- `./pipex /dev/random strings head /dev/stdex`
+
+- argv[4] is a directory:
+	- `zsh: is a directory: <directory>`
