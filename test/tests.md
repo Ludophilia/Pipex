@@ -196,52 +196,84 @@ standard input.
 
 ### ./pipex level
 
-- The number of arguments passed to the program is different from 4 (argc != 5)
+#### Wrong number of arguments (argc != 5)
+
+- [x] Expected error message
+	- `pipex: Invalid argument`
+	- `usage: pipex <file1> <cmd1> <cmd2> <file2>`
+	- Examples:
+		- `./pipex`
+		- `./pipex infile cmd outfile`
+	- [x] Leak protected?
+
+#### Swapped order (argc != 5)
+
+- [x] Expected error message
+	- [Error message dependent on the permission associated to 
+	the positional arg]
+	- Examples:
+		- `./pipex strings /dev/random head /dev/stdout`
+		- `./pipex /dev/random strings head /dev/random /dev/stdout`
+	- [x] Leak protected?
 
 ### < file1 level
 
 #### infile (argv[1]) does not exist:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <filename>: No such file or directory`
 		- `pipex: <filename>: No such file or directory`
 		- Examples:
 			- `< /dev/gf tee | fold -w 1 > /dev/stdout`
-			- `< /dev/gf tee | fold -w 1 | nl > /dev/stdout`
 			- `./pipex /dev/gf tee "fold -w 1" /dev/stdout`
+			- `< /dev/gf tee | fold -w 1 | nl > /dev/stdout`
 			- `./pipex /dev/gf tee cat "fold -w 1" nl /dev/stdout`
+		- [x] Leak protected?
 
-#### infile (argv[1]) exists but its folder is not readable
+#### infile (argv[1]) exists but its folder is not searchable (no x permission)
+	- [x] Expected error message
+		- `bash: <folder>/<filename>: Permission denied`
+		- `pipex: <folder>/<filename>: Permission denied`
+		- Example
+			- `< ftest/infile tee | cat > /dev/stdout`
+			- `./pipex ftest/infile tee cat /dev/stdout`
+		- [x] Leak protected?
 
-#### infile (argv[1]) is not readable:
-	- [ ] Expected error message
+#### infile (argv[1]) is not readable (no r permission):
+	- [x] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
 		- Examples:
-			- `< test/infile_rwf tee | cat > /dev/stdout`
-			- `< test/infile_rwf tee | cat | fold -w 1 | nl > /dev/stdout`
+			- `< test/finfile tee | cat > /dev/stdout`
 			- `./pipex test/finfile tee cat /dev/stdout`
+			- `< test/finfile tee | cat | fold -w 1 | nl > /dev/stdout`
 			- `./pipex test/finfile tee cat "fold -w 1" nl /dev/stdout`
+		- [x] Leak protected?
 
 #### infile (argv[1]) is a directory:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `<command>: read error: Is a directory` (depend on the command)
+		- (difference in the command path because of execve)
 		- Examples:
 			- `< . tee | cat > /dev/stdout`
-			- `< . tee | yes | head -3 > /dev/stdout`
 			- `./pipex . tee cat /dev/stdout`
+			- `< . tee | yes | head -3 > /dev/stdout`
 			- `./pipex . tee yes "head -3" /dev/stdout`
+		- [x] Leak protected?
 
 ### cmd1 | cmd2 level
 
 #### cdm1 (argv[2]) or cmd2 (argv[3]) is NOT executable:
-	- [ ] Expected error message
-		- `bash: <cmd>: Permission denied`
-		- `pipex: <cmd>: Permission denied`
+	- [x] Expected error message
+		- `bash: <cmd>: No such file or directory` or `bash: <cmd>: Permission
+		denied`
+		- `pipex: <cmd>: No such file or directory` or `pipex: <cmd>: Permission
+		denied`
 		- Examples:
 			- `< /dev/random test/fcmd | nl > /dev/stdout`
-			- `< /dev/random tee | test/fcmd > /dev/stdout`
 			- `./pipex /dev/random test/fcmd nl /dev/stdout`
+			- `< /dev/random tee | test/fcmd > /dev/stdout`
 			- `./pipex /dev/random tee test/fcmd /dev/stdout`
+		- [x] Leak protected?
 
 #### cdm1 (argv[2]) or cmd2 (argv[3]) does not exist (not found in $PATH):
 	- [ ] Expected error message
@@ -249,14 +281,19 @@ standard input.
 		- `pipex: <cmd>: command not found`
 		- Example:
 			- `< /dev/random tee | fcmd > /dev/stdout`
-			- `< /dev/random fcmd | fcmd > /dev/stdout`
-			- `< /dev/random test/cmd1 | test/cmd2 | fcmd > /dev/stdout`
 			- `./pipex /dev/random tee fcmd /dev/stdout`
+			- `< /dev/random fcmd | fcmd > /dev/stdout`
 			- `./pipex /dev/random fcmd fcmd /dev/stdout`
+			- `< /dev/random test/cmd1 | test/cmd2 | fcmd > /dev/stdout`
 			- `./pipex /dev/random test/cmd1 test/cmd2 fcmd /dev/stdout`
+		- [ ] Leak protected?
 
-
-
+#### $PATH is missing:
+	- [x] 
+	- [No error message expected]
+	- Example:
+		- `env -u PATH < /dev/random tee | head -c 80 > /dev/stdout`
+		- `env -u PATH ./pipex /dev/random tee "head -c 80" /dev/stdout`
 
 ### > file2 level
 	
@@ -276,21 +313,18 @@ standard input.
 			- `< /dev/random strings | head > ftest/outfile`
 			- `./pipex /dev/random strings head ftest/outfile`
 
-#### outfile (argv[4]) does not exist and the parent folder is not writable:
-	- [ ] Expected error message
-		- `bash: <filename>: Operation not permitted``
-		- `pipex: <filename>: Permission denied`
-		- Example:
-			- < /dev/random strings | head > /dev/stdex
-			- ./pipex /dev/random strings head /dev/stdex
-
 #### outfile (argv[4]) exists but is not writable:
 	- [ ] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
 		- Example:
 			- `< /dev/random strings | head > test/foutfile`
-			- `./pipex /dev/random strings head /dev/stdex`
+			- `./pipex /dev/random strings head test/foutfile`
 
-- argv[4] is a directory:
-	- `zsh: is a directory: <directory>`
+#### outfile (argv[4]) is a directory:
+	- [ ] Expected error message
+		- `bash: <directory>: is a directory`
+		- `pipex: <directory>: is a directory`
+		- Example:
+			- `< /dev/random strings | head > .`
+			- `./pipex /dev/random strings head .`

@@ -41,10 +41,12 @@
 	- [x] Improve that version : use execve instead of execvp... Create the
 	function responsible to search PATH to find the right cmd...
 
-- [ ] Manage (cmd1 | cmd2) and (cmd > outfile)
+- [x] Manage (cmd1 | cmd2).
 	- [x] Manage piping from one command to another (cmd1 | cmd2)
-	- [x] Manage outputting to at outfile.
-		- [ ] Does > create files if they do not exist ?
+	- [x] Refactor your code. It a mess that won't pass the norm....
+
+- [ ] Manage outputting to at outfile  (cmd > outfile).
+	- [ ] Does > create files if they do not exist ?
 	- [ ] Refactor your code. It a mess that won't pass the norm....
 
 - [ ] Manage the error cases better

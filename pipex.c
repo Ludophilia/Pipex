@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/30 17:47:55 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:58:56 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int	set_cmdenv_in(t_cmd *cmdenvs, int head, char **argv)
 		cmdenvs[head].in[0] = check_and_open(argv[1], R_OK, O_RDONLY);
 		cmdenvs[head].in[1] = -1;
 		if (cmdenvs[head].in[0] == -1)
+		{
+			close_fds(cmdenvs, head, 1);
 			return (-1);
+		}
 	}
 	else
 	{
@@ -36,12 +39,18 @@ int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 		cmdenvs[head].out[0] = -1;
 		cmdenvs[head].out[1] = check_and_open(argv[argc - 1], W_OK, O_WRONLY);
 		if (cmdenvs[head].out[1] == -1)
+		{
+			close_fds(cmdenvs, head, 1);
 			return (-1);
+		}
 	}
 	else
 	{
 		if (pipe(cmdenvs[head].out) == -1)
+		{
+			close_fds(cmdenvs, head, 1);
 			return (-1);
+		}
 	}
 	return (0);
 }

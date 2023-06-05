@@ -6,18 +6,18 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/03 20:33:26 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:52:58 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdmgr.h"
 
-char	**split_cmd(char *cmd, char **envp)
+char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 {
 	char	**cmd_args;
 	char	*orig_cmd;
 
-	cmd_args = ft_split(cmd, '\x20');
+	cmd_args = ft_split(cmdenvs[head].cmd, '\x20');
 	if (ft_strchr(cmd_args[0], '/') == NULL)
 	{
 		orig_cmd = ft_strdup(cmd_args[0]);
@@ -28,31 +28,17 @@ char	**split_cmd(char *cmd, char **envp)
 			ft_dprintf(2, "pipex: %s: command not found\n", orig_cmd);
 			free(orig_cmd);
 			free_strs(cmd_args, 1);
-			cmd_args = NULL;
+			close_fds(cmdenvs, head, 0);
 			exit(EXIT_FAILURE);
 		}
 	}
 	else if (check_perm(cmd_args[0], X_OK) == -1)
 	{
 		free_strs(cmd_args, 0);
-		cmd_args = NULL;
+		close_fds(cmdenvs, head, 0);
 		exit(EXIT_FAILURE);
 	}
 	return (cmd_args);
-}
-
-void	close_fds(t_cmd *cmdenvs, int head)
-{
-	head -= 1;
-	while (cmdenvs[++head].cmd)
-	{
-		close(cmdenvs[head].in[0]);
-		close(cmdenvs[head].out[1]);
-		if (cmdenvs[head].in[1] != -1)
-			close(cmdenvs[head].in[1]);
-		if (cmdenvs[head].out[0] != -1)
-			close(cmdenvs[head].out[0]);
-	}
 }
 
 void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
@@ -61,17 +47,17 @@ void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
 	int		infd;
 	int		outfd;
 
-	cmd_args = split_cmd(cmdenvs[head].cmd, envp);
+	cmd_args = split_cmd(cmdenvs, head, envp);
 	infd = cmdenvs[head].in[0];
 	outfd = cmdenvs[head].out[1];
 	if (dup2(infd, 0) == -1 || dup2(outfd, 1) == -1)
 	{
 		perror("pipex");
 		free_strs(cmd_args, 0);
-		close_fds(cmdenvs, head);
+		close_fds(cmdenvs, head, 0);
 		exit(EXIT_FAILURE);
 	}
-	close_fds(cmdenvs, head);
+	close_fds(cmdenvs, head, 0);
 	if (execve(cmd_args[0], cmd_args, envp) == -1)
 	{
 		perror("pipex");

@@ -6,11 +6,36 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/20 18:55:14 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/05 14:56:36 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "filemgr.h"
+
+static void	check_and_close_fds(t_cmd *cmdenvs, int head)
+{
+	if (cmdenvs[head].in[0] != -1)
+		close(cmdenvs[head].in[0]);
+	if (cmdenvs[head].out[1] != -1)
+		close(cmdenvs[head].out[1]);
+	if (cmdenvs[head].in[1] != -1)
+		close(cmdenvs[head].in[1]);
+	if (cmdenvs[head].out[0] != -1)
+		close(cmdenvs[head].out[0]);
+}
+
+void	close_fds(t_cmd *cmdenvs, int head, int reverse)
+{
+	if (reverse)
+	{
+		while (head-- >= 0)
+			check_and_close_fds(cmdenvs, head);
+		return ;
+	}
+	head -= 1;
+	while (cmdenvs[++head].cmd)
+		check_and_close_fds(cmdenvs, head);
+}
 
 int	check_and_open(char *path, int accessmode, int openmode)
 {
