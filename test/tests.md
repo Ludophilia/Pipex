@@ -276,7 +276,7 @@ standard input.
 		- [x] Leak protected?
 
 #### cdm1 (argv[2]) or cmd2 (argv[3]) does not exist (not found in $PATH):
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <cmd>: command not found`
 		- `pipex: <cmd>: command not found`
 		- Example:
@@ -288,14 +288,19 @@ standard input.
 			
 			- `< /dev/random test/cmd1 | test/cmd2 | fcmd > /dev/stdout`
 			- `./pipex /dev/random test/cmd1 test/cmd2 fcmd /dev/stdout`
-		- [ ] Leak protected?
+		- [x] Leak protected?
 
 #### $PATH is missing:
-	- [x] 
-	- [No error message expected]
-	- Example:
-		- `env -u PATH < /dev/random tee | head -c 80 > /dev/stdout`
-		- `env -u PATH ./pipex /dev/random tee "head -c 80" /dev/stdout`
+	- [x] Expected error message
+		- [No error message expected]
+		- Example:
+			- `env -u PATH < /dev/random tee | head -c 80 | nl > /dev/stdout`
+			- `env -u PATH ./pipex /dev/random tee "head -c 80" nl /dev/stdout`
+		- [x] Leak protected?
+			- [Test it in a subshell with no PATH]
+
+
+
 
 ### > file2 level
 	
@@ -307,7 +312,7 @@ standard input.
 			- `< /dev/random strings | head > test/outfile`
 			- `./pipex /dev/random strings head test/outfile`
 
-#### outfile (argv[4]) does not exist and the parent folder is not writable:
+#### outfile (argv[4]) does not exist and the parent folder is not searchable:
 	- [ ] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
