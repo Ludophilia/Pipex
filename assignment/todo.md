@@ -45,9 +45,9 @@
 	- [x] Manage piping from one command to another (cmd1 | cmd2)
 	- [x] Refactor your code. It a mess that won't pass the norm....
 
-- [ ] Manage outputting to at outfile  (cmd > outfile).
-	- [ ] Does > create files if they do not exist ?
-	- [ ] Refactor your code. It a mess that won't pass the norm....
+- [x] Manage outputting to at outfile  (cmd > outfile).
+	- [x] Does > create files if they do not exist ?
+	- [x] Refactor your code. It a mess that won't pass the norm....
 
 - [ ] Manage the error cases better
 	- [ ] Any way to make them write turn by turn instead that simulateneously ?

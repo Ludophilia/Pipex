@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:34:34 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/29 22:19:58 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/05 23:07:02 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 
 typedef struct s_cmd
 {
-	char 	*cmd;
+	char	*cmd;
 	int		in[2];
 	int		out[2];
 	pid_t	pid;

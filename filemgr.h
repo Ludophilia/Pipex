@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:37 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/05 22:36:24 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/05 23:10:55 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 # define FILEMGR_H
 # define DEFAULT_PATH "/bin:/usr/bin"
-# define NFILE_PERMS (S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH)
+# define NFILE_PERMS 00664
 
 # include "sanicheck.h"
 

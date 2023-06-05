@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/05 22:26:55 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/05 22:58:18 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 static void	check_and_close_fds(t_cmd *cmdenvs, int head)
 {
-	if (cmdenvs[head].in[0] != -1)
+	if (cmdenvs[head].in[0] > -1)
 		close(cmdenvs[head].in[0]);
-	if (cmdenvs[head].out[1] != -1)
+	if (cmdenvs[head].out[1] > -1)
 		close(cmdenvs[head].out[1]);
-	if (cmdenvs[head].in[1] != -1)
+	if (cmdenvs[head].in[1] > -1)
 		close(cmdenvs[head].in[1]);
-	if (cmdenvs[head].out[0] != -1)
+	if (cmdenvs[head].out[0] > -1)
 		close(cmdenvs[head].out[0]);
 }
 

@@ -299,43 +299,40 @@ standard input.
 		- [x] Leak protected?
 			- [Test it in a subshell with no PATH]
 
-
-
-
 ### > file2 level
 	
 #### outfile (argv[4]) does not exist:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- [No error message]
 		- `outfile` is CREATED and then written upon (IF THE FOLDER is writable)
 		- Example:
 			- `< /dev/random strings | head > test/outfile`
 			- `./pipex /dev/random strings head test/outfile`
-		- [ ] Leak protected?
+		- [x] Leak protected?
 
 #### outfile (argv[4]) does not exist and the parent folder is not searchable:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
 		- Example:
 			- `< /dev/random strings | head > ftest/outfile`
 			- `./pipex /dev/random strings head ftest/outfile`
-		- [ ] Leak protected?
+		- [x] Leak protected?
 
 #### outfile (argv[4]) exists but is not writable:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
 		- Example:
 			- `< /dev/random strings | head > test/foutfile`
 			- `./pipex /dev/random strings head test/foutfile`
-		- [ ] Leak protected?
+		- [x] Leak protected?
 
 #### outfile (argv[4]) is a directory:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <directory>: is a directory`
 		- `pipex: <directory>: is a directory`
 		- Example:
 			- `< /dev/random strings | head > .`
 			- `./pipex /dev/random strings head .`
-		- [ ] Leak protected?
+		- [x] Leak protected?
