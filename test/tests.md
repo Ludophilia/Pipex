@@ -282,8 +282,10 @@ standard input.
 		- Example:
 			- `< /dev/random tee | fcmd > /dev/stdout`
 			- `./pipex /dev/random tee fcmd /dev/stdout`
+
 			- `< /dev/random fcmd | fcmd > /dev/stdout`
 			- `./pipex /dev/random fcmd fcmd /dev/stdout`
+			
 			- `< /dev/random test/cmd1 | test/cmd2 | fcmd > /dev/stdout`
 			- `./pipex /dev/random test/cmd1 test/cmd2 fcmd /dev/stdout`
 		- [ ] Leak protected?

@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/05 14:52:58 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/05 15:27:32 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,18 @@ void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
 int	wait_cmds(t_cmd *cmdenvs, int head)
 {
 	int		ws;
+	int		fails;
 
 	ws = -1;
+	fails = 0;
 	while (--head >= 0)
 	{
 		if (waitpid(cmdenvs[head].pid, &ws, 0) == -1
 			|| (ws >> 8 & 0xFF) == EXIT_FAILURE)
-			return (-1);
+				fails++;
 	}
+	if (fails > 0)
+		return (-1);
 	return (0);
 }
 
