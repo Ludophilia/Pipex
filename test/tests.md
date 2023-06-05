@@ -307,10 +307,11 @@ standard input.
 #### outfile (argv[4]) does not exist:
 	- [ ] Expected error message
 		- [No error message]
-		- `outfile` is CREATED and then written upon (if the folder is writable)
+		- `outfile` is CREATED and then written upon (IF THE FOLDER is writable)
 		- Example:
 			- `< /dev/random strings | head > test/outfile`
 			- `./pipex /dev/random strings head test/outfile`
+		- [ ] Leak protected?
 
 #### outfile (argv[4]) does not exist and the parent folder is not searchable:
 	- [ ] Expected error message
@@ -319,6 +320,7 @@ standard input.
 		- Example:
 			- `< /dev/random strings | head > ftest/outfile`
 			- `./pipex /dev/random strings head ftest/outfile`
+		- [ ] Leak protected?
 
 #### outfile (argv[4]) exists but is not writable:
 	- [ ] Expected error message
@@ -327,6 +329,7 @@ standard input.
 		- Example:
 			- `< /dev/random strings | head > test/foutfile`
 			- `./pipex /dev/random strings head test/foutfile`
+		- [ ] Leak protected?
 
 #### outfile (argv[4]) is a directory:
 	- [ ] Expected error message
@@ -335,3 +338,4 @@ standard input.
 		- Example:
 			- `< /dev/random strings | head > .`
 			- `./pipex /dev/random strings head .`
+		- [ ] Leak protected?

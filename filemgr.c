@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/05 17:24:25 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/05 22:26:55 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,19 +37,16 @@ void	close_fds(t_cmd *cmdenvs, int head, int reverse)
 		check_and_close_fds(cmdenvs, head);
 }
 
-int	check_and_open(char *path, int accessmode, int openflags, mode_t openmode)
+int	check_and_open(char *path, int openflags, mode_t openmode)
 {
-	int bypass_check;
 	int	fd;
 
-	bypass_check = 0;
-	if (accessmode == W_OK && access(path, F_OK) == -1)
-		bypass_check = 1;
-	if (bypass_check == 0 && check_perm(path, accessmode) == -1)
-		return (-1);
 	fd = open(path, openflags, openmode);
 	if (fd == -1)
+	{
+		ft_dprintf(2, "pipex: %s: %s\n", path, strerror(errno));
 		return (-1);
+	}
 	return (fd);
 }
 
