@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 22:10:26 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:18:14 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_argc(int argc)
 		errno = EINVAL;
 		perror("pipex");
 		ft_dprintf(2, "usage: pipex {file1 | here_doc} <cmd1>"
-		" <cmd2> [cmdn...] <file2>\n");
+			" <cmd2> [cmdn...] <file2>\n");
 		return (-1);
 	}
 	return (0);

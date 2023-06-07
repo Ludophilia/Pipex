@@ -6,13 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:47:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 21:45:53 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:17:48 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SANICHECK_H
+#ifndef SANICHECK_BONUS_H
 
-# define SANICHECK_H
+# define SANICHECK_BONUS_H
 
 # include <errno.h>
 # include <stdio.h>

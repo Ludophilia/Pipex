@@ -6,13 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:34:34 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 21:45:39 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:16:21 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COMMONLIBS_H
+#ifndef COMMONLIBS_BONUS_H
 
-# define COMMONLIBS_H
+# define COMMONLIBS_BONUS_H
 
 # include <unistd.h>
 

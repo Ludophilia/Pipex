@@ -6,13 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:27 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 21:45:35 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/07 22:15:36 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMDMGR_H
+#ifndef CMDMGR_BONUS_H
 
-# define CMDMGR_H
+# define CMDMGR_BONUS_H
 
 # include <stdlib.h>
 # include <sys/wait.h>
