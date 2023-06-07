@@ -6,13 +6,13 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/05 23:11:40 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/07 18:46:41 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdmgr.h"
 
-char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
+static char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 {
 	char	**cmd_args;
 	char	*orig_cmd;
@@ -41,7 +41,7 @@ char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 	return (cmd_args);
 }
 
-void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
+static void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
 {
 	char	**cmd_args;
 	int		infd;
@@ -66,7 +66,7 @@ void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
 	}
 }
 
-int	wait_cmds(t_cmd *cmdenvs, int head)
+static int	wait_cmds(t_cmd *cmdenvs, int head)
 {
 	int		ws;
 	int		fails;

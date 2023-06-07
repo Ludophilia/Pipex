@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/05 17:07:46 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:57:14 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_perror(int statuscode, char *message)
 
 int	check_argc(int argc)
 {
-	if (argc < 5)
+	if (argc != 5)
 	{
 		errno = EINVAL;
 		perror("pipex");

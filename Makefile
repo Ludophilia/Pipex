@@ -6,7 +6,7 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2023/05/13 12:37:47 by jgermany         ###   ########.fr        #
+#    Updated: 2023/06/07 19:35:38 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ MAN_SRCS := pipex.c
 MAN_SRCS += sanicheck.c
 MAN_SRCS += filemgr.c
 MAN_SRCS += cmdmgr.c
+MAN_SRCS += cmdenvmgr.c
 
 MAN_OBJS := $(MAN_SRCS:.c=.o)
 

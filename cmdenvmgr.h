@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmdmgr.h                                           :+:      :+:    :+:   */
+/*   cmdenvmgr.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/13 11:39:27 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 20:48:31 by jgermany         ###   ########.fr       */
+/*   Created: 2023/06/07 18:17:46 by jgermany          #+#    #+#             */
+/*   Updated: 2023/06/07 20:36:52 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMDMGR_H
+#ifndef CMDENVMGR_H
 
-# define CMDMGR_H
-
-# include <stdlib.h>
-# include <sys/wait.h>
+# define CMDENVMGR_H
+# define NFILE_PERMS 00664
 
 # include "filemgr.h"
-# include "sanicheck.h"
 # include "commonlibs.h"
 
-int	fork_and_exec(t_cmd *cmdenvs, char **envp);
+int	build_cmdenvs(t_cmd *cmdenvs, int argc, char **argv);
 
 #endif

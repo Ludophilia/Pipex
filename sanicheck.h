@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:47:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/05 17:07:57 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/07 19:49:36 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # define SANICHECK_H
 
 # include <errno.h>
+# include <stdio.h>
+# include <string.h>
 
 # include "commonlibs.h"
 

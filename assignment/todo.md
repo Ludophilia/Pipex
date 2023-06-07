@@ -49,10 +49,10 @@
 	- [x] Does > create files if they do not exist ?
 	- [x] Refactor your code. It a mess that won't pass the norm....
 
-- [ ] Manage the error cases better
+- [x] Manage the error cases better
 	- [ ] Any way to make them write turn by turn instead that simulateneously ?
 	(use error codes and the parent??)
-	- [ ] Test EVERYONE OF THEM for leaks
+	- [x] Test EVERYONE OF THEM for leaks
 
 ## Bonus part
 

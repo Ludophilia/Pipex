@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2023/05/13 16:07:58 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/07 20:32:10 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 # define PIPEX_H
 
-# include "commonlibs.h"
-
 # include "sanicheck.h"
-# include "filemgr.h"
+# include "cmdenvmgr.h"
 # include "cmdmgr.h"
+# include "commonlibs.h"
 
 #endif
