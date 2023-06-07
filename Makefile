@@ -6,7 +6,7 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2023/06/07 19:35:38 by jgermany         ###   ########.fr        #
+#    Updated: 2023/06/07 21:44:44 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,15 +21,21 @@ MAN_SRCS += filemgr.c
 MAN_SRCS += cmdmgr.c
 MAN_SRCS += cmdenvmgr.c
 
+BON_SRCS := pipex_bonus.c
+BON_SRCS += sanicheck_bonus.c
+BON_SRCS += filemgr_bonus.c
+BON_SRCS += cmdmgr_bonus.c
+BON_SRCS += cmdenvmgr_bonus.c
+
 MAN_OBJS := $(MAN_SRCS:.c=.o)
+BON_OBJS := $(BON_SRCS:.c=.o)
 
 LFTPF := libftprintf.a
 
 all: $(NAME)
 
-bonus:
-	@echo "A friendly reminder that bonuses should be in a different file \
-	suffixed _bonus.[ch]"
+bonus: $(BON_OBJS) | $(LFTPF)
+	$(CC) $(CFLAGS) $(BON_OBJS) -o $(NAME) -lftprintf -L.
 
 $(LFTPF):
 	make -C ft_dprintf/
@@ -37,11 +43,12 @@ $(LFTPF):
 $(NAME): $(MAN_OBJS) | $(LFTPF)
 	$(CC) $(CFLAGS) $(MAN_OBJS) -o $@ -lftprintf -L.
 
-%.o: %.h
+%.o: %.h commonlibs.h
+%_bonus.o: %_bonus.h commonlibs_bonus.h
 
 clean:
 	make -C ft_dprintf/ clean
-	rm -f $(MAN_OBJS)
+	rm -f $(MAN_OBJS) $(BON_OBJS)
 
 fclean: clean
 	make -C ft_dprintf/ fclean
