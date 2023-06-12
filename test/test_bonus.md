@@ -26,8 +26,11 @@ that it should simulate the shell script command below:
 
 An here document is 
 
+## Test suite
 
-## Test suite 
+`<< BRUH wc`
+`> BRUH`
+should return 0 0 0
 
 ### Parallelism tests
 

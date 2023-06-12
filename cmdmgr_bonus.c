@@ -6,11 +6,11 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 21:45:33 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:42:24 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmdmgr.h"
+#include "cmdmgr_bonus.h"
 
 static char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 {

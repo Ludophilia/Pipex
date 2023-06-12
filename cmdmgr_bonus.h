@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:27 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 22:15:36 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:43:24 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@
 # include <stdlib.h>
 # include <sys/wait.h>
 
-# include "filemgr.h"
-# include "sanicheck.h"
-# include "commonlibs.h"
+# include "filemgr_bonus.h"
+# include "sanicheck_bonus.h"
+# include "commonlibs_bonus.h"
 
 int	fork_and_exec(t_cmd *cmdenvs, char **envp);
 

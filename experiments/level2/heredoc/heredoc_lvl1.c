@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/10 19:06:56 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/10 20:04:55 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:13:07 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	main(void)
 
 	temp_fd = open("tmp", O_CREAT | O_RDWR, 00664);
 	if (temp_fd == -1)
-		return (1);
+		return (1); // close fd?
 	uinput_res = get_user_input(temp_fd, &is_done);
 	if (uinput_res == -1)
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:37 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 22:16:29 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:43:45 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 
 # include <fcntl.h>
 
-# include "sanicheck.h"
-# include "commonlibs.h"
+# include "sanicheck_bonus.h"
+# include "commonlibs_bonus.h"
 
 void	close_fds(t_cmd *cmdenvs, int head, int reverse);
 int		check_and_open(char *path, int openflags, mode_t openmode);

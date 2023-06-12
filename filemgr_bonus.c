@@ -6,11 +6,11 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 21:45:41 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:42:29 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "filemgr.h"
+#include "filemgr_bonus.h"
 
 static void	check_and_close_fds(t_cmd *cmdenvs, int head)
 {

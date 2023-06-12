@@ -6,11 +6,11 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 22:18:14 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/12 22:42:37 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sanicheck.h"
+#include "sanicheck_bonus.h"
 
 int	ft_perror(int statuscode, char *message)
 {
