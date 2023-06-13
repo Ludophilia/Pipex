@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:27 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/12 22:43:24 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:10:15 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 # define CMDMGR_BONUS_H
 
-# include <stdlib.h>
 # include <sys/wait.h>
 
 # include "filemgr_bonus.h"

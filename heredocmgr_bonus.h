@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmdenvmgr_bonus.h                                  :+:      :+:    :+:   */
+/*   heredocmgr_bonus.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 18:17:46 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/13 17:12:43 by jgermany         ###   ########.fr       */
+/*   Created: 2023/06/13 17:02:07 by jgermany          #+#    #+#             */
+/*   Updated: 2023/06/13 19:39:16 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMDENVMGR_BONUS_H
+#ifndef HEREDOCMGR_BONUS_H
 
-# define CMDENVMGR_BONUS_H
+# define HEREDOCMGR_BONUS_H
 # define NFILE_PERMS 00664
 
-# include "heredocmgr_bonus.h"
 # include "filemgr_bonus.h"
 # include "commonlibs_bonus.h"
 
-int	build_cmdenvs(t_cmd *cmdenvs, int argc, char **argv);
+void	update_for_heredoc(int *limit, int *offset, int *flags);
+int		process_input_file(char **argv);
 
 #endif

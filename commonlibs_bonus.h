@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 15:34:34 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 22:16:21 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/13 17:09:41 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define COMMONLIBS_BONUS_H
 
 # include <unistd.h>
+# include <stdlib.h>
 
 # include "libft/libft.h"
 # include "ft_dprintf/ft_dprintf.h"

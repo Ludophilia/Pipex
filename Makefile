@@ -6,7 +6,7 @@
 #    By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2023/06/07 21:44:44 by jgermany         ###   ########.fr        #
+#    Updated: 2023/06/13 17:49:58 by jgermany         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,7 @@ BON_SRCS += sanicheck_bonus.c
 BON_SRCS += filemgr_bonus.c
 BON_SRCS += cmdmgr_bonus.c
 BON_SRCS += cmdenvmgr_bonus.c
+BON_SRCS += heredocmgr_bonus.c
 
 MAN_OBJS := $(MAN_SRCS:.c=.o)
 BON_OBJS := $(BON_SRCS:.c=.o)
