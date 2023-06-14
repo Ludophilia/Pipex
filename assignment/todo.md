@@ -60,7 +60,8 @@
 (cmd | cmd | cmd)
 - [x] How to manage an here doc (<< here_doc)
 - [x] How to manage a file append instead of a redirect (>> file)
-- [ ] Create for here docs, don't forget to track memory leaks...
+
+
 ### Initial tests (& beyond)
 
 - [ ] Find a way to automate tests for this project
@@ -69,3 +70,4 @@
 - [x] Mind missing ENV variables (like PATH. What happens if there is no PATH)
 - [o] Think about what kind of errors can happen (invalid nb of args, swapped
 args...)
+- [o] Create tests for here docs, don't forget to track memory leaks...

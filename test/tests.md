@@ -22,7 +22,7 @@ Where `file1` and `file2` are files and `cmd1` and `cmd2` are executables.
 
 - **yes**
 - **echo**
-- **pritnf**
+- **printf**
 
 ## What commands accept data from stdin?
 
