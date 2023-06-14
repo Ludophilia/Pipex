@@ -25,6 +25,18 @@ it should simulate the shell script command below:
 
 ## Test suite
 
+
+HOLDUP HOLDUP HOLDUP
+
+valgrind ./pipex HERE_DOC cat tee outfile
+> pipex: HERE_DOC: No such file or directory
+
+BUT THERE IS SOME ERRORS. CORRECT THIS ASAP.
+
+
+
+
+
 ## HERE DOC level
 
 ### A basic example
