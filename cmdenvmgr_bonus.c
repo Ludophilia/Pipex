@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/13 20:32:18 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:09:01 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 	int		flags;
 
 	limit = argc - 3;
-	flags = O_CREAT | O_TRUNC | O_WRONLY;
+	flags = O_TRUNC | O_CREAT | O_WRONLY;
 	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
 		update_for_heredoc(&limit, NULL, &flags);
 	if ((head + 1) == limit)

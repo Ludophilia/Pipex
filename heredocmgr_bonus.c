@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:02:02 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/13 20:24:35 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:11:03 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,7 @@ void	update_for_heredoc(int *limit, int *offset, int *flags)
 	if (offset != NULL)
 		*offset += 1;
 	if (flags != NULL)
-	{
-		*flags |= O_APPEND;
-		*flags &= O_CREAT | 0xFF;
-	}
+		*flags = O_APPEND | O_CREAT | O_WRONLY;
 }
 
 static int	get_user_input(char **argv, int *limiter_match, int infd)

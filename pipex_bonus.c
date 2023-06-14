@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/13 20:44:41 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:19:33 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,9 @@
 
 // 14/06 - What is left to be done?
 
-// - Find a way to remove tempfile for the normal path and error path 
-// - Create tests for testing here docs
-// - Track memory leaks.
-// - Improve check_argc so that the limits are ajusted for here docs and 
+// 	- Find a way to remove tempfile for the normal path and error path 
+// 	- Create tests for testing here docs, don't forget to track memory leaks.
+// 	- Improve check_argc so that the limits are ajusted for here docs and 
 //	argv is checked for null
 int	main(int argc, char **argv, char **envp)
 {	
