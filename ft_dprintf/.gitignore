@@ -54,6 +54,7 @@ dkms.conf
 # Extra
 .DS_Store
 .vscode
-pipex
 
 # Testers
+printfTester/
+ft_printf_tester/
