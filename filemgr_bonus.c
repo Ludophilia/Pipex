@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/12 22:42:29 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:39:32 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,6 @@ static void	check_and_close_fds(t_cmd *cmdenvs, int head)
 		close(cmdenvs[head].in[1]);
 	if (cmdenvs[head].out[0] > -1)
 		close(cmdenvs[head].out[0]);
-}
-
-static char	**get_paths(char **envp)
-{
-	while (*envp)
-	{
-		if (ft_strnstr(*envp, "PATH", 4))
-			return (ft_split(*envp + 5, ':'));
-		envp++;
-	}
-	return (ft_split(DEFAULT_PATH, ':'));
 }
 
 void	close_fds(t_cmd *cmdenvs, int head, int reverse)
@@ -59,6 +48,17 @@ int	check_and_open(char *path, int openflags, mode_t openmode)
 		return (-1);
 	}
 	return (fd);
+}
+
+static char	**get_paths(char **envp)
+{
+	while (*envp)
+	{
+		if (ft_strnstr(*envp, "PATH", 4))
+			return (ft_split(*envp + 5, ':'));
+		envp++;
+	}
+	return (ft_split(DEFAULT_PATH, ':'));
 }
 
 char	*search_executable(char *cmd, char **envp)

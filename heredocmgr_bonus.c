@@ -6,11 +6,17 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:02:02 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/14 15:11:03 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/14 15:54:41 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "heredocmgr_bonus.h"
+
+void	close_tmpfile(char *filename, char **argv)
+{
+	if (ft_strncmp("here_doc", argv[1], 9) == 0 && access(filename, F_OK) == 0)
+		unlink(filename);
+}
 
 void	update_for_heredoc(int *limit, int *offset, int *flags)
 {
@@ -65,7 +71,6 @@ static int	process_user_input(char **argv, char **filename)
 	{
 		if (get_user_input(argv, &limiter_match, infd) == -1)
 		{
-			unlink(*filename);
 			close(infd);
 			return (-1);
 		}

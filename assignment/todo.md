@@ -58,9 +58,9 @@
 
 - [x] Start very early to think about how to manage multiple pipes
 (cmd | cmd | cmd)
-- [ ] How to manage an here doc (<< here_doc)
-- [ ] How to manage a file append instead of a redirect (>> file)
-
+- [x] How to manage an here doc (<< here_doc)
+- [x] How to manage a file append instead of a redirect (>> file)
+- [ ] Create for here docs, don't forget to track memory leaks...
 ### Initial tests (& beyond)
 
 - [ ] Find a way to automate tests for this project
