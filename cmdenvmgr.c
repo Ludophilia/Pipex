@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/15 12:32:19 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/15 18:54:08 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 	{
 		cmdenvs[head].out[0] = -1;
 		cmdenvs[head].out[1] = check_and_open(argv[argc - 1],
-				O_CREAT | O_WRONLY, NFILE_PERMS);
+				O_TRUNC | O_CREAT | O_WRONLY, NFILE_PERMS);
 		if (cmdenvs[head].out[1] == -1)
 		{
 			close_fds(cmdenvs, head, 1);
