@@ -197,51 +197,52 @@ standard input.
 ### < file1 level
 
 #### infile (argv[1]) does not exist:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <filename>: No such file or directory`
 		- `pipex: <filename>: No such file or directory`
 		- Examples:
 			- `< /dev/gf tee | fold -w 1 > /dev/stdout`
 			- `./pipex /dev/gf tee "fold -w 1" /dev/stdout`
-			- `< /dev/gf tee | fold -w 1 | nl > /dev/stdout`
-			- `./pipex /dev/gf tee cat "fold -w 1" nl /dev/stdout`
-		- [ ] Leak protected?
+			- [x] `valgrind ./pipex /dev/gf tee "fold -w 1" /dev/stdout`
+		- [x] Leak protected?
 
 #### infile (argv[1]) exists but its folder is not searchable (no   permission)
-	- [ ] Expected error message
+	- [x] Change file permissions on test/
+	- [x] Expected error message
 		- `bash: <folder>/<filename>: Permission denied`
 		- `pipex: <folder>/<filename>: Permission denied`
 		- Example
-			- `< ftest/infile tee | cat > /dev/stdout`
-			- `./pipex ftest/infile tee cat /dev/stdout`
-		- [ ] Leak protected?
+			- `< test/infile tee | cat > /dev/stdout`
+			- `./pipex test/infile tee cat /dev/stdout`
+			- [x] `valgrind ./pipex test/infile tee cat /dev/stdout`
+		- [x] Leak protected?
 
 #### infile (argv[1]) is not readable (no r permission):
-	- [ ] Expected error message
+	- [x] Change file permissions on test/infile
+	- [x] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
 		- Examples:
-			- `< test/finfile tee | cat > /dev/stdout`
-			- `./pipex test/finfile tee cat /dev/stdout`
-			- `< test/finfile tee | cat | fold -w 1 | nl > /dev/stdout`
-			- `./pipex test/finfile tee cat "fold -w 1" nl /dev/stdout`
-		- [ ] Leak protected?
+			- `< test/infile tee | cat > /dev/stdout`
+			- `./pipex test/infile tee cat /dev/stdout`
+			- `valgrind ./pipex test/infile tee cat /dev/stdout`
+		- [x] Leak protected?
 
 #### infile (argv[1]) is a directory:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `<command>: read error: Is a directory` (depend on the command)
 		- (difference in the command path because of execve)
 		- Examples:
-			- `< . tee | cat > /dev/stdout`
-			- `./pipex . tee cat /dev/stdout`
-			- `< . tee | yes | head -3 > /dev/stdout`
-			- `./pipex . tee yes "head -3" /dev/stdout`
-		- [ ] Leak protected?
+			- `< . tee | head -3 > /dev/stdout`
+			- `./pipex . tee "head -3" /dev/stdout`
+			- [x] `./pipex . tee "head -3" /dev/stdout`
+		- [x] Leak protected?
 
 ### cmd1 | cmd2 level
 
 #### cdm1 (argv[2]) or cmd2 (argv[3]) is NOT executable:
-	- [ ] Expected error message
+	- [x] Create a command
+	- [x] Expected error message
 		- `bash: <cmd>: No such file or directory` or `bash: <cmd>: Permission
 		denied`
 		- `pipex: <cmd>: No such file or directory` or `pipex: <cmd>: Permission
@@ -249,68 +250,79 @@ standard input.
 		- Examples:
 			- `< /dev/random test/fcmd | nl > /dev/stdout`
 			- `./pipex /dev/random test/fcmd nl /dev/stdout`
+			- [x] `valgrind ./pipex /dev/random test/fcmd nl /dev/stdout`
 			- `< /dev/random tee | test/fcmd > /dev/stdout`
 			- `./pipex /dev/random tee test/fcmd /dev/stdout`
-		- [ ] Leak protected?
+			- [x] `valgrind ./pipex /dev/random tee test/fcmd /dev/stdout`
+		- [x] Leak protected?
 
 #### cdm1 (argv[2]) or cmd2 (argv[3]) does not exist (not found in $PATH):
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <cmd>: command not found`
 		- `pipex: <cmd>: command not found`
 		- Example:
 			- `< /dev/random tee | fcmd > /dev/stdout`
 			- `./pipex /dev/random tee fcmd /dev/stdout`
+			- [x] `valgrind ./pipex /dev/random tee fcmd /dev/stdout`
 
 			- `< /dev/random fcmd | fcmd > /dev/stdout`
-			- `./pipex /dev/random fcmd fcmd /dev/stdout`
-			
+			- `valgrind ./pipex /dev/random fcmd fcmd /dev/stdout`
+			- [x] `valgrind ./pipex /dev/random tee fcmd /dev/stdout`
+
 			- `< /dev/random test/cmd1 | test/cmd2 | fcmd > /dev/stdout`
-			- `./pipex /dev/random test/cmd1 test/cmd2 fcmd /dev/stdout`
-		- [ ] Leak protected?
+			- [ ] `valgrind ./pipex /dev/random test/cmd1 test/cmd2 fcmd /dev/stdout`
+		- [x] Leak protected?
 
 #### $PATH is missing:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- [No error message expected]
 		- Example:
-			- `env -u PATH < /dev/random tee | head -c 80 | nl > /dev/stdout`
-			- `env -u PATH ./pipex /dev/random tee "head -c 80" nl /dev/stdout`
-		- [ ] Leak protected?
+			- `env -u PATH < /dev/random head -c 80 | nl > /dev/stdout`
+			- `env -u PATH ./pipex /dev/random "head -c 80" nl /dev/stdout`
+			- `/usr/bin/valgrind ./pipex /dev/random "head -c 80" nl /dev/stdout`
+		- [x] Leak protected?
 			- [Test it in a subshell with no PATH]
 
 ### > file2 level
 	
 #### outfile (argv[4]) does not exist:
-	- [ ] Expected error message
-		- [No error message]
+	- [x] Expected error message
+		- [x] [No error message]
 		- `outfile` is CREATED and then written upon (IF THE FOLDER is writable)
 		- Example:
 			- `< /dev/random strings | head > test/outfile`
 			- `./pipex /dev/random strings head test/outfile`
-		- [ ] Leak protected?
+			- `valgrind ./pipex /dev/random strings head test/outfile`
+		- [x] Leak protected?
 
 #### outfile (argv[4]) does not exist and the parent folder is not searchable:
-	- [ ] Expected error message
+	- [x] Change perms on test/
+	- [x] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
 		- Example:
-			- `< /dev/random strings | head > ftest/outfile`
-			- `./pipex /dev/random strings head ftest/outfile`
-		- [ ] Leak protected?
+			- `< /dev/random strings | head > test/outfile2`
+			- `./pipex /dev/random strings head test/outfile2`
+			- `valgrind ./pipex /dev/random strings head test/outfile2`
+		- [x] Leak protected?
 
 #### outfile (argv[4]) exists but is not writable:
-	- [ ] Expected error message
+	- [x] Create test/foutfile and remove w perm
+	- [x] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
 		- Example:
 			- `< /dev/random strings | head > test/foutfile`
 			- `./pipex /dev/random strings head test/foutfile`
-		- [ ] Leak protected?
+			- [x] `valgrind ./pipex /dev/random strings head test/foutfile`
+		- [x] Leak protected?
 
 #### outfile (argv[4]) is a directory:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <directory>: is a directory`
 		- `pipex: <directory>: is a directory`
 		- Example:
 			- `< /dev/random strings | head > .`
 			- `./pipex /dev/random strings head .`
-		- [ ] Leak protected?
+			- [x] `valgrind ./pipex /dev/random strings head .`
+		- [x] Leak protected?
