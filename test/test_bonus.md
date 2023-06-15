@@ -25,19 +25,61 @@ it should simulate the shell script command below:
 
 ## Test suite
 
+## About multiple pipes
 
-HOLDUP HOLDUP HOLDUP
+### Parallelism tests
 
-valgrind ./pipex HERE_DOC cat tee outfile
-> pipex: HERE_DOC: No such file or directory
+- [ ] `time (< /dev/stdin sleep 5 | sleep 5 | sleep 5 > /dev/stdout)`
+	`time ./pipex /dev/stdin "sleep 5" "sleep 5" "sleep 5" /dev/stdout`
+	- execute simultaneously all `sleep` processes for about 5 seconds,
+	see time (< /dev/stdin sleep 5 | sleep 5 | sleep 5 > /dev/stdout).
+	- no process is blocked as `sleep` does not read `stdin` nor 
+	writes `stdout`.
+	- `$SHELL` displays the prompt
 
-BUT THERE IS SOME ERRORS. CORRECT THIS ASAP.
+### Independent commands tests
 
+- [ ] `< /dev/random yes YAAAAAAAS | yes YESYESYES | yes 42 > /dev/stdout`
+	`./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" "yes 42" /dev/stdout`
+	`valgrind ./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" "yes 42" /dev/stdout`
+	- writes indefinitely `42` on `/dev/stdout`
+	- `$SHELL` does not display the prompt
+	- [ ] Leak protected?
 
+### Dependent nonblocking commands tests
 
+- [ ] `< test/infile strings | nl | tee > /dev/stdout`
+	`./pipex test/infile strings nl tee /dev/stdout`
+	`valgrind ./pipex test/infile strings nl tee /dev/stdout`
+	- [ ] prints the 2 lines that have 4 or more charaters
+	- [ ] `$SHELL` displays the prompt (`strings` has NOTHING ELSE to READ)
+	- [ ] Leak protected?
 
+- [ ] `< /dev/urandom strings | nl | tee > /dev/stdout`
+	`./pipex /dev/urandom strings nl tee /dev/stdout`
+	`valgrind ./pipex /dev/urandom strings nl tee /dev/stdout`
+	- prints and count INDEFINITELY printable character sequences from 
+	/dev/random that are at least 4 bytes long
+	- `$SHELL` does not give back the prompt (`strings` has always something
+	to read)
+	- [ ] Leak protected?
 
-## HERE DOC level
+### Mixed dependence commands tests
+
+- [ ] `< /dev/random yes YAAAAAAAS | yes YESYESYES | head > /dev/stdout`
+	`./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" head /dev/stdout`
+	`valgrind ./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" head /dev/stdout`
+	- [ ] displays 10 `YESYESYES` on stdout
+	- [ ] `$SHELL` displays the prompt
+	- [ ] Leak protected?
+
+- [ ] `< /dev/random yes YAAAAAAAS | yes YESYESYES | strings | tee | head > /dev/stdout`
+	`./pipex /dev/random "yes YAAAAAAAS" "yes YESYESYES" strings tee head /dev/stdout`
+	- [ ] displays 10 `YESYESYES` on stdout
+	- [ ] `$SHELL` displays the prompt
+	- [ ] Leak protected?
+
+## About HERE DOCS
 
 ### A basic example
 
@@ -90,6 +132,8 @@ BUT THERE IS SOME ERRORS. CORRECT THIS ASAP.
 	- [x] User input: `WOWOW\ntest/outfile`
 	- [x] Leak protected?
 	- [x] No tmp file left after use?
+
+- `./pipex /dev/random strings head /dev/random /dev/stdout`
 
 ### Permission errors with Args swapped with here_docs (2)
 

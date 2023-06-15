@@ -6,7 +6,7 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/14 15:39:32 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:26:25 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ void	close_fds(t_cmd *cmdenvs, int head, int reverse)
 {
 	if (reverse)
 	{
-		while (head-- >= 0)
+		while (head >= 0)
+		{
 			check_and_close_fds(cmdenvs, head);
+			head--;
+		}
 		return ;
 	}
 	head -= 1;
