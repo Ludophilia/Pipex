@@ -6,11 +6,29 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/14 15:09:01 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/15 12:31:58 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdenvmgr_bonus.h"
+
+static void	init_cmdenvs(t_cmd *cmdenvs, int size)
+{
+	int	head;
+
+	if (cmdenvs == NULL)
+		return ;
+	head = -1;
+	while (++head < size)
+	{
+		cmdenvs[head].cmd = NULL;
+		cmdenvs[head].in[0] = -1;
+		cmdenvs[head].in[1] = -1;
+		cmdenvs[head].out[0] = -1;
+		cmdenvs[head].out[1] = -1;
+		cmdenvs[head].pid = -1;
+	}
+}
 
 static int	set_cmdenv_in(t_cmd *cmdenvs, int head, char **argv)
 {
@@ -70,6 +88,7 @@ int	build_cmdenvs(t_cmd *cmdenvs, int argc, char **argv)
 	offset = 2;
 	if (ft_strncmp(argv[1], "here_doc", 9) == 0)
 		update_for_heredoc(&limit, &offset, NULL);
+	init_cmdenvs(cmdenvs, limit + 1);
 	while (++head < limit)
 	{
 		cmdenvs[head].cmd = argv[head + offset];
