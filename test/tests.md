@@ -256,6 +256,15 @@ standard input.
 			- [x] `valgrind ./pipex /dev/random tee test/fcmd /dev/stdout`
 		- [x] Leak protected?
 
+#### Empty cmds
+
+- [x] Expected error message
+	- pipex: `<cmd>: command not found`
+	- Examples:
+		- `./pipex /dev/random "" "" /dev/stdout`
+		- `valgrind ./pipex /dev/random "" "" /dev/stdout`
+	- [x] Leak protected?
+
 #### cdm1 (argv[2]) or cmd2 (argv[3]) does not exist (not found in $PATH):
 	- [x] Expected error message
 		- `bash: <cmd>: command not found`

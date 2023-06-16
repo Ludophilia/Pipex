@@ -240,6 +240,15 @@ it should simulate the shell script command below:
 	- [x] Leak protected?
 		- [Test it in a subshell with no PATH]
 
+#### Empty cmds
+
+- [x] Expected error message
+	- pipex: `<cmd>: command not found`
+	- Examples:
+		- `./pipex /dev/random "" "" /dev/stdout`
+		- `valgrind ./pipex /dev/random "" "" /dev/stdout`
+	- [x] Leak protected?
+
 ### > file2 level
 	
 #### outfile (argv[4]) does not exist:
