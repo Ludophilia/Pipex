@@ -6,32 +6,45 @@
 /*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/12 22:42:24 by jgermany         ###   ########.fr       */
+/*   Updated: 2023/06/16 13:23:52 by jgermany         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdmgr_bonus.h"
 
+static void	resolve_cmdpath(char **cmd_args, t_cmd *cmdenvs, int head,
+char **envp)
+{
+	char	*orig_cmd;
+
+	orig_cmd = ft_strdup(cmd_args[0]);
+	cmd_args[0] = search_executable(cmd_args[0], envp);
+	if (cmd_args[0] == NULL)
+	{
+		errno = ENOENT;
+		ft_dprintf(2, "pipex: %s: command not found\n", orig_cmd);
+		free(orig_cmd);
+		free_strs(cmd_args, 1);
+		close_fds(cmdenvs, head, 0);
+		exit(EXIT_FAILURE);
+	}
+}
+
 static char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 {
 	char	**cmd_args;
-	char	*orig_cmd;
 
 	cmd_args = ft_split(cmdenvs[head].cmd, '\x20');
-	if (ft_strchr(cmd_args[0], '/') == NULL)
+	if (cmd_args[0] == NULL)
 	{
-		orig_cmd = ft_strdup(cmd_args[0]);
-		cmd_args[0] = search_executable(cmd_args[0], envp);
-		if (cmd_args[0] == NULL)
-		{
-			errno = ENOENT;
-			ft_dprintf(2, "pipex: %s: command not found\n", orig_cmd);
-			free(orig_cmd);
-			free_strs(cmd_args, 1);
-			close_fds(cmdenvs, head, 0);
-			exit(EXIT_FAILURE);
-		}
+		errno = EINVAL;
+		ft_dprintf(2, "pipex: %s: command not found\n", NULL);
+		free_strs(cmd_args, 0);
+		close_fds(cmdenvs, head, 0);
+		exit(EXIT_FAILURE);
 	}
+	else if (ft_strchr(cmd_args[0], '/') == NULL)
+		resolve_cmdpath(cmd_args, cmdenvs, head, envp);
 	else if (check_perm(cmd_args[0], X_OK) == -1)
 	{
 		free_strs(cmd_args, 0);
