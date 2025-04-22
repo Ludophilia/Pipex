@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 20:32:10 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/04/22 19:20:06 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,44 @@
 
 # define PIPEX_H
 
-# include "sanicheck.h"
-# include "cmdenvmgr.h"
-# include "cmdmgr.h"
-# include "commonlibs.h"
+# include <errno.h>
+# include <string.h>
+// # include <stdio.h>
+// # include <unistd.h>
+
+# include <stdlib.h>
+# include <sys/wait.h>
+
+# include <fcntl.h>
+
+# include "../libs/libft/includes/libft.h"
+
+# define NFILE_PERMS 00664
+# define DEFAULT_PATH "/bin:/usr/bin"
+
+typedef struct s_cmd
+{
+	char	*cmd;
+	int		in[2];
+	int		out[2];
+	pid_t	pid;
+}	t_cmd;
+
+// 22/04 - Sanicheck
+int		ft_perror(int statuscode, char *message);
+int		check_argc(int argc);
+int		check_perm(char *filename, int mode);
+void	free_strs(char **strs, int offset);
+
+// Cmdenvmgr
+int		build_cmdenvs(t_cmd *cmdenvs, int argc, char **argv);
+
+// cmdmgr
+int		fork_and_exec(t_cmd *cmdenvs, char **envp);
+
+// filemgr
+void	close_fds(t_cmd *cmdenvs, int head, int reverse);
+int		check_and_open(char *path, int openflags, mode_t openmode);
+char	*search_executable(char *cmd, char **envp);
 
 #endif
