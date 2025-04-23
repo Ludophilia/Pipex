@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmdmgr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/16 13:22:25 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:15:27 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmdmgr.h"
+#include "pipex.h"
 
 static void	resolve_cmdpath(char **cmd_args, t_cmd *cmdenvs, int head,
 char **envp)
@@ -22,7 +22,7 @@ char **envp)
 	if (cmd_args[0] == NULL)
 	{
 		errno = ENOENT;
-		ft_dprintf(2, "pipex: %s: command not found\n", orig_cmd);
+		ft_eprintf("pipex: %s: command not found\n", orig_cmd);
 		free(orig_cmd);
 		free_strs(cmd_args, 1);
 		close_fds(cmdenvs, head, 0);
@@ -38,7 +38,7 @@ static char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 	if (cmd_args[0] == NULL)
 	{
 		errno = EINVAL;
-		ft_dprintf(2, "pipex: %s: command not found\n", NULL);
+		ft_eprintf("pipex: %s: command not found\n", NULL);
 		free_strs(cmd_args, 0);
 		close_fds(cmdenvs, head, 0);
 		exit(EXIT_FAILURE);
@@ -115,8 +115,8 @@ int	fork_and_exec(t_cmd *cmdenvs, char **envp)
 				close(cmdenvs[head].out[1]);
 				cmdenvs[head].pid = lastpid;
 			}
-			else if (lastpid == -1)
-				return (ft_perror(-1, NULL));
+			else if (lastpid == -1) // && ft_eprintf("%s\n", strerror(errno)) // which errno?
+				return (-1);
 			else if (lastpid == 0)
 				exec_cmd(cmdenvs, head, envp);
 		}

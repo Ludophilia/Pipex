@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmdmgr_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/16 13:23:52 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:15:27 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char **envp)
 	if (cmd_args[0] == NULL)
 	{
 		errno = ENOENT;
-		ft_dprintf(2, "pipex: %s: command not found\n", orig_cmd);
+		ft_eprintf("pipex: %s: command not found\n", orig_cmd);
 		free(orig_cmd);
 		free_strs(cmd_args, 1);
 		close_fds(cmdenvs, head, 0);
@@ -38,7 +38,7 @@ static char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 	if (cmd_args[0] == NULL)
 	{
 		errno = EINVAL;
-		ft_dprintf(2, "pipex: %s: command not found\n", NULL);
+		ft_eprintf("pipex: %s: command not found\n", NULL);
 		free_strs(cmd_args, 0);
 		close_fds(cmdenvs, head, 0);
 		exit(EXIT_FAILURE);

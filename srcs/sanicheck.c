@@ -3,43 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   sanicheck.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:39:30 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/07 20:57:14 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:18:08 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "sanicheck.h"
-
-int	ft_perror(int statuscode, char *message)
-{
-	perror(message);
-	return (statuscode);
-}
-
-int	check_argc(int argc)
-{
-	if (argc != 5)
-	{
-		errno = EINVAL;
-		perror("pipex");
-		ft_dprintf(2, "usage: pipex <file1> <cmd1> <cmd2> <file2>\n");
-		return (-1);
-	}
-	return (0);
-}
+#include "pipex.h"
 
 int	check_perm(char *filename, int mode)
 {
 	if (access(filename, mode) == -1)
 	{
-		ft_dprintf(2, "pipex: %s: %s\n", filename, strerror(errno));
+		ft_eprintf("pipex: %s: %s\n", filename, strerror(errno));
 		return (-1);
 	}
 	return (0);
 }
 
+// 23/04 - Too complicated, not ereganto 
 void	free_strs(char **strs, int offset)
 {
 	char	**head;

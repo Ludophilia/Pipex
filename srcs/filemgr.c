@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   filemgr.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/15 12:27:13 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/04/23 21:15:27 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "filemgr.h"
+#include "pipex.h"
 
 static void	check_and_close_fds(t_cmd *cmdenvs, int head)
 {
@@ -47,7 +47,7 @@ int	check_and_open(char *path, int openflags, mode_t openmode)
 	fd = open(path, openflags, openmode);
 	if (fd == -1)
 	{
-		ft_dprintf(2, "pipex: %s: %s\n", path, strerror(errno));
+		ft_eprintf("pipex: %s: %s\n", path, strerror(errno));
 		return (-1);
 	}
 	return (fd);

@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/22 19:20:06 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/23 20:32:23 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # include <errno.h>
 # include <string.h>
-// # include <stdio.h>
+# include <stdio.h>
 // # include <unistd.h>
 
 # include <stdlib.h>
@@ -29,6 +29,8 @@
 # define NFILE_PERMS 00664
 # define DEFAULT_PATH "/bin:/usr/bin"
 
+# define ERR_USAGE "pipex: %s\nusage: pipex <file1> <cmd1> <cmd2> <file2>\n"
+
 typedef struct s_cmd
 {
 	char	*cmd;
@@ -39,7 +41,7 @@ typedef struct s_cmd
 
 // 22/04 - Sanicheck
 int		ft_perror(int statuscode, char *message);
-int		check_argc(int argc);
+// int		check_argc(int argc);
 int		check_perm(char *filename, int mode);
 void	free_strs(char **strs, int offset);
 

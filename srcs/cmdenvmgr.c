@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cmdenvmgr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/15 18:54:08 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/04/23 22:01:20 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cmdenvmgr.h"
+#include "pipex.h"
 
 static void	init_cmdenvs(t_cmd *cmdenvs, int size)
 {
@@ -74,6 +74,7 @@ static int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 	return (0);
 }
 
+// 23/04 - Here we are
 int	build_cmdenvs(t_cmd *cmdenvs, int argc, char **argv)
 {
 	int		head;

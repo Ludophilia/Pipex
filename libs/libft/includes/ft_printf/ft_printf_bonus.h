@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:58:50 by jegerman          #+#    #+#             */
-/*   Updated: 2025/02/11 17:09:16 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/23 18:04:11 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,5 +104,6 @@ int		is_valid_specif(const char *spec, t_meta *m);
 
 int		ft_printf(const char *format, ...);
 int		ft_dprintf(int fd, const char *format, ...);
+int		ft_eprintf(const char *format, ...);
 
 #endif
