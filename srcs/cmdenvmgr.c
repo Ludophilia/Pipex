@@ -6,29 +6,11 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/23 22:01:20 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/24 15:26:18 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-static void	init_cmdenvs(t_cmd *cmdenvs, int size)
-{
-	int	head;
-
-	if (cmdenvs == NULL)
-		return ;
-	head = -1;
-	while (++head < size)
-	{
-		cmdenvs[head].cmd = NULL;
-		cmdenvs[head].in[0] = -1;
-		cmdenvs[head].in[1] = -1;
-		cmdenvs[head].out[0] = -1;
-		cmdenvs[head].out[1] = -1;
-		cmdenvs[head].pid = -1;
-	}
-}
 
 static int	set_cmdenv_in(t_cmd *cmdenvs, int head, char **argv)
 {
@@ -74,7 +56,33 @@ static int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 	return (0);
 }
 
-// 23/04 - Here we are
+static void	init_cmdenvs(t_cmd *cmdenvs, int size)
+{
+	int	head;
+
+	// if (cmdenvs == NULL)
+	// 	return ;
+	head = -1;
+	while (++head < size)
+	{
+		cmdenvs[head].cmd = NULL; // Why, it will be erased just after
+		cmdenvs[head].in[0] = -1;
+		cmdenvs[head].in[1] = -1;
+		cmdenvs[head].out[0] = -1;
+		cmdenvs[head].out[1] = -1;
+		cmdenvs[head].pid = -1;
+	}
+}
+
+// 23/04 - What does this module do?
+//		- Faily simple. It initialize the array of cmdenvs, structs supposed to 
+// 		represent the prg and its environment.
+// 			- First, with default values
+//		- Then, the redirections and the pipes are opened right away.
+
+// That also means that the name build_cmdenvs is too vague.
+//	- There is initialization for sure
+//	- 
 int	build_cmdenvs(t_cmd *cmdenvs, int argc, char **argv)
 {
 	int		head;
