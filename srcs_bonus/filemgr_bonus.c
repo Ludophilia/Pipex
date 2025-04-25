@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/23 21:15:27 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:46:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	close_fds(t_cmd *cmdenvs, int head, int reverse)
 		check_and_close_fds(cmdenvs, head);
 }
 
-int	check_and_open(char *path, int openflags, mode_t openmode)
+int	fmgr_open(char *path, int openflags, mode_t openmode)
 {
 	int	fd;
 

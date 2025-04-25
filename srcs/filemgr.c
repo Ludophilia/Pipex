@@ -6,52 +6,43 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/23 21:15:27 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/25 19:21:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static void	check_and_close_fds(t_cmd *cmdenvs, int head)
-{
-	if (cmdenvs[head].in[0] > -1)
-		close(cmdenvs[head].in[0]);
-	if (cmdenvs[head].out[1] > -1)
-		close(cmdenvs[head].out[1]);
-	if (cmdenvs[head].in[1] > -1)
-		close(cmdenvs[head].in[1]);
-	if (cmdenvs[head].out[0] > -1)
-		close(cmdenvs[head].out[0]);
-}
-
-void	close_fds(t_cmd *cmdenvs, int head, int reverse)
-{
-	if (reverse)
-	{
-		while (head >= 0)
-		{
-			check_and_close_fds(cmdenvs, head);
-			head--;
-		}
-		return ;
-	}
-	head -= 1;
-	while (cmdenvs[++head].cmd)
-		check_and_close_fds(cmdenvs, head);
-}
-
-int	check_and_open(char *path, int openflags, mode_t openmode)
+int	fmgr_open(char *path, int openflags, mode_t openmode)
 {
 	int	fd;
 
 	fd = open(path, openflags, openmode);
-	if (fd == -1)
-	{
-		ft_eprintf("pipex: %s: %s\n", path, strerror(errno));
+	if (fd == -1 && ft_eprintf(ERR_PATH, path, strerror(errno)))
 		return (-1);
-	}
 	return (fd);
 }
+
+int	fmgr_close(int from, int reverse, t_prg *prgs)
+{
+	t_prg	prg;
+	
+	while (reverse && from >= 0 || !reverse && prgs[from].cmd)
+	{
+		prg = prgs[from];
+		if (prg.in_fds[0] > -1 && close(prg.in_fds[0]) == -1
+			|| prg.out_fds[1] > -1 && close(prg.out_fds[1]) == -1
+			|| prg.in_fds[1] > -1 && close(prg.in_fds[1]) == -1
+			|| prg.out_fds[0] > -1 && close(prg.out_fds[0]) == -1)
+			return (-1);
+		if (reverse)
+			from--;
+		else
+			++from;
+	}
+	return (0);
+}
+
+// 25/04 - Why are these things below part of filemgr?
 
 static char	**get_paths(char **envp)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmdenvmgr_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/15 12:31:58 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:46:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 	if ((head + 1) == limit)
 	{
 		cmdenvs[head].out[0] = -1;
-		cmdenvs[head].out[1] = check_and_open(argv[argc - 1], flags,
+		cmdenvs[head].out[1] = fmgr_open(argv[argc - 1], flags,
 				NFILE_PERMS);
 		if (cmdenvs[head].out[1] == -1)
 		{

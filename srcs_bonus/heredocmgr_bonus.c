@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredocmgr_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:02:02 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/14 15:54:41 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/04/25 15:46:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	process_user_input(char **argv, char **filename)
 		return (-1);
 	limiter_match = 0;
 	*filename = "tmp";
-	infd = check_and_open(*filename, O_CREAT | O_RDWR, NFILE_PERMS);
+	infd = fmgr_open(*filename, O_CREAT | O_RDWR, NFILE_PERMS);
 	if (infd == -1)
 		return (-1);
 	while (limiter_match != 1)
@@ -88,7 +88,7 @@ int	process_input_file(char **argv)
 	if (ft_strncmp("here_doc", argv[1], 9) == 0)
 		if (process_user_input(argv, &filename) == -1)
 			return (-1);
-	infd = check_and_open(filename, O_RDONLY, 0);
+	infd = fmgr_open(filename, O_RDONLY, 0);
 	if (infd == -1)
 		return (-1);
 	return (infd);
