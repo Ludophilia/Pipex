@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/25 19:21:49 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/26 17:36:26 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,12 @@ int	fmgr_close(int from, int reverse, t_prg *prgs)
 {
 	t_prg	prg;
 	
-	while (reverse && from >= 0 || !reverse && prgs[from].cmd)
+	while ((reverse && from >= 0) || (!reverse && prgs[from].cmd))
 	{
 		prg = prgs[from];
-		if (prg.in_fds[0] > -1 && close(prg.in_fds[0]) == -1
-			|| prg.out_fds[1] > -1 && close(prg.out_fds[1]) == -1
-			|| prg.in_fds[1] > -1 && close(prg.in_fds[1]) == -1
-			|| prg.out_fds[0] > -1 && close(prg.out_fds[0]) == -1)
+		if ((from == 0 && prg.in_fds[0] > -1 && close(prg.in_fds[0]) == -1)
+			|| (prg.out_fds[0] > -1 && close(prg.out_fds[0]) == -1)
+			|| (prg.out_fds[1] > -1 && close(prg.out_fds[1]) == -1))
 			return (-1);
 		if (reverse)
 			from--;
@@ -43,7 +42,6 @@ int	fmgr_close(int from, int reverse, t_prg *prgs)
 }
 
 // 25/04 - Why are these things below part of filemgr?
-
 static char	**get_paths(char **envp)
 {
 	while (*envp)

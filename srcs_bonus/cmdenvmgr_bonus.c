@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/25 15:46:49 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:15:47 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 	{
 		cmdenvs[head].out[0] = -1;
 		cmdenvs[head].out[1] = fmgr_open(argv[argc - 1], flags,
-				NFILE_PERMS);
+				NWFL_PRMS);
 		if (cmdenvs[head].out[1] == -1)
 		{
 			close_fds(cmdenvs, head, 1);

@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/23 21:15:27 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/26 14:22:19 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char **envp)
 		ft_eprintf("pipex: %s: command not found\n", orig_cmd);
 		free(orig_cmd);
 		free_strs(cmd_args, 1);
-		close_fds(cmdenvs, head, 0);
+		// close_fds(cmdenvs, head, 0);
+		fmgr_close(head, DIR_FWD, cmdenvs);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -40,7 +41,8 @@ static char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 		errno = EINVAL;
 		ft_eprintf("pipex: %s: command not found\n", NULL);
 		free_strs(cmd_args, 0);
-		close_fds(cmdenvs, head, 0);
+		// close_fds(cmdenvs, head, 0);
+		fmgr_close(head, DIR_FWD, cmdenvs);
 		exit(EXIT_FAILURE);
 	}
 	else if (ft_strchr(cmd_args[0], '/') == NULL)
@@ -48,7 +50,8 @@ static char	**split_cmd(t_cmd *cmdenvs, int head, char **envp)
 	else if (check_perm(cmd_args[0], X_OK) == -1)
 	{
 		free_strs(cmd_args, 0);
-		close_fds(cmdenvs, head, 0);
+		// close_fds(cmdenvs, head, 0);
+		fmgr_close(head, DIR_FWD, cmdenvs);
 		exit(EXIT_FAILURE);
 	}
 	return (cmd_args);
@@ -67,10 +70,12 @@ static void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
 	{
 		perror("pipex");
 		free_strs(cmd_args, 0);
-		close_fds(cmdenvs, head, 0);
+		// close_fds(cmdenvs, head, 0);
+		fmgr_close(head, DIR_FWD, cmdenvs);
 		exit(EXIT_FAILURE);
 	}
-	close_fds(cmdenvs, head, 0);
+	// close_fds(cmdenvs, head, 0);
+	fmgr_close(head, DIR_FWD, cmdenvs);
 	if (execve(cmd_args[0], cmd_args, envp) == -1)
 	{
 		perror("pipex");

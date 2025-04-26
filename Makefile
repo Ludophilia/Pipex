@@ -6,7 +6,7 @@
 #    By: jegerman <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2025/04/25 19:28:49 by jegerman         ###   ########.fr        #
+#    Updated: 2025/04/26 18:33:16 by jegerman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME := pipex
 BON_NAME := pipex_bonus
 
 CC := cc
-CFLAGS := -Wall -Wextra -Werror
+CFLAGS := -Wall -Wextra -Werror 
 
 LFT_DR := libs/libft
 
@@ -25,6 +25,7 @@ ICL_DR := includes
 ICL_BDR := includes_bonus
 
 all: CFLAGS += -I$(ICL_DR)
+debug: CFLAGS += -g3
 bonus: CFLAGS += -I$(ICL_BDR) 
 
 CFLAGS += -I$(LFT_DR)
@@ -32,7 +33,7 @@ CFLAGS += -I$(LFT_DR)
 MAN_SRCS := $(SRCS_DR)/main.c
 MAN_SRCS += $(SRCS_DR)/cmdparser.c
 MAN_SRCS += $(SRCS_DR)/filemgr.c
-MAN_SRCS += $(SRCS_DR)/cmdmgr.c
+# MAN_SRCS += $(SRCS_DR)/cmdmgr.c
 MAN_SRCS += $(SRCS_DR)/sanicheck.c
 
 MAN_OBJS := $(MAN_SRCS:.c=.o)
@@ -47,6 +48,8 @@ BON_SRCS += $(SRCS_BDR)/heredocmgr_bonus.c
 BON_OBJS := $(BON_SRCS:.c=.o)
 
 LFT := $(LFT_DR)/libft.a
+
+debug: all
 
 all: $(NAME)
 

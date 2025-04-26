@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/25 19:16:50 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/04/26 18:19:33 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # include <errno.h>
 # include <string.h>
-// # include <stdio.h> // perror
+# include <stdio.h> // for perror only
 # include <unistd.h>
 
 # include <stdlib.h>
@@ -28,11 +28,13 @@
 
 # define DEFAULT_PATH "/bin:/usr/bin"
 
+# define PGRS_NBR 2 + 1
+
 # define ERR_USAGE "pipex: %s\n" "usage: pipex <file1> <cmd1> <cmd2> <file2>\n"
 # define ERR_PATH "pipex: %s: %s\n"
 
-# define NFILE_PERMS 00664
-# define NFILE_FLGS O_CREAT | O_TRUNC | O_WRONLY
+# define NWFL_PRMS 00664
+# define NWFL_FLGS O_CREAT | O_TRUNC | O_WRONLY
 
 typedef enum e_dir
 {
@@ -42,8 +44,8 @@ typedef enum e_dir
 
 typedef enum e_cty
 {
-	CHT_PIPE = (1 << 1),
-	CHT_REDR = (1 << 2)
+	CHTY_PIPE = (1 << 1),
+	CHTY_REDR = (1 << 2)
 }	t_cty;
 
 typedef struct s_prg
