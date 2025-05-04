@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/26 18:19:33 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:26:06 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 
 # define ERR_USAGE "pipex: %s\n" "usage: pipex <file1> <cmd1> <cmd2> <file2>\n"
 # define ERR_PATH "pipex: %s: %s\n"
+# define ERR_GENERIC "pipex: %s\n"
 
 # define NWFL_PRMS 00664
 # define NWFL_FLGS O_CREAT | O_TRUNC | O_WRONLY
@@ -53,9 +54,9 @@ typedef struct s_prg
 	char	*cmd;
 	// char	*prg;
 	pid_t	pid;
-	int		in_fds[2];
+	int		in[2];
 	t_cty	in_ty;
-	int		out_fds[2];
+	int		out[2];
 	t_cty	out_ty;
 	// t_chn	in;
 	// t_chn	out;
@@ -75,9 +76,10 @@ int		cmpsr_parse_progs(int argc, char **argv, t_prg *prgs);
 
 int		fmgr_open(char *path, int openflags, mode_t openmode);
 int		fmgr_close(int from, int reverse, t_prg *prgs);
+int		fmgr_pipe(int fds[2]);
 
 // cmdmgr
-int		fork_and_exec(t_cmd *cmdenvs, char **envp);
+int		prgmgr_exec_progs(t_cmd *prgs, char **envp);
 
 // filemgr
 char	*search_executable(char *cmd, char **envp);

@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/23 21:15:27 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:25:58 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static int	wait_cmds(t_cmd *cmdenvs, int head)
 	return (0);
 }
 
-int	fork_and_exec(t_cmd *cmdenvs, char **envp)
+int	prgmgr_exec_progs(t_cmd *cmdenvs, char **envp)
 {
 	pid_t	lastpid;
 	int		head;

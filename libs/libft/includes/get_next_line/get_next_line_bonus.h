@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/24 14:04:27 by jegerman          #+#    #+#             */
-/*   Updated: 2025/03/08 17:32:25 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:38:00 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include "../libft/libft_core.h"
+# include "../libft/libft_bonus.h"
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 100

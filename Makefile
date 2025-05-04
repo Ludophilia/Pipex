@@ -6,7 +6,7 @@
 #    By: jegerman <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2025/04/26 18:33:16 by jegerman         ###   ########.fr        #
+#    Updated: 2025/05/04 18:25:36 by jegerman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ CFLAGS += -I$(LFT_DR)
 MAN_SRCS := $(SRCS_DR)/main.c
 MAN_SRCS += $(SRCS_DR)/cmdparser.c
 MAN_SRCS += $(SRCS_DR)/filemgr.c
-# MAN_SRCS += $(SRCS_DR)/cmdmgr.c
+MAN_SRCS += $(SRCS_DR)/prgmgr.c
 MAN_SRCS += $(SRCS_DR)/sanicheck.c
 
 MAN_OBJS := $(MAN_SRCS:.c=.o)

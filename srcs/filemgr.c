@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/26 17:36:26 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/04 17:08:55 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,13 @@ int	fmgr_open(char *path, int openflags, mode_t openmode)
 	return (fd);
 }
 
+int	fmgr_pipe(int fds[2])
+{
+	if (pipe(fds) == -1 && ft_eprintf(ERR_GENERIC, strerror(errno)))
+		return (-1);
+	return (0);
+}
+
 int	fmgr_close(int from, int reverse, t_prg *prgs)
 {
 	t_prg	prg;
@@ -29,10 +36,13 @@ int	fmgr_close(int from, int reverse, t_prg *prgs)
 	while ((reverse && from >= 0) || (!reverse && prgs[from].cmd))
 	{
 		prg = prgs[from];
-		if ((from == 0 && prg.in_fds[0] > -1 && close(prg.in_fds[0]) == -1)
-			|| (prg.out_fds[0] > -1 && close(prg.out_fds[0]) == -1)
-			|| (prg.out_fds[1] > -1 && close(prg.out_fds[1]) == -1))
+		if ((from == 0 && prg.in[0] > -1 && close(prg.in[0]) == -1)
+			|| (prg.out[0] > -1 && close(prg.out[0]) == -1)
+			|| (prg.out[1] > -1 && close(prg.out[1]) == -1))
+		{
+			ft_eprintf(ERR_GENERIC, strerror(errno));
 			return (-1);
+		}
 		if (reverse)
 			from--;
 		else

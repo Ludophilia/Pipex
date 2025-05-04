@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 15:58:50 by jegerman          #+#    #+#             */
-/*   Updated: 2025/04/23 18:04:11 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/03 15:38:06 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include <stdint.h>
 # include <stdbool.h>
 
-# include "../libft/libft_core.h"
+# include "../libft/libft_bonus.h"
 
 typedef enum e_flg
 {

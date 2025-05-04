@@ -1,16 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmdmgr.c                                           :+:      :+:    :+:   */
+/*   prgmgr.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/26 14:22:19 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/04 18:53:06 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
+
+static int	wait_cmds(t_cmd *cmdenvs, int head)
+{
+	int		ws;
+	int		fails;
+
+	ws = -1;
+	fails = 0;
+	while (--head >= 0)
+	{
+		if (waitpid(cmdenvs[head].pid, &ws, 0) == -1
+			|| (ws >> 8 & 0xFF) == EXIT_FAILURE)
+				fails++;
+	}
+	if (fails > 0)
+		return (-1);
+	return (0);
+}
 
 static void	resolve_cmdpath(char **cmd_args, t_cmd *cmdenvs, int head,
 char **envp)
@@ -84,49 +102,28 @@ static void	exec_cmd(t_cmd *cmdenvs, int head, char **envp)
 	}
 }
 
-static int	wait_cmds(t_cmd *cmdenvs, int head)
+// 5/05 - Next, exec_cmd and wait_cmds
+int	prgmgr_exec_progs(t_prg *prgs, char **envp)
 {
-	int		ws;
-	int		fails;
+	pid_t	pid;
+	int		i;
 
-	ws = -1;
-	fails = 0;
-	while (--head >= 0)
+	i = -1;
+	while (prgs[++i].cmd)
 	{
-		if (waitpid(cmdenvs[head].pid, &ws, 0) == -1
-			|| (ws >> 8 & 0xFF) == EXIT_FAILURE)
-				fails++;
-	}
-	if (fails > 0)
-		return (-1);
-	return (0);
-}
-
-int	fork_and_exec(t_cmd *cmdenvs, char **envp)
-{
-	pid_t	lastpid;
-	int		head;
-
-	head = -1;
-	lastpid = -1;
-	while (cmdenvs[++head].cmd)
-	{
-		if (head == 0 || lastpid > 0)
+		pid = fork();
+		if (pid == -1 && ft_eprintf(ERR_GENERIC, strerror(errno)))
+			return (-1);
+		if (pid == 0)
+			exec_cmd(prgs, i, envp);
+		if (close(prgs[i].in[0]) == -1 || close(prgs[i].out[1]) == -1)
 		{
-			lastpid = fork();
-			if (lastpid > 0)
-			{
-				close(cmdenvs[head].in[0]);
-				close(cmdenvs[head].out[1]);
-				cmdenvs[head].pid = lastpid;
-			}
-			else if (lastpid == -1) // && ft_eprintf("%s\n", strerror(errno)) // which errno?
-				return (-1);
-			else if (lastpid == 0)
-				exec_cmd(cmdenvs, head, envp);
+			ft_eprintf(ERR_GENERIC, strerror(errno));
+			return (-1);
 		}
+		prgs[i].pid = pid;
 	}
-	if (lastpid > 0 && wait_cmds(cmdenvs, head) == -1)
+	if (wait_cmds(prgs, i) == -1)
 		return (-1);
 	return (0);
 }
