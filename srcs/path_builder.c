@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:48:43 by jegerman          #+#    #+#             */
-/*   Updated: 2025/05/12 20:03:51 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/12 21:15:38 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	**ptb_load_env_paths(char **envp)
 {
 	char	**paths;
 	int		is_default;
-	
+
 	is_default = 1;
 	while (*envp)
 		if (ft_strnstr(*envp++, "PATH", 4) && is_default--)

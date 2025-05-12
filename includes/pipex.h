@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/12 20:06:29 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/12 20:47:20 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ typedef struct s_prg
 	char	*cmd;
 	pid_t	pid;
 	int		in[2];
-	t_cty	in_ty;
+	t_cty	in_ty; // Useless?
 	int		out[2];
-	t_cty	out_ty;
+	t_cty	out_ty; // Useless?
 }	t_prg;
 
 int		psr_parse_progs(int argc, char **argv, t_prg *prgs);
