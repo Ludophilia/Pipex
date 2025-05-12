@@ -6,7 +6,7 @@
 #    By: jegerman <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2025/05/04 18:25:36 by jegerman         ###   ########.fr        #
+#    Updated: 2025/05/12 20:20:51 by jegerman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,10 +31,10 @@ bonus: CFLAGS += -I$(ICL_BDR)
 CFLAGS += -I$(LFT_DR)
 
 MAN_SRCS := $(SRCS_DR)/main.c
-MAN_SRCS += $(SRCS_DR)/cmdparser.c
+MAN_SRCS += $(SRCS_DR)/parser.c
 MAN_SRCS += $(SRCS_DR)/filemgr.c
 MAN_SRCS += $(SRCS_DR)/prgmgr.c
-MAN_SRCS += $(SRCS_DR)/sanicheck.c
+MAN_SRCS += $(SRCS_DR)/path_builder.c
 
 MAN_OBJS := $(MAN_SRCS:.c=.o)
 

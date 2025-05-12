@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:02:02 by jgermany          #+#    #+#             */
-/*   Updated: 2025/04/26 18:15:47 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/12 19:57:37 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	process_user_input(char **argv, char **filename)
 		return (-1);
 	limiter_match = 0;
 	*filename = "tmp";
-	infd = fmgr_open(*filename, O_CREAT | O_RDWR, NWFL_PRMS);
+	infd = fmg_open(*filename, O_CREAT | O_RDWR, NWFL_PRMS);
 	if (infd == -1)
 		return (-1);
 	while (limiter_match != 1)
@@ -88,7 +88,7 @@ int	process_input_file(char **argv)
 	if (ft_strncmp("here_doc", argv[1], 9) == 0)
 		if (process_user_input(argv, &filename) == -1)
 			return (-1);
-	infd = fmgr_open(filename, O_RDONLY, 0);
+	infd = fmg_open(filename, O_RDONLY, 0);
 	if (infd == -1)
 		return (-1);
 	return (infd);
