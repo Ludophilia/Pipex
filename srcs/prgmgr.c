@@ -6,26 +6,26 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/12 21:14:06 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:23:44 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	pgm_free_strs(char **strs, int offset)
+int	pgm_free_strs(int from_id, char **strs)
 {
 	int	i;
 
 	if (strs == NULL)
 		return (-1);
 	i = 0;
-	while (strs[i] + offset)
-		free(strs[i++]);
+	while (strs[from_id + i])
+		free(strs[from_id + i++]);
 	free(strs);
 	return (1);
 }
 
-static int	pgm_wait_cmds(t_prg *prgs, int i)
+static int	pgm_wait_cmds(int i, t_prg *prgs)
 {
 	int	wait_stat;
 	int	chld_fails;
@@ -49,18 +49,18 @@ static int	pgm_exec_cmd(t_prg *prgs, int i, char **envp)
 	cmd_args = ft_split(prgs[i].cmd, ' ');
 	if (cmd_args == NULL 
 		|| (*cmd_args == NULL && ft_eprintf(ERR_CMD, NULL))
-		|| ptb_check_path(cmd_args, prgs, i, envp) == -1
+		|| ptb_check_path(cmd_args, envp) == -1
 		|| dup2(prgs[i].in[0], 0) == -1
 		|| dup2(prgs[i].out[1], 1) == -1)
 	{
-		pgm_free_strs(cmd_args, 0);
+		pgm_free_strs(0, cmd_args);
 		fmg_closeall(0, DIR_FWD, prgs);
 		return (-1);
 	}
 	if (fmg_closeall(0, DIR_FWD, prgs) == -1
 		|| execve(*cmd_args, cmd_args, envp) == -1)
 	{
-		pgm_free_strs(cmd_args, 0);
+		pgm_free_strs(0, cmd_args);
 		return (-1);
 	}
 	return (0);
@@ -75,15 +75,19 @@ int	pgm_exec_progs(t_prg *prgs, char **envp)
 	while (prgs[++i].cmd)
 	{
 		pid = fork();
-		if (pid == -1)
+		if (pid == -1 && ft_eprintf(ERR_GNR, strerror(errno)))
+		{
+			pgm_wait_cmds(i, prgs);
 			return (-1);
+		}
 		if (pid == 0 && pgm_exec_cmd(prgs, i, envp) == -1)
 			exit(EXIT_FAILURE);
 		prgs[i].pid = pid;
-		if (fmg_close(prgs[i].in, 0) == -1 || fmg_close(prgs[i].out, 1) == -1)
-			return (-1);
 	}
-	if (pgm_wait_cmds(prgs, i) == -1)
+	if (pgm_wait_cmds(i, prgs) == -1)
 		return (-1);
 	return (0);
 }
+// Really useful after pid assignment? (in parent)
+// if (fmg_close(prgs[i].in, 0) == -1 || fmg_close(prgs[i].out, 1) == -1)
+// 	return (-1);

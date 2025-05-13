@@ -6,66 +6,66 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/12 20:05:58 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 14:45:00 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-static int	psr_set_prog_in(int i, char **argv, t_prg *prgs)
+static int	psr_set_prog_in(int prg_id, char **argv, t_prg *prgs)
 {
-	if (i == 0)
+	if (prg_id == 0)
 	{
-		prgs[i].in[1] = -1;
-		prgs[i].in[0] = fmg_open(argv[i], O_RDONLY, 0);
-		if (prgs[i].in[0] == -1)
+		prgs[prg_id].in[1] = -1;
+		prgs[prg_id].in[0] = fmg_open(argv[prg_id], O_RDONLY, 0);
+		if (prgs[prg_id].in[0] == -1)
 			return (-1);
-		prgs[i].in_ty = CHTY_REDR;
+		prgs[prg_id].in_ty = CHTY_REDR;
 	}
 	else
 	{
-		prgs[i].in[0] = prgs[i - 1].out[0];
-		prgs[i].in[1] = prgs[i - 1].out[1];
-		prgs[i].in_ty = prgs[i - 1].out_ty;
+		prgs[prg_id].in[0] = prgs[prg_id - 1].out[0];
+		prgs[prg_id].in[1] = prgs[prg_id - 1].out[1];
+		prgs[prg_id].in_ty = prgs[prg_id - 1].out_ty;
 	}
 	return (0);
 }
 
-static int	psr_set_prog_out(int i, int argc, char **argv, t_prg *prgs)
+static int	psr_set_prog_out(int prg_id, int argc, char **argv, t_prg *prgs)
 {
-	if (i == (argc - 2) - 1)
+	if (prg_id == (argc - 2) - 1)
 	{
-		prgs[i].out[0] = -1;
-		prgs[i].out[1] = fmg_open(argv[argc - 1], NWFL_FLGS, NWFL_PRMS);
-		if (prgs[i].out[1] == -1)
+		prgs[prg_id].out[0] = -1;
+		prgs[prg_id].out[1] = fmg_open(argv[argc - 1], NWFL_FLGS, NWFL_PRMS);
+		if (prgs[prg_id].out[1] == -1)
 			return (-1);
-		prgs[i].out_ty = CHTY_REDR;
+		prgs[prg_id].out_ty = CHTY_REDR;
 	}
 	else
 	{
-		if (fmg_pipe(prgs[i].out) == -1)
+		if (fmg_pipe(prgs[prg_id].out) == -1)
 			return (-1);
-		prgs[i].out_ty = CHTY_PIPE;
+		prgs[prg_id].out_ty = CHTY_PIPE;
 	}
 	return (0);
 }
 
 int	psr_parse_progs(int argc, char **argv, t_prg *prgs)
 {
-	int	i;
+	int	prg_id;
 
-	i = -1;
+	prg_id = -1;
 	ft_memset(prgs, 0, PGRS_NBR * sizeof(t_prg));
-	while (++i < (argc - 2))
+	while (++prg_id < (argc - 2))
 	{
-		prgs[i].cmd = argv[i + 1];
-		if (psr_set_prog_in(i, argv, prgs) == -1
-			|| psr_set_prog_out(i, argc, argv, prgs) == -1)
+		prgs[prg_id].cmd = argv[1 + prg_id];
+		if (psr_set_prog_in(prg_id, argv, prgs) == -1
+			|| psr_set_prog_out(prg_id, argc, argv, prgs) == -1)
 		{
-			fmg_closeall(i, DIR_REV, prgs);
+			fmg_closeall(prg_id, DIR_REV, prgs);
 			return (-1);
 		}
 	}
-	prgs[i].cmd = NULL;
+	prgs[prg_id].cmd = NULL;
 	return (0);
 }

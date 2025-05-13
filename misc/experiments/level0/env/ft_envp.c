@@ -67,7 +67,7 @@ static char	**get_paths(char **envp)
 			return (ft_split(*envp + 5, ':'));
 		envp++;
 	}
-	return (ft_split(DEFAULT_PATH, ':'));
+	return (ft_split(ENV_PATH_DFLT, ':'));
 }
 
 int	main(int argc, char **argv, char **envp)

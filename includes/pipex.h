@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/12 20:47:20 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:26:53 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,13 @@
 # include <errno.h>
 # include <string.h>
 # include <unistd.h>
-
 # include <stdlib.h>
 # include <sys/wait.h>
-
 # include <fcntl.h>
 
 # include "../libs/libft/includes/libft.h"
 
-# define DEFAULT_PATH "/bin:/usr/bin"
+# define ENV_PATH_DFLT "/bin:/usr/bin"
 
 # define PGRS_NBR (2 + 1)
 
@@ -54,9 +52,9 @@ typedef struct s_prg
 	char	*cmd;
 	pid_t	pid;
 	int		in[2];
-	t_cty	in_ty; // Useless?
 	int		out[2];
-	t_cty	out_ty; // Useless?
+	t_cty	in_ty; // Useless?
+	t_cty	out_ty;
 }	t_prg;
 
 int		psr_parse_progs(int argc, char **argv, t_prg *prgs);
@@ -65,11 +63,11 @@ int		fmg_open(char *path, int openflags, mode_t openmode);
 int		fmg_close(int *prg_fds, int end);
 int		fmg_pipe(int fds[2]);
 int		fmg_access(char *path, int type);
-int		fmg_closeall(int from, int reverse, t_prg *prgs);
+int		fmg_closeall(int from_id, int reverse, t_prg *prgs);
 
-int		ptb_check_path(char **cmd_args, t_prg *prgs, int i, char **envp);
+int		ptb_check_path(char **cmd_args, char **envp);
 
-int		pgm_free_strs(char **strs, int offset);
+int		pgm_free_strs(int from_id, char **strs);
 int		pgm_exec_progs(t_prg *prgs, char **envp);
 
 #endif

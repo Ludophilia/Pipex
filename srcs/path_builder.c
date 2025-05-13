@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:48:43 by jegerman          #+#    #+#             */
-/*   Updated: 2025/05/12 21:15:38 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:28:36 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	**ptb_load_env_paths(char **envp)
 		if (ft_strnstr(*envp++, "PATH", 4) && is_default--)
 			break ;
 	if (is_default)
-		paths = ft_split(DEFAULT_PATH, ':');
+		paths = ft_split(ENV_PATH_DFLT, ':');
 	else
 		paths = ft_split(*envp + 5, ':');
 	return (paths);
@@ -31,7 +31,7 @@ static char	**ptb_load_env_paths(char **envp)
 static char	*ptb_build_path(char **strs)
 {
 	char	*path;
-	int		path_len;
+	size_t	path_len;
 	int		i;
 
 	i = 0;
@@ -54,7 +54,7 @@ static char	*ptb_build_path(char **strs)
 	return (path);
 }
 
-int	ptb_check_path(char **cmd_args, t_prg *prgs, int i, char **envp)
+int	ptb_check_path(char **cmd_args, char **envp)
 {
 	char	**paths;
 	char	*new_path;
@@ -69,9 +69,9 @@ int	ptb_check_path(char **cmd_args, t_prg *prgs, int i, char **envp)
 	while (paths[++i])
 	{
 		new_path = ptb_build_path((char *[]){paths[i], "/", cmd_args[0], 0});
-		if (new_path == NULL && pgm_free_strs(paths, 0))
+		if (new_path == NULL && pgm_free_strs(0, paths))
 			return (-1);
-		if (access(new_path, X_OK) == 0 && pgm_free_strs(paths, 0))
+		if (access(new_path, X_OK) == 0 && pgm_free_strs(0, paths))
 		{
 			free(*cmd_args);
 			*cmd_args = new_path;
@@ -79,6 +79,6 @@ int	ptb_check_path(char **cmd_args, t_prg *prgs, int i, char **envp)
 		}
 		free(new_path);
 	}
-	(ft_eprintf(ERR_CMD, *cmd_args), pgm_free_strs(paths, 0));
+	(ft_eprintf(ERR_CMD, *cmd_args), pgm_free_strs(0, paths));
 	return (-1);
 }

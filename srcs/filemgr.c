@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/12 21:15:16 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 19:19:16 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	fmg_pipe(int fds[2])
 
 int	fmg_access(char *path, int type)
 {
-	if (access(path, X_OK) == -1)
+	if (access(path, type) == -1)
 	{
 		ft_eprintf(ERR_PTH, path, strerror(errno));
 		return (-1);
@@ -51,21 +51,21 @@ int	fmg_close(int *prg_fds, int end)
 	return (0);
 }
 
-int	fmg_closeall(int from, int reverse, t_prg *prgs)
+int	fmg_closeall(int from_id, int reverse, t_prg *prgs)
 {
 	t_prg	prg;
 
-	while ((reverse && from >= 0) || (!reverse && prgs[from].cmd))
+	while ((reverse && from_id >= 0) || (!reverse && prgs[from_id].cmd))
 	{
-		prg = prgs[from];
-		if ((from == 0 && fmg_close(prg.in, 0) == -1)
+		prg = prgs[from_id];
+		if ((from_id == 0 && fmg_close(prg.in, 0) == -1)
 			|| fmg_close(prg.out, 0) == -1
 			|| fmg_close(prg.out, 1) == -1)
 			return (-1);
 		if (reverse)
-			from--;
+			from_id--;
 		else
-			++from;
+			++from_id;
 	}
 	return (0);
 }

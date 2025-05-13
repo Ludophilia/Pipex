@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/12 19:57:37 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 17:06:42 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static char	**get_paths(char **envp)
 			return (ft_split(*envp + 5, ':'));
 		envp++;
 	}
-	return (ft_split(DEFAULT_PATH, ':'));
+	return (ft_split(ENV_PATH_DFLT, ':'));
 }
 
 char	*search_executable(char *cmd, char **envp)
