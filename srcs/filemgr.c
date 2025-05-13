@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/13 19:19:16 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:04:33 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,5 @@ int	fmg_closeall(int from_id, int reverse, t_prg *prgs)
 		else
 			++from_id;
 	}
-	return (0);
+	return (1);
 }

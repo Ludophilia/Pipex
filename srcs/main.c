@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/13 19:49:35 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:02:12 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int argc, char **argv, char **envp)
 	if (psr_parse_progs(argc, argv, prgs) == -1)
 		return (2);
 		
-	// dbg_show_fds(prgs, envp);
+	(void)dbg_show_fds;
 	
 	if (pgm_exec_progs(prgs, envp) == -1 && fmg_closeall(0, DIR_FWD, prgs))
 		return (3);

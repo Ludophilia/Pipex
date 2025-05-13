@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/13 19:23:44 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/13 20:23:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	pgm_exec_cmd(t_prg *prgs, int i, char **envp)
 	cmd_args = ft_split(prgs[i].cmd, ' ');
 	if (cmd_args == NULL 
 		|| (*cmd_args == NULL && ft_eprintf(ERR_CMD, NULL))
-		|| ptb_check_path(cmd_args, envp) == -1
+		|| (ptb_check_path(cmd_args, envp) == -1 && ft_eprintf("DAMNS\n"))
 		|| dup2(prgs[i].in[0], 0) == -1
 		|| dup2(prgs[i].out[1], 1) == -1)
 	{
@@ -80,6 +80,12 @@ int	pgm_exec_progs(t_prg *prgs, char **envp)
 			pgm_wait_cmds(i, prgs);
 			return (-1);
 		}
+
+		// (void)envp;
+		// (void)pgm_exec_cmd;
+	
+		// if (pid == 0 && fmg_closeall(0, DIR_FWD, prgs))
+		// 	exit(EXIT_SUCCESS);
 		if (pid == 0 && pgm_exec_cmd(prgs, i, envp) == -1)
 			exit(EXIT_FAILURE);
 		prgs[i].pid = pid;
