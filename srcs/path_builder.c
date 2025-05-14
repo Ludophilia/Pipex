@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:48:43 by jegerman          #+#    #+#             */
-/*   Updated: 2025/05/13 19:28:36 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/14 19:57:04 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 static char	**ptb_load_env_paths(char **envp)
 {
 	char	**paths;
-	int		is_default;
+	int		is_dflt;
+	int		i;
 
-	is_default = 1;
-	while (*envp)
-		if (ft_strnstr(*envp++, "PATH", 4) && is_default--)
+	is_dflt = 1;
+	i = -1;
+	while (envp[++i])
+		if (ft_strnstr(envp[i], "PATH", 4) && is_dflt--)
 			break ;
-	if (is_default)
+	if (is_dflt)
 		paths = ft_split(ENV_PATH_DFLT, ':');
 	else
-		paths = ft_split(*envp + 5, ':');
+		paths = ft_split(envp[i] + 5, ':');
 	return (paths);
 }
 

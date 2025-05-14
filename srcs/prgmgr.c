@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/13 20:23:49 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/14 21:21:47 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	pgm_exec_cmd(t_prg *prgs, int i, char **envp)
 	cmd_args = ft_split(prgs[i].cmd, ' ');
 	if (cmd_args == NULL 
 		|| (*cmd_args == NULL && ft_eprintf(ERR_CMD, NULL))
-		|| (ptb_check_path(cmd_args, envp) == -1 && ft_eprintf("DAMNS\n"))
+		|| ptb_check_path(cmd_args, envp) == -1
 		|| dup2(prgs[i].in[0], 0) == -1
 		|| dup2(prgs[i].out[1], 1) == -1)
 	{
@@ -77,23 +77,15 @@ int	pgm_exec_progs(t_prg *prgs, char **envp)
 		pid = fork();
 		if (pid == -1 && ft_eprintf(ERR_GNR, strerror(errno)))
 		{
+			fmg_closeall(0, DIR_FWD, prgs);
 			pgm_wait_cmds(i, prgs);
 			return (-1);
 		}
-
-		// (void)envp;
-		// (void)pgm_exec_cmd;
-	
-		// if (pid == 0 && fmg_closeall(0, DIR_FWD, prgs))
-		// 	exit(EXIT_SUCCESS);
 		if (pid == 0 && pgm_exec_cmd(prgs, i, envp) == -1)
 			exit(EXIT_FAILURE);
 		prgs[i].pid = pid;
 	}
-	if (pgm_wait_cmds(i, prgs) == -1)
+	if (fmg_closeall(0, DIR_FWD, prgs) && pgm_wait_cmds(i, prgs) == -1)
 		return (-1);
 	return (0);
 }
-// Really useful after pid assignment? (in parent)
-// if (fmg_close(prgs[i].in, 0) == -1 || fmg_close(prgs[i].out, 1) == -1)
-// 	return (-1);
