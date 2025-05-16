@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/16 19:54:01 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:30:29 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 // = Then we will improve heredoc management by streamlining the logic
 int	main(int argc, char **argv, char **envp)
 {
-	t_prg	prgs[PGRS_NBR];
+	t_prg	prgs[PGRB_NBR];
 
-	if ((++argv, --argc, argc != 4) && ft_eprintf(ERR_USAGE, strerror(EINVAL)))
+	if ((++argv, --argc, argc < 4) && ft_eprintf(ERRB_USAGE, strerror(EINVAL)))
 		return (1);
-	if (psr_parse_progs(argc, argv, prgs) == -1)
+	if (psrb_parse_progs(argc, argv, prgs) == -1)
 		return (2);
-	if (pgm_exec_progs(prgs, envp) == -1)
+	if (pgmb_exec_progs(prgs, envp) == -1)
 		return (3);
 	return (0);
 }

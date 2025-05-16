@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path_builder.c                                     :+:      :+:    :+:   */
+/*   path_builder_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:48:43 by jegerman          #+#    #+#             */
-/*   Updated: 2025/05/16 16:34:27 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:22:12 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-static char	**ptb_load_env_paths(char **envp)
+static char	**ptbb_load_env_paths(char **envp)
 {
 	char	**paths;
 	int		is_dflt;
@@ -30,7 +30,7 @@ static char	**ptb_load_env_paths(char **envp)
 	return (paths);
 }
 
-static char	*ptb_build_path(char **strs)
+static char	*ptbb_build_path(char **strs)
 {
 	char	*path;
 	size_t	path_len;
@@ -56,24 +56,24 @@ static char	*ptb_build_path(char **strs)
 	return (path);
 }
 
-int	ptb_check_path(char **cmd_args, char **envp)
+int	ptbb_check_path(char **cmd_args, char **envp)
 {
 	char	**paths;
 	char	*new_path;
 	int		i;
 
 	if (ft_strchr(*cmd_args, '/'))
-		return (fmg_access(*cmd_args, X_OK));
-	paths = ptb_load_env_paths(envp);
+		return (fmgb_access(*cmd_args, X_OK));
+	paths = ptbb_load_env_paths(envp);
 	if (paths == NULL)
 		return (-1);
 	i = -1;
 	while (paths[++i])
 	{
-		new_path = ptb_build_path((char *[]){paths[i], "/", cmd_args[0], 0});
-		if (new_path == NULL && pgm_free_strs(0, paths))
+		new_path = ptbb_build_path((char *[]){paths[i], "/", cmd_args[0], 0});
+		if (new_path == NULL && pgmb_free_strs(0, paths))
 			return (-1);
-		if (access(new_path, X_OK) == 0 && pgm_free_strs(0, paths))
+		if (access(new_path, X_OK) == 0 && pgmb_free_strs(0, paths))
 		{
 			free(*cmd_args);
 			*cmd_args = new_path;
@@ -81,6 +81,6 @@ int	ptb_check_path(char **cmd_args, char **envp)
 		}
 		free(new_path);
 	}
-	(ft_eprintf(ERR_CMD, *cmd_args), pgm_free_strs(0, paths));
+	(ft_eprintf(ERR_CMD, *cmd_args), pgmb_free_strs(0, paths));
 	return (-1);
 }

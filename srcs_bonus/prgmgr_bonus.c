@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prgmgr.c                                           :+:      :+:    :+:   */
+/*   prgmgr_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/14 21:21:47 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:22:12 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-int	pgm_free_strs(int from_id, char **strs)
+int	pgmb_free_strs(int from_id, char **strs)
 {
 	int	i;
 
@@ -25,7 +25,7 @@ int	pgm_free_strs(int from_id, char **strs)
 	return (1);
 }
 
-static int	pgm_wait_cmds(int i, t_prg *prgs)
+static int	pgmb_wait_cmds(int i, t_prg *prgs)
 {
 	int	wait_stat;
 	int	chld_fails;
@@ -42,31 +42,31 @@ static int	pgm_wait_cmds(int i, t_prg *prgs)
 	return (0);
 }
 
-static int	pgm_exec_cmd(t_prg *prgs, int i, char **envp)
+static int	pgmb_exec_cmd(t_prg *prgs, int i, char **envp)
 {
 	char	**cmd_args;
 
 	cmd_args = ft_split(prgs[i].cmd, ' ');
 	if (cmd_args == NULL 
 		|| (*cmd_args == NULL && ft_eprintf(ERR_CMD, NULL))
-		|| ptb_check_path(cmd_args, envp) == -1
+		|| ptbb_check_path(cmd_args, envp) == -1
 		|| dup2(prgs[i].in[0], 0) == -1
 		|| dup2(prgs[i].out[1], 1) == -1)
 	{
-		pgm_free_strs(0, cmd_args);
-		fmg_closeall(0, DIR_FWD, prgs);
+		pgmb_free_strs(0, cmd_args);
+		fmgb_closeall(0, DIR_FWD, prgs);
 		return (-1);
 	}
-	if (fmg_closeall(0, DIR_FWD, prgs) == -1
+	if (fmgb_closeall(0, DIR_FWD, prgs) == -1
 		|| execve(*cmd_args, cmd_args, envp) == -1)
 	{
-		pgm_free_strs(0, cmd_args);
+		pgmb_free_strs(0, cmd_args);
 		return (-1);
 	}
 	return (0);
 }
 
-int	pgm_exec_progs(t_prg *prgs, char **envp)
+int	pgmb_exec_progs(t_prg *prgs, char **envp)
 {
 	pid_t	pid;
 	int		i;
@@ -77,15 +77,15 @@ int	pgm_exec_progs(t_prg *prgs, char **envp)
 		pid = fork();
 		if (pid == -1 && ft_eprintf(ERR_GNR, strerror(errno)))
 		{
-			fmg_closeall(0, DIR_FWD, prgs);
-			pgm_wait_cmds(i, prgs);
+			fmgb_closeall(0, DIR_FWD, prgs);
+			pgmb_wait_cmds(i, prgs);
 			return (-1);
 		}
-		if (pid == 0 && pgm_exec_cmd(prgs, i, envp) == -1)
+		if (pid == 0 && pgmb_exec_cmd(prgs, i, envp) == -1)
 			exit(EXIT_FAILURE);
 		prgs[i].pid = pid;
 	}
-	if (fmg_closeall(0, DIR_FWD, prgs) && pgm_wait_cmds(i, prgs) == -1)
+	if (fmgb_closeall(0, DIR_FWD, prgs) && pgmb_wait_cmds(i, prgs) == -1)
 		return (-1);
 	return (0);
 }

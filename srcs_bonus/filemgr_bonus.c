@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   filemgr.c                                          :+:      :+:    :+:   */
+/*   filemgr_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/16 15:53:04 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:20:42 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
-int	fmg_open(char *path, int openflags, mode_t openmode)
+int	fmgb_open(char *path, int openflags, mode_t openmode)
 {
 	int	fd;
 
@@ -24,14 +24,14 @@ int	fmg_open(char *path, int openflags, mode_t openmode)
 	return (fd);
 }
 
-int	fmg_pipe(int fds[2])
+int	fmgb_pipe(int fds[2])
 {
 	if (pipe(fds) == -1 && ft_eprintf(ERR_GNR, strerror(errno)))
 		return (-1);
 	return (0);
 }
 
-int	fmg_access(char *path, int type)
+int	fmgb_access(char *path, int type)
 {
 	if (access(path, type) == -1)
 	{
@@ -41,7 +41,7 @@ int	fmg_access(char *path, int type)
 	return (0);
 }
 
-int	fmg_close(int *prg_fds, int end)
+int	fmgb_close(int *prg_fds, int end)
 {
 	if (prg_fds[end] <= 2)
 		return (0);
@@ -51,16 +51,16 @@ int	fmg_close(int *prg_fds, int end)
 	return (0);
 }
 
-int	fmg_closeall(int from_id, int reverse, t_prg *prgs)
+int	fmgb_closeall(int from_id, int reverse, t_prg *prgs)
 {
 	t_prg	prg;
 
 	while ((reverse && from_id >= 0) || (!reverse && prgs[from_id].cmd))
 	{
 		prg = prgs[from_id];
-		if ((from_id == 0 && fmg_close(prg.in, 0) == -1)
-			|| fmg_close(prg.out, 0) == -1
-			|| fmg_close(prg.out, 1) == -1)
+		if ((from_id == 0 && fmgb_close(prg.in, 0) == -1)
+			|| fmgb_close(prg.out, 0) == -1
+			|| fmgb_close(prg.out, 1) == -1)
 			return (-1);
 		if (reverse)
 			from_id--;

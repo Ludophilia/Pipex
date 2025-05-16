@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/16 16:39:29 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 20:06:06 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,12 @@
 
 # define PGRS_NBR (2 + 1)
 
-# define ERR_USAGE "pipex: %s\n" "usage: pipex <file1> <cmd1> <cmd2> <file2>\n"
+# define USG_SUGG "usage: pipex <file1> <cmd1> <cmd2> <file2>\n"
+
+# define ERR_GNR "pipex: %s\n"
 # define ERR_PTH "pipex: %s: %s\n"
 # define ERR_CMD "pipex: %s: command not found\n"
-# define ERR_GNR "pipex: %s\n"
+# define ERR_USAGE (ERR_GNR USG_SUGG)
 
 # define NWFL_PRMS 00664
 # define NWFL_FLGS (O_CREAT | O_TRUNC | O_WRONLY)
@@ -53,7 +55,7 @@ typedef struct s_prg
 	pid_t	pid;
 	int		in[2];
 	int		out[2];
-	t_cty	in_ty; // Useless?
+	t_cty	in_ty;
 	t_cty	out_ty;
 }	t_prg;
 

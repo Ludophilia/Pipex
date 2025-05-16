@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parser_bonus.old.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/16 18:57:52 by jegerman         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    parser_bonus.old                                   :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jegerman <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#              #
+#    Updated: 2025/05/16 20:20:42 by jegerman         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
 #include "cmdenvmgr_bonus.h"
 
@@ -60,7 +60,7 @@ static int	set_cmdenv_out(t_cmd *cmdenvs, int head, int argc, char **argv)
 	if ((head + 1) == limit)
 	{
 		cmdenvs[head].out[0] = -1;
-		cmdenvs[head].out[1] = fmg_open(argv[argc - 1], flags,
+		cmdenvs[head].out[1] = fmgb_open(argv[argc - 1], flags,
 				NWFL_PRMS);
 		if (cmdenvs[head].out[1] == -1)
 		{
