@@ -6,53 +6,24 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/04 18:25:58 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 19:54:01 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-static int	pipex(int argc, char **argv, char **envp)
-{
-	t_cmd	cmdenvs[1024];
-
-	if (check_args(argc, argv) == -1)
-		return (-1);
-	if (build_cmdenvs(cmdenvs, argc, argv) == -1)
-	{
-		close_tmpfile("tmp", argv);
-		return (-1);
-	}
-	if (prgmgr_exec_progs(cmdenvs, envp) == -1)
-	{
-		close_tmpfile("tmp", argv);
-		return (-1);
-	}
-	close_tmpfile("tmp", argv);
-	return (0);
-}
-
+// 16/05 - OK. Let's manage the bonus phase.
+// = First, let's unlock the ability to manage multiple pipes
+// = Then we will improve heredoc management by streamlining the logic
 int	main(int argc, char **argv, char **envp)
 {
-	if (pipex(argc, argv, envp) == -1)
+	t_prg	prgs[PGRS_NBR];
+
+	if ((++argv, --argc, argc != 4) && ft_eprintf(ERR_USAGE, strerror(EINVAL)))
 		return (1);
+	if (psr_parse_progs(argc, argv, prgs) == -1)
+		return (2);
+	if (pgm_exec_progs(prgs, envp) == -1)
+		return (3);
 	return (0);
 }
-// // 26/04 - Please compile that and test it in valgrind with fds and stuff
-
-// ft_printf("(cmd0 -> \"%s\")\n", prgs[0].cmd);
-// ft_printf("cmd0.in[0] -> %i\n", prgs[0].in[0]);
-// ft_printf("cmd0.in[1] -> %i\n", prgs[0].in[1]);
-// ft_printf("cmd0.out[0] -> %i\n", prgs[0].out[0]);
-// ft_printf("cmd0.out[1] -> %i\n", prgs[0].out[1]);
-
-// ft_printf("\n(cmd1 -> \"%s\")\n", prgs[1].cmd);
-// ft_printf("cmd1.in[0] -> %i\n", prgs[1].in[0]);
-// ft_printf("cmd1.in[1] -> %i\n", prgs[1].in[1]);
-// ft_printf("cmd1.out[0] -> %i\n", prgs[1].out[0]);
-// ft_printf("cmd1.out[1] -> %i\n\n", prgs[1].out[1]);
-
-// // close(prgs[0].in[0]);
-// // close(prgs[1].out[1]);
-
-// ft_printf("cmd2 -> %s\n", prgs[2].cmd);

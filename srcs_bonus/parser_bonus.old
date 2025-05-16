@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmdenvmgr_bonus.c                                  :+:      :+:    :+:   */
+/*   parser_bonus.old.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/12 19:57:37 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 18:57:52 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cmdenvmgr_bonus.h"
 
-static void	init_cmdenvs(t_cmd *cmdenvs, int size)
-{
-	int	head;
+// static void	init_cmdenvs(t_cmd *cmdenvs, int size)
+// {
+// 	int	head;
 
-	if (cmdenvs == NULL)
-		return ;
-	head = -1;
-	while (++head < size)
-	{
-		cmdenvs[head].cmd = NULL;
-		cmdenvs[head].in[0] = -1;
-		cmdenvs[head].in[1] = -1;
-		cmdenvs[head].out[0] = -1;
-		cmdenvs[head].out[1] = -1;
-		cmdenvs[head].pid = -1;
-	}
-}
+// 	if (cmdenvs == NULL)
+// 		return ;
+// 	head = -1;
+// 	while (++head < size)
+// 	{
+// 		cmdenvs[head].cmd = NULL;
+// 		cmdenvs[head].in[0] = -1;
+// 		cmdenvs[head].in[1] = -1;
+// 		cmdenvs[head].out[0] = -1;
+// 		cmdenvs[head].out[1] = -1;
+// 		cmdenvs[head].pid = -1;
+// 	}
+// }
 
 static int	set_cmdenv_in(t_cmd *cmdenvs, int head, char **argv)
 {
