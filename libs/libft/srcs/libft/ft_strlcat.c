@@ -6,11 +6,11 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 16:49:32 by jegerman          #+#    #+#             */
-/*   Updated: 2025/02/11 15:17:23 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:18:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_core.h"
+#include "libft_bonus.h"
 #include <stdio.h>
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)

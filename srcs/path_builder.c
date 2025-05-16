@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:48:43 by jegerman          #+#    #+#             */
-/*   Updated: 2025/05/14 19:57:04 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:34:27 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ptb_check_path(char **cmd_args, char **envp)
 	char	*new_path;
 	int		i;
 
-	if (**cmd_args == '/')
+	if (ft_strchr(*cmd_args, '/'))
 		return (fmg_access(*cmd_args, X_OK));
 	paths = ptb_load_env_paths(envp);
 	if (paths == NULL)

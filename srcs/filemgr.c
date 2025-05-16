@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/13 20:04:33 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 15:53:04 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	fmg_access(char *path, int type)
 
 int	fmg_close(int *prg_fds, int end)
 {
-	if (prg_fds[end] == -1)
+	if (prg_fds[end] <= 2)
 		return (0);
 	if (close(prg_fds[end]) == -1 && ft_eprintf(ERR_GNR, strerror(errno)))
 		return (-1);

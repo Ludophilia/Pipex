@@ -6,11 +6,11 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 14:02:22 by jegerman          #+#    #+#             */
-/*   Updated: 2025/02/11 15:16:38 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:18:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_core.h"
+#include "libft_bonus.h"
 #include <stdio.h>
 
 static void	*ft_rev_memcpy(void *dest, const void *src, size_t n)

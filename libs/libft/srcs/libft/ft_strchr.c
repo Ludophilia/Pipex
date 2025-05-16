@@ -6,11 +6,11 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/12 14:45:52 by jegerman          #+#    #+#             */
-/*   Updated: 2025/02/11 15:16:58 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:18:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_core.h"
+#include "libft_bonus.h"
 
 char	*ft_strchr(const char *s, int c)
 {

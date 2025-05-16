@@ -6,11 +6,11 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 15:01:54 by jegerman          #+#    #+#             */
-/*   Updated: 2025/02/11 15:21:52 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/16 16:18:49 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft_core.h"
+#include "libft_bonus.h"
 
 int	ft_lstsize(t_list *lst)
 {

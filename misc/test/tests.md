@@ -190,7 +190,7 @@ standard input.
 
 #### Wrong number of arguments (argc != 5)
 
-- [ ] Expected error message
+- [x] Expected error message
 	- `pipex: Invalid argument`
 	- `usage: pipex <file1> <cmd1> <cmd2> <file2>`
 
@@ -203,7 +203,7 @@ standard input.
 
 #### Swapped order (argc != 5)
 
-- [ ] Expected error message
+- [x] Expected error message
 	- [Error message dependent on the permission associated to 
 	the positional arg]
 	- Examples:
@@ -214,7 +214,7 @@ standard input.
 ### < file1 level
 
 #### infile (argv[1]) does not exist:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <filename>: No such file or directory`
 		- `pipex: <filename>: No such file or directory`
 		- Examples:
@@ -275,7 +275,7 @@ standard input.
 
 #### Empty cmds
 
-- [ ] Expected error message
+- [x] Expected error message
 	- pipex: `<cmd>: command not found`
 	- Examples:
 		- `./pipex /dev/random "" "" /dev/stdout`
@@ -283,7 +283,7 @@ standard input.
 
 
 #### cdm1 (argv[2]) or cmd2 (argv[3]) does not exist (not found in $PATH):
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <cmd>: command not found`
 		- `pipex: <cmd>: command not found`
 		- Example:
@@ -300,7 +300,7 @@ standard input.
 	
 
 #### $PATH is missing:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- [No error message expected]
 		- Example:
 			- `env -u PATH < /dev/random head -c 80 | nl > /dev/stdout`
@@ -312,8 +312,8 @@ standard input.
 ### > file2 level
 	
 #### outfile (argv[4]) does not exist:
-	- [ ] Expected error message
-		- [ ] [No error message]
+	- [x] Expected error message
+		- [x] [No error message]
 		- `outfile` is CREATED and then written upon (IF THE FOLDER is writable)
 		- Example:
 			- `< /dev/random strings | head > test/outfile`
@@ -322,7 +322,7 @@ standard input.
 	
 
 #### outfile (argv[4]) does not exist and the parent folder is not searchable:
-	- [ ] Change perms on test/
+	- [x] Change perms on test/
 	- [ ] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
@@ -333,7 +333,7 @@ standard input.
 	
 
 #### outfile (argv[4]) exists but is not writable:
-	- [ ] Create test/foutfile and remove w perm
+	- [x] Create test/foutfile and remove w perm
 	- [ ] Expected error message
 		- `bash: <filename>: Permission denied`
 		- `pipex: <filename>: Permission denied`
@@ -344,7 +344,7 @@ standard input.
 	
 
 #### outfile (argv[4]) is a directory:
-	- [ ] Expected error message
+	- [x] Expected error message
 		- `bash: <directory>: is a directory`
 		- `pipex: <directory>: is a directory`
 		- Example:
