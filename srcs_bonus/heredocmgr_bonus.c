@@ -1,16 +1,16 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    parser_heredocmgr_bonus.old                        :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: jegerman <marvin@42.fr>                    +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/06/13 17:02:02 by jgermany          #+#    #+#              #
-#    Updated: 2025/05/16 20:20:42 by jegerman         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredocmgr_bonus.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 17:02:02 by jgermany          #+#    #+#             */
+/*   Updated: 2025/05/18 20:54:10 by jegerman         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#include "heredocmgr_bonus.h"
+#include "pipex_bonus.h"
 
 void	close_tmpfile(char *filename, char **argv)
 {
@@ -64,7 +64,7 @@ static int	process_user_input(char **argv, char **filename)
 		return (-1);
 	limiter_match = 0;
 	*filename = "tmp";
-	infd = fmgb_open(*filename, O_CREAT | O_RDWR, NWFL_PRMS);
+	infd = fmgb_open(*filename, O_CREAT | O_RDWR, FL_PRMS);
 	if (infd == -1)
 		return (-1);
 	while (limiter_match != 1)
@@ -79,13 +79,13 @@ static int	process_user_input(char **argv, char **filename)
 	return (0);
 }
 
-int	process_input_file(char **argv)
+// 19/05/25 
+int	hrm_open_heredoc(char **argv) // *argv -> LIMITER
 {
 	int		infd;
 	char	*filename;
 
 	filename = argv[1];
-	if (ft_strncmp("here_doc", argv[1], 9) == 0)
 		if (process_user_input(argv, &filename) == -1)
 			return (-1);
 	infd = fmgb_open(filename, O_RDONLY, 0);

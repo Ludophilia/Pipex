@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/16 20:22:12 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:09:57 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	pgmb_free_strs(int from_id, char **strs)
 	return (1);
 }
 
-static int	pgmb_wait_cmds(int i, t_prg *prgs)
+static int	pgmb_wait_cmds(int i, t_pgb *prgs)
 {
 	int	wait_stat;
 	int	chld_fails;
@@ -42,7 +42,7 @@ static int	pgmb_wait_cmds(int i, t_prg *prgs)
 	return (0);
 }
 
-static int	pgmb_exec_cmd(t_prg *prgs, int i, char **envp)
+static int	pgmb_exec_cmd(t_pgb *prgs, int i, char **envp)
 {
 	char	**cmd_args;
 
@@ -66,7 +66,7 @@ static int	pgmb_exec_cmd(t_prg *prgs, int i, char **envp)
 	return (0);
 }
 
-int	pgmb_exec_progs(t_prg *prgs, char **envp)
+int	pgmb_exec_progs(t_pgb *prgs, char **envp)
 {
 	pid_t	pid;
 	int		i;

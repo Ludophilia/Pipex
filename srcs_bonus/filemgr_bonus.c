@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/16 20:20:42 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/18 16:09:57 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ int	fmgb_close(int *prg_fds, int end)
 	return (0);
 }
 
-int	fmgb_closeall(int from_id, int reverse, t_prg *prgs)
+int	fmgb_closeall(int from_id, int reverse, t_pgb *prgs)
 {
-	t_prg	prg;
+	t_pgb	prg;
 
 	while ((reverse && from_id >= 0) || (!reverse && prgs[from_id].cmd))
 	{

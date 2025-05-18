@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/13 14:45:00 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:51:32 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,11 @@ static int	psr_set_prog_in(int prg_id, char **argv, t_prg *prgs)
 		prgs[prg_id].in[0] = fmg_open(argv[prg_id], O_RDONLY, 0);
 		if (prgs[prg_id].in[0] == -1)
 			return (-1);
-		prgs[prg_id].in_ty = CHTY_REDR;
 	}
 	else
 	{
 		prgs[prg_id].in[0] = prgs[prg_id - 1].out[0];
 		prgs[prg_id].in[1] = prgs[prg_id - 1].out[1];
-		prgs[prg_id].in_ty = prgs[prg_id - 1].out_ty;
 	}
 	return (0);
 }
@@ -36,16 +34,14 @@ static int	psr_set_prog_out(int prg_id, int argc, char **argv, t_prg *prgs)
 	if (prg_id == (argc - 2) - 1)
 	{
 		prgs[prg_id].out[0] = -1;
-		prgs[prg_id].out[1] = fmg_open(argv[argc - 1], NWFL_FLGS, NWFL_PRMS);
+		prgs[prg_id].out[1] = fmg_open(argv[argc - 1], FL_FLGS, FL_PRMS);
 		if (prgs[prg_id].out[1] == -1)
 			return (-1);
-		prgs[prg_id].out_ty = CHTY_REDR;
 	}
 	else
 	{
 		if (fmg_pipe(prgs[prg_id].out) == -1)
 			return (-1);
-		prgs[prg_id].out_ty = CHTY_PIPE;
 	}
 	return (0);
 }

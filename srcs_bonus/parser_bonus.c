@@ -6,21 +6,34 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/16 20:20:42 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/18 20:28:47 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-static int	psrb_set_prog_in(int prg_id, char **argv, t_prg *prgs)
+static int	psrb_init_progs(int *argc, char ***argv, t_pgb *prgs)
+{
+	ft_bzero(prgs, (*argc + 1) * sizeof(t_pgb));
+	if (!ft_strncmp(*argv, "here_doc", 9) && ((*argc)--, ++(*argv)))
+	{
+		prgs[0].in_ty = CHTB_HERE;
+		prgs[*argc - 2 - 1].out_ty = CHTB_APPN;
+	}
+	return (0);
+}
+
+static int	psrb_set_prog_in(int prg_id, char **argv, t_pgb *prgs)
 {
 	if (prg_id == 0)
 	{
-		prgs[prg_id].in[1] = -1;
-		prgs[prg_id].in[0] = fmgb_open(argv[prg_id], O_RDONLY, 0);
-		if (prgs[prg_id].in[0] == -1)
+		prgs[0].in[1] = -1;
+		if (prgs[0].in_ty == CHTB_HERE)
+			prgs[0].in[0] = ;
+		else 
+			prgs[0].in[0] = fmgb_open(argv[0], O_RDONLY, 0);
+		if (prgs[0].in[0] == -1)
 			return (-1);
-		prgs[prg_id].in_ty = CHTY_REDR;
 	}
 	else
 	{
@@ -31,31 +44,34 @@ static int	psrb_set_prog_in(int prg_id, char **argv, t_prg *prgs)
 	return (0);
 }
 
-static int	psrb_set_prog_out(int prg_id, int argc, char **argv, t_prg *prgs)
+static int	psrb_set_prog_out(int prg_id, int argc, char **argv, t_pgb *prgs)
 {
+	int	rdr_fl;
+
+	rdr_fl = FL_FLGS;
 	if (prg_id == (argc - 2) - 1)
 	{
+		if (prgs[prg_id].out_ty == CHTB_APPN)
+			rdr_fl = APN_FLGS;
 		prgs[prg_id].out[0] = -1;
-		prgs[prg_id].out[1] = fmgb_open(argv[argc - 1], NWFL_FLGS, NWFL_PRMS);
+		prgs[prg_id].out[1] = fmgb_open(argv[argc - 1], rdr_fl, FL_PRMS);
 		if (prgs[prg_id].out[1] == -1)
 			return (-1);
-		prgs[prg_id].out_ty = CHTY_REDR;
 	}
 	else
 	{
 		if (fmgb_pipe(prgs[prg_id].out) == -1)
 			return (-1);
-		prgs[prg_id].out_ty = CHTY_PIPE;
 	}
 	return (0);
 }
 
-int	psrb_parse_progs(int argc, char **argv, t_prg *prgs)
+int	psrb_parse_progs(int argc, char **argv, t_pgb *prgs)
 {
 	int	prg_id;
 
 	prg_id = -1;
-	ft_memset(prgs, 0, PGRS_NBR * sizeof(t_prg));
+	psrb_init_progs(&argc, &argv, prgs);
 	while (++prg_id < (argc - 2))
 	{
 		prgs[prg_id].cmd = argv[1 + prg_id];

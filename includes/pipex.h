@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/16 20:06:06 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:57:42 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@
 # define ERR_CMD "pipex: %s: command not found\n"
 # define ERR_USAGE (ERR_GNR USG_SUGG)
 
-# define NWFL_PRMS 00664
-# define NWFL_FLGS (O_CREAT | O_TRUNC | O_WRONLY)
+# define FL_PRMS 00664
+# define FL_FLGS (O_CREAT | O_TRUNC | O_WRONLY)
 
 typedef enum e_dir
 {
@@ -43,20 +43,12 @@ typedef enum e_dir
 	DIR_REV = (1 << 0)
 }	t_dir;
 
-typedef enum e_cty
-{
-	CHTY_PIPE = (1 << 1),
-	CHTY_REDR = (1 << 2)
-}	t_cty;
-
 typedef struct s_prg
 {
 	char	*cmd;
 	pid_t	pid;
 	int		in[2];
 	int		out[2];
-	t_cty	in_ty;
-	t_cty	out_ty;
 }	t_prg;
 
 int		psr_parse_progs(int argc, char **argv, t_prg *prgs);
