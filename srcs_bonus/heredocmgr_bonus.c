@@ -6,90 +6,54 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/13 17:02:02 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/18 20:54:10 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:49:47 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	close_tmpfile(char *filename, char **argv)
+static int	hrm_get_user_input(char *limit, int *off_limit, int hdc_fd)
 {
-	if (ft_strncmp("here_doc", argv[1], 9) == 0 && access(filename, F_OK) == 0)
-		unlink(filename);
-}
+	char	*usr_in;
+	int		lim_len;
 
-void	update_for_heredoc(int *limit, int *offset, int *flags)
-{
-	if (limit != NULL)
-		*limit -= 1;
-	if (offset != NULL)
-		*offset += 1;
-	if (flags != NULL)
-		*flags = O_APPEND | O_CREAT | O_WRONLY;
-}
-
-static int	get_user_input(char **argv, int *limiter_match, int infd)
-{
-	char	*buffer;
-	char	*limiter;
-
-	if (write(1, "> ", 2) == -1 || limiter_match == NULL || infd < 0)
+	if (write(1, HDRC_PRMT, ft_strlen(HDRC_PRMT)) == -1)
 		return (-1);
-	buffer = get_next_line(0);
-	limiter = ft_strjoin(argv[2], "\n");
-	if (buffer == NULL || limiter == NULL)
+	usr_in = get_next_line(0);
+	if (usr_in == NULL)
 		return (-1);
-	*limiter_match = ft_strncmp(buffer, limiter, ft_strlen(limiter)) == 0;
-	free(limiter);
-	if (*limiter_match)
+	lim_len = ft_strlen(limit);
+	if (!ft_strncmp(usr_in, limit, lim_len) && usr_in[lim_len] == '\n')
 	{
-		free(buffer);
+		(*off_limit)--;
+		free(usr_in);
 		return (0);
 	}
-	if (write(infd, buffer, ft_strlen(buffer)) == -1)
+	if (write(hdc_fd, usr_in, ft_strlen(usr_in)) == -1)
 	{
-		free(buffer);
+		free(usr_in);
 		return (-1);
 	}
-	free(buffer);
+	free(usr_in);
 	return (0);
 }
 
-static int	process_user_input(char **argv, char **filename)
+int	hrm_open_heredoc(char *limiter)
 {
-	int	limiter_match;
-	int	infd;
+	int	off_limit;
+	int	hdc_fd;
 
-	if (filename == NULL)
+	hdc_fd = fmgb_open(HRDC_NAME, HRDC_FLGS, FL_PRMS);
+	if (hdc_fd == -1)
 		return (-1);
-	limiter_match = 0;
-	*filename = "tmp";
-	infd = fmgb_open(*filename, O_CREAT | O_RDWR, FL_PRMS);
-	if (infd == -1)
-		return (-1);
-	while (limiter_match != 1)
+	off_limit = 1;
+	while (off_limit)
 	{
-		if (get_user_input(argv, &limiter_match, infd) == -1)
+		if (hrm_get_user_input(limiter, &off_limit, hdc_fd) == -1)
 		{
-			close(infd);
+			close(hdc_fd);
 			return (-1);
 		}
 	}
-	close(infd);
-	return (0);
-}
-
-// 19/05/25 
-int	hrm_open_heredoc(char **argv) // *argv -> LIMITER
-{
-	int		infd;
-	char	*filename;
-
-	filename = argv[1];
-		if (process_user_input(argv, &filename) == -1)
-			return (-1);
-	infd = fmgb_open(filename, O_RDONLY, 0);
-	if (infd == -1)
-		return (-1);
-	return (infd);
+	return (hdc_fd);
 }

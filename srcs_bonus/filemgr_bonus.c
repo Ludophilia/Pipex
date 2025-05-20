@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/18 16:09:57 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:31:03 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	fmgb_closeall(int from_id, int reverse, t_pgb *prgs)
 {
 	t_pgb	prg;
 
+	if (access(HRDC_NAME, F_OK) == 0)
+		unlink(HRDC_NAME);
 	while ((reverse && from_id >= 0) || (!reverse && prgs[from_id].cmd))
 	{
 		prg = prgs[from_id];

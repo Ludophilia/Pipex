@@ -6,7 +6,7 @@
 #    By: jegerman <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2025/05/16 20:27:24 by jegerman         ###   ########.fr        #
+#    Updated: 2025/05/20 15:34:21 by jegerman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ BON_SRCS += $(SRCS_BDR)/parser_bonus.c
 BON_SRCS += $(SRCS_BDR)/filemgr_bonus.c
 BON_SRCS += $(SRCS_BDR)/prgmgr_bonus.c
 BON_SRCS += $(SRCS_BDR)/path_builder_bonus.c
-# BON_SRCS += $(SRCS_BDR)/heredocmgr_bonus.c
+BON_SRCS += $(SRCS_BDR)/heredocmgr_bonus.c
 
 BON_OBJS := $(BON_SRCS:.c=.o)
 

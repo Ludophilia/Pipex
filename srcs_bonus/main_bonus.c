@@ -6,14 +6,12 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:45:09 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/18 19:10:32 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:45:10 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-// 16/05 - OK. Let's manage the bonus phase.
-// = Then we will improve heredoc management by streamlining the logic
 int	main(int argc, char **argv, char **envp)
 {
 	t_pgb	prgs[PGRB_NBR];

@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/18 20:49:24 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/20 20:43:29 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@
 # define ERRB_USAGE (ERR_GNR USGB_SUGG)
 
 # define APN_FLGS (O_CREAT | O_APPEND | O_WRONLY)
+
+# define HDRC_PRMT "> "
+# define HRDC_NAME ".tmp"
+# define HRDC_FLGS (O_CREAT | O_RDWR)
 
 typedef enum e_ctb
 {
@@ -57,8 +61,7 @@ int		pgmb_exec_progs(t_pgb *prgs, char **envp);
 
 // heredocmgr
 // void	close_tmpfile(char *filename, char **argv);
-// void	update_for_heredoc(int *limit, int *offset, int *flags);
 // int		process_input_file(char **argv);
-int		hrm_open_heredoc(char **argv);
+int		hrm_open_heredoc(char *limiter);
 
 #endif
