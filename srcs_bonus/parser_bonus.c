@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/20 19:22:58 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/21 19:53:52 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,12 @@
 static int	psrb_init_progs(int *argc, char ***argv, t_pgb *prgs)
 {
 	ft_bzero(prgs, (*argc + 1) * sizeof(t_pgb));
-	if (!ft_strncmp(*argv, "here_doc", 9) && ((*argc)--, ++(*argv)))
-	{
-		prgs[0].in_ty = CHTB_HERE;
-		prgs[*argc - 2 - 1].out_ty = CHTB_APPN;
-	}
+	if (ft_strncmp(**argv, "here_doc", 9) != 0)
+		return (0);
+	if (((*argc)--, ++(*argv)) && access(HRDC_NAME, F_OK) == 0)
+		unlink(HRDC_NAME);
+	prgs[0].in_ty = CHTB_HERE;
+	prgs[*argc - 2 - 1].out_ty = CHTB_APPN;
 	return (0);
 }
 

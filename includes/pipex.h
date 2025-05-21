@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/18 17:57:42 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:09:05 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,20 @@
 
 # define ENV_PATH_DFLT "/bin:/usr/bin"
 
-# define PGRS_NBR (2 + 1)
+# define PGRS_NBR 3
 
-# define USG_SUGG "usage: pipex <file1> <cmd1> <cmd2> <file2>\n"
+# define FL_PRMS 00664
 
 # define ERR_GNR "pipex: %s\n"
 # define ERR_PTH "pipex: %s: %s\n"
 # define ERR_CMD "pipex: %s: command not found\n"
-# define ERR_USAGE (ERR_GNR USG_SUGG)
+# define ERR_USAGE "pipex: %s\n \
+	usage: pipex <file1> <cmd1> <cmd2> <file2>\n"
 
-# define FL_PRMS 00664
-# define FL_FLGS (O_CREAT | O_TRUNC | O_WRONLY)
+typedef enum e_ffl
+{
+	FL_FLGS = (O_CREAT | O_TRUNC | O_WRONLY),
+}	t_ffl;
 
 typedef enum e_dir
 {

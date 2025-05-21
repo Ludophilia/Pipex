@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/20 20:43:29 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/21 20:09:12 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 
 # include "../includes/pipex.h"
 
-# define PGRB_NBR (1024 + 1)
+# define PGRB_NBR 1025
 
-# define USGB_SUGG "usage: pipex <file1> <cmd1> ... <cmdn> <file2>\n"
+# define ERRB_USAGE "pipex: %s\n \
+	usage: pipex (here_doc <LIMITER>| <file1>) <cmd1> ... <cmdn> <file2>\n"
 
-# define ERRB_USAGE (ERR_GNR USGB_SUGG)
-
-# define APN_FLGS (O_CREAT | O_APPEND | O_WRONLY)
-
-# define HDRC_PRMT "> "
 # define HRDC_NAME ".tmp"
-# define HRDC_FLGS (O_CREAT | O_RDWR)
+
+typedef enum e_bfl
+{
+	APN_FLGS = (O_CREAT | O_APPEND | O_WRONLY),
+}	t_bfl;
 
 typedef enum e_ctb
 {
@@ -59,9 +59,6 @@ int		ptbb_check_path(char **cmd_args, char **envp);
 int		pgmb_free_strs(int from_id, char **strs);
 int		pgmb_exec_progs(t_pgb *prgs, char **envp);
 
-// heredocmgr
-// void	close_tmpfile(char *filename, char **argv);
-// int		process_input_file(char **argv);
 int		hrm_open_heredoc(char *limiter);
 
 #endif
