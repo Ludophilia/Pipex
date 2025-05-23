@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 11:39:20 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/18 16:09:57 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:57:24 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	pgmb_exec_cmd(t_pgb *prgs, int i, char **envp)
 	char	**cmd_args;
 
 	cmd_args = ft_split(prgs[i].cmd, ' ');
-	if (cmd_args == NULL 
+	if (cmd_args == NULL
 		|| (*cmd_args == NULL && ft_eprintf(ERR_CMD, NULL))
 		|| ptbb_check_path(cmd_args, envp) == -1
 		|| dup2(prgs[i].in[0], 0) == -1

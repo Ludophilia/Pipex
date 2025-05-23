@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/21 20:09:05 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:44:09 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define ERR_GNR "pipex: %s\n"
 # define ERR_PTH "pipex: %s: %s\n"
 # define ERR_CMD "pipex: %s: command not found\n"
-# define ERR_USAGE "pipex: %s\n \
-	usage: pipex <file1> <cmd1> <cmd2> <file2>\n"
+# define ERR_USAGE "pipex: %s\n\
+usage: pipex <file1> <cmd1> <cmd2> <file2>\n"
 
 typedef enum e_ffl
 {

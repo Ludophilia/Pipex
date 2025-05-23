@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/07 17:58:23 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/21 19:53:52 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/23 11:56:40 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	psrb_set_prog_in(int prg_id, char **argv, t_pgb *prgs)
 		prgs[0].in[1] = -1;
 		if (prgs[0].in_ty == CHTB_HERE)
 			prgs[0].in[0] = hrm_open_heredoc(*argv);
-		else 
+		else
 			prgs[0].in[0] = fmgb_open(argv[0], O_RDONLY, 0);
 		if (prgs[0].in[0] == -1)
 			return (-1);

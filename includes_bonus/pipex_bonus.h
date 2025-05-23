@@ -6,7 +6,7 @@
 /*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/29 15:53:26 by jgermany          #+#    #+#             */
-/*   Updated: 2025/05/21 20:09:12 by jegerman         ###   ########.fr       */
+/*   Updated: 2025/05/23 12:01:15 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 # define PGRB_NBR 1025
 
-# define ERRB_USAGE "pipex: %s\n \
-	usage: pipex (here_doc <LIMITER>| <file1>) <cmd1> ... <cmdn> <file2>\n"
+# define ERRB_USAGE "pipex: %s\n\
+usage: pipex (here_doc <LIMITER>| <file1>) <cmd1> ... <cmdn> <file2>\n"
 
 # define HRDC_NAME ".tmp"
 

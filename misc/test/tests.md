@@ -182,8 +182,6 @@ standard input.
 	- [ ] prints `LOSER` indefinitely with the line number
 	- [ ] `$SHELL` does not give back the prompt
 
-
-
 ## What could possibly go wrong?
 
 ### ./pipex level
@@ -200,7 +198,6 @@ standard input.
 		- `./pipex infile cmd outfile`
 		- `valgrind ./pipex infile cmd outfile`
 
-
 #### Swapped order (argc != 5)
 
 - [x] Expected error message
@@ -209,7 +206,6 @@ standard input.
 	- Examples:
 		- `./pipex strings /dev/random head /dev/stdout`
 		- `valgrind ./pipex strings /dev/random head /dev/stdout`
-
 
 ### < file1 level
 
