@@ -3,89 +3,71 @@
 /*                                                        :::      ::::::::   */
 /*   filemgr_bonus.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgermany <nyaritakunai@outlook.com>        +#+  +:+       +#+        */
+/*   By: jegerman <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 22:58:16 by jgermany          #+#    #+#             */
-/*   Updated: 2023/06/15 12:26:25 by jgermany         ###   ########.fr       */
+/*   Updated: 2025/05/20 15:31:03 by jegerman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "filemgr_bonus.h"
+#include "pipex_bonus.h"
 
-static void	check_and_close_fds(t_cmd *cmdenvs, int head)
-{
-	if (cmdenvs[head].in[0] > -1)
-		close(cmdenvs[head].in[0]);
-	if (cmdenvs[head].out[1] > -1)
-		close(cmdenvs[head].out[1]);
-	if (cmdenvs[head].in[1] > -1)
-		close(cmdenvs[head].in[1]);
-	if (cmdenvs[head].out[0] > -1)
-		close(cmdenvs[head].out[0]);
-}
-
-void	close_fds(t_cmd *cmdenvs, int head, int reverse)
-{
-	if (reverse)
-	{
-		while (head >= 0)
-		{
-			check_and_close_fds(cmdenvs, head);
-			head--;
-		}
-		return ;
-	}
-	head -= 1;
-	while (cmdenvs[++head].cmd)
-		check_and_close_fds(cmdenvs, head);
-}
-
-int	check_and_open(char *path, int openflags, mode_t openmode)
+int	fmgb_open(char *path, int openflags, mode_t openmode)
 {
 	int	fd;
 
-	fd = open(path, openflags, openmode);
-	if (fd == -1)
-	{
-		ft_dprintf(2, "pipex: %s: %s\n", path, strerror(errno));
+	if (path == NULL)
 		return (-1);
-	}
+	fd = open(path, openflags, openmode);
+	if (fd == -1 && ft_eprintf(ERR_PTH, path, strerror(errno)))
+		return (-1);
 	return (fd);
 }
 
-static char	**get_paths(char **envp)
+int	fmgb_pipe(int fds[2])
 {
-	while (*envp)
-	{
-		if (ft_strnstr(*envp, "PATH", 4))
-			return (ft_split(*envp + 5, ':'));
-		envp++;
-	}
-	return (ft_split(DEFAULT_PATH, ':'));
+	if (pipe(fds) == -1 && ft_eprintf(ERR_GNR, strerror(errno)))
+		return (-1);
+	return (0);
 }
 
-char	*search_executable(char *cmd, char **envp)
+int	fmgb_access(char *path, int type)
 {
-	char	**paths;
-	char	*candidate;
-	char	*suffix;
-	int		i;
-
-	paths = get_paths(envp);
-	i = -1;
-	while (paths[++i])
+	if (access(path, type) == -1)
 	{
-		suffix = ft_strjoin("/", cmd);
-		candidate = ft_strjoin(paths[i], suffix);
-		free(suffix);
-		if (access(candidate, X_OK) == 0)
-		{
-			free_strs(paths, 0);
-			return (candidate);
-		}
-		free(candidate);
+		ft_eprintf(ERR_PTH, path, strerror(errno));
+		return (-1);
 	}
-	free_strs(paths, 0);
-	free(cmd);
-	return (NULL);
+	return (0);
+}
+
+int	fmgb_close(int *prg_fds, int end)
+{
+	if (prg_fds[end] <= 2)
+		return (0);
+	if (close(prg_fds[end]) == -1 && ft_eprintf(ERR_GNR, strerror(errno)))
+		return (-1);
+	prg_fds[end] = -1;
+	return (0);
+}
+
+int	fmgb_closeall(int from_id, int reverse, t_pgb *prgs)
+{
+	t_pgb	prg;
+
+	if (access(HRDC_NAME, F_OK) == 0)
+		unlink(HRDC_NAME);
+	while ((reverse && from_id >= 0) || (!reverse && prgs[from_id].cmd))
+	{
+		prg = prgs[from_id];
+		if ((from_id == 0 && fmgb_close(prg.in, 0) == -1)
+			|| fmgb_close(prg.out, 0) == -1
+			|| fmgb_close(prg.out, 1) == -1)
+			return (-1);
+		if (reverse)
+			from_id--;
+		else
+			++from_id;
+	}
+	return (1);
 }
