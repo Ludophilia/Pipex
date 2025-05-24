@@ -6,7 +6,7 @@
 #    By: jegerman <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/29 13:57:02 by jgermany          #+#    #+#              #
-#    Updated: 2025/05/20 15:34:21 by jegerman         ###   ########.fr        #
+#    Updated: 2025/05/24 15:24:39 by jegerman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,6 @@ ICL_DR := includes
 ICL_BDR := includes_bonus
 
 all: CFLAGS += -I$(ICL_DR)
-debug: CFLAGS += -g3
 bonus: CFLAGS += -I$(ICL_BDR) 
 
 CFLAGS += -I$(LFT_DR)
@@ -48,8 +47,6 @@ BON_SRCS += $(SRCS_BDR)/heredocmgr_bonus.c
 BON_OBJS := $(BON_SRCS:.c=.o)
 
 LFT := $(LFT_DR)/libft.a
-
-debug: all
 
 all: $(NAME)
 
